@@ -1,6 +1,6 @@
 """
 AI Career Accelerator & Skill Gap Platform
-Full-stack Streamlit Application - Clean Light High-Contrast Edition
+Full-stack Streamlit Application - Reorganized Layout Edition
 """
 
 import streamlit as st
@@ -17,8 +17,6 @@ from modules.roadmap_generator import generate_personalized_roadmap
 from modules.project_recommender import recommend_projects_for_student
 from modules.interview_coach import get_questions_for_role, evaluate_student_answer
 from modules.career_assistant import generate_assistant_response
-from modules.github_verifier import verify_github_profile
-from modules.semantic_matcher import compute_semantic_cosine_similarity, optimize_resume_bullet
 from modules.dashboard_metrics import (
     create_readiness_gauge,
     create_skill_distribution_chart,
@@ -33,7 +31,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom Clean High-Contrast CSS Styling
+# Custom High-Contrast CSS with Fixed Sidebar Contrast
 st.markdown("""
 <style>
     /* Main Background & Base Typography */
@@ -43,12 +41,19 @@ st.markdown("""
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
     }
     
-    /* Sidebar Styling */
+    /* Sidebar Dark Theme with High-Contrast White Text */
     [data-testid="stSidebar"] {
         background-color: #0F172A !important;
     }
     [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3, [data-testid="stSidebar"] p {
         color: #F8FAFC !important;
+    }
+    
+    /* Sidebar Navigation Radio Options Styling */
+    [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {
+        color: #F8FAFC !important;
+        font-size: 1.05rem !important;
+        font-weight: 600 !important;
     }
     
     /* Input Fields, Selectboxes & Textareas styling */
@@ -66,7 +71,7 @@ st.markdown("""
     div[data-baseweb="select"] * {
         color: #0F172A !important;
     }
-    textarea, input {
+    textarea {
         background-color: #FFFFFF !important;
         color: #0F172A !important;
         border: 2px solid #CBD5E1 !important;
@@ -189,9 +194,6 @@ if "target_jd_text" not in st.session_state:
     st.session_state["target_jd_text"] = default_jd["text"]
     st.session_state["target_role"] = default_jd["title"]
 
-if "github_user" not in st.session_state:
-    st.session_state["github_user"] = "arivera"
-
 if "chat_history" not in st.session_state:
     st.session_state["chat_history"] = [
         {"role": "assistant", "content": "👋 Hi! I'm your AI Career Assistant. Ask me anything like:\n- *'What should I learn next?'*\n- *'Am I ready for a Data Analyst role?'*\n- *'Which skills should I add to my resume?'*"}
@@ -217,7 +219,6 @@ with st.sidebar:
         "Navigation:",
         [
             "📈 Career Dashboard",
-            "🔗 GitHub Verifier",
             "📄 AI Resume Analyzer",
             "💼 Job Description Analyzer",
             "📊 Skill Gap Analysis",
@@ -231,13 +232,10 @@ with st.sidebar:
 
     st.divider()
     
-    # Active Role & GitHub Input Widget
-    st.markdown("### 🎯 Profile Controls")
+    # Active Role Badge Widget in Sidebar
+    st.markdown("### 🎯 Active Profile")
     st.markdown(f"**Target Role:** `{st.session_state['target_role'][:20]}`")
-    
-    gh_input = st.text_input("GitHub Username:", value=st.session_state["github_user"], placeholder="Enter GitHub username...")
-    if gh_input:
-        st.session_state["github_user"] = gh_input
+    st.markdown(f"**Extracted Skills:** `{len(st.session_state['candidate_skills'])} skills`")
 
 # ---------------------------------------------------------
 # MAIN AREA: HEADER & DATA INPUT CONTROL PANEL
@@ -249,8 +247,8 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# Main Data Input Control Drawer
-with st.expander("⚙️ **Configure Profile Data & Target Job Description** (Click to edit inputs)", expanded=False):
+# Main Data Input Control Drawer / Expandable Card
+with st.expander("⚙️ **Configure Profile Data & Target Job Description** (Click to expand/edit your Resume & Target Job)", expanded=False):
     st.markdown('<div class="content-box">', unsafe_allow_html=True)
     col_input1, col_input2 = st.columns(2)
     
@@ -298,8 +296,6 @@ with st.expander("⚙️ **Configure Profile Data & Target Job Description** (Cl
 resume_eval = evaluate_resume_quality(st.session_state["candidate_text"], st.session_state["candidate_skills"])
 jd_eval = analyze_job_description(st.session_state["target_jd_text"])
 gap_eval = analyze_skill_gaps(st.session_state["candidate_skills"], jd_eval["all_required_skills"])
-semantic_sim = compute_semantic_cosine_similarity(st.session_state["candidate_text"], st.session_state["target_jd_text"])
-github_res = verify_github_profile(st.session_state["github_user"])
 
 # ---------------------------------------------------------
 # MODULE 1: CAREER DASHBOARD
@@ -320,15 +316,15 @@ if nav_module == "📈 Career Dashboard":
     with m2:
         st.markdown(f"""
         <div class="card-metric">
-            <div class="card-metric-title">Semantic Overlap</div>
-            <div class="card-metric-value" style="color: #2563EB;">{semantic_sim}%</div>
+            <div class="card-metric-title">Resume ATS Score</div>
+            <div class="card-metric-value" style="color: #2563EB;">{resume_eval['score']}/100</div>
         </div>
         """, unsafe_allow_html=True)
     with m3:
         st.markdown(f"""
         <div class="card-metric">
-            <div class="card-metric-title">Resume ATS Score</div>
-            <div class="card-metric-value" style="color: #2563EB;">{resume_eval['score']}/100</div>
+            <div class="card-metric-title">Target Role</div>
+            <div class="card-metric-value" style="font-size: 1.35rem; padding-top: 10px;">{jd_eval['title'][:22]}</div>
         </div>
         """, unsafe_allow_html=True)
     with m4:
@@ -369,7 +365,7 @@ if nav_module == "📈 Career Dashboard":
         st.markdown('<div class="content-box">', unsafe_allow_html=True)
         st.markdown("### ⚡ Priority Action Items")
         if gap_eval["readiness_score"] >= 80:
-            st.success("🎉 **High Job Readiness!** Your skill profile is competitive for " + jd_eval['title'])
+            st.success("🎉 **High Job Readiness!** Your skill profile is competitive for " + jd_eval['title'] + ". Focus on mock interviews!")
         elif gap_eval["readiness_score"] >= 50:
             st.warning("⚡ **Moderate Readiness!** You have solid fundamentals. Closing 2-3 key missing skills will elevate your readiness above 80%.")
         else:
@@ -382,59 +378,7 @@ if nav_module == "📈 Career Dashboard":
         st.markdown('</div>', unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# MODULE 2: GITHUB VERIFIER
-# ---------------------------------------------------------
-elif nav_module == "🔗 GitHub Verifier":
-    st.markdown("## 🔗 Live GitHub Automated Profile Verifier")
-    
-    if github_res.get("verified"):
-        st.markdown(f"""
-        <div class="content-box">
-            <div style="display:flex; align-items:center; gap:20px;">
-                <img src="{github_res['avatar_url']}" style="width:70px; height:70px; border-radius:50%;">
-                <div>
-                    <h2 style="margin:0; color:#0F172A;">{github_res['name']} (@{github_res['username']})</h2>
-                    <h3 style="margin-top:4px; color:{github_res['badge_color']};">{github_res['status_badge']}</h3>
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        g1, g2, g3, g4 = st.columns(4)
-        with g1:
-            st.markdown(f'<div class="card-metric"><div class="card-metric-title">Public Repos</div><div class="card-metric-value">{github_res["public_repos"]}</div></div>', unsafe_allow_html=True)
-        with g2:
-            st.markdown(f'<div class="card-metric"><div class="card-metric-title">Total Stars</div><div class="card-metric-value">{github_res["total_stars"]}</div></div>', unsafe_allow_html=True)
-        with g3:
-            st.markdown(f'<div class="card-metric"><div class="card-metric-title">Followers</div><div class="card-metric-value">{github_res["followers"]}</div></div>', unsafe_allow_html=True)
-        with g4:
-            st.markdown(f'<div class="card-metric"><div class="card-metric-title">Dev Score</div><div class="card-metric-value" style="color:#2563EB;">{github_res["developer_score"]}/100</div></div>', unsafe_allow_html=True)
-
-        gh_col1, gh_col2 = st.columns(2)
-        with gh_col1:
-            st.markdown('<div class="content-box">', unsafe_allow_html=True)
-            st.markdown("### 📊 Primary Code Languages")
-            if github_res["languages"]:
-                df_lang = pd.DataFrame(list(github_res["languages"].items()), columns=["Language", "Repositories"])
-                fig_lang = px.pie(df_lang, values="Repositories", names="Language", hole=0.5)
-                fig_lang.update_layout(paper_bgcolor='#FFFFFF', font=dict(color='#0F172A'))
-                st.plotly_chart(fig_lang, use_container_width=True)
-            st.markdown('</div>', unsafe_allow_html=True)
-            
-        with gh_col2:
-            st.markdown('<div class="content-box">', unsafe_allow_html=True)
-            st.markdown("### 🛠️ Verified Technology Repositories")
-            if github_res["verified_tech"]:
-                verified_html = "".join([f'<span class="tag-strong">✓ {t}</span>' for t in github_res["verified_tech"]])
-                st.markdown(f'<div style="margin-top:15px;">{verified_html}</div>', unsafe_allow_html=True)
-            else:
-                st.info("No specific framework keywords detected in repository descriptions.")
-            st.markdown('</div>', unsafe_allow_html=True)
-    else:
-        st.error(github_res.get("error", "Unable to fetch GitHub profile."))
-
-# ---------------------------------------------------------
-# MODULE 3: AI RESUME ANALYZER
+# MODULE 2: AI RESUME ANALYZER
 # ---------------------------------------------------------
 elif nav_module == "📄 AI Resume Analyzer":
     st.markdown("## 📄 AI Resume Quality & ATS Keyword Analysis")
@@ -464,24 +408,11 @@ elif nav_module == "📄 AI Resume Analyzer":
         st.markdown(f'<div style="margin-top: 15px;">{skills_html}</div>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # Interactive AI Resume Bullet Optimizer Tool
-    st.markdown('<div class="content-box">', unsafe_allow_html=True)
-    st.markdown("### ✨ AI Resume Bullet Optimizer (STAR Method Generator)")
-    st.markdown("Paste any weak resume bullet point to instantly rewrite it into a high-impact, quantified STAR-method bullet point:")
-    
-    user_bullet = st.text_input("Paste Bullet Point:", value="Worked on customer churn prediction model using Python", placeholder="e.g. Built a machine learning model for churn...")
-    if st.button("🚀 Transform with AI Optimizer", type="primary"):
-        opt_res = optimize_resume_bullet(user_bullet, jd_eval["title"])
-        st.success("✅ **STAR Method Optimized Bullet Point:**")
-        st.code(opt_res["optimized"], language="text")
-        st.caption(f"Action Verb: **{opt_res['action_verb']}** | Quantified Metric: **{opt_res['impact_metric']}**")
-    st.markdown('</div>', unsafe_allow_html=True)
-
     with st.expander("🔍 View Extracted Resume Raw Text"):
         st.text(st.session_state["candidate_text"])
 
 # ---------------------------------------------------------
-# MODULE 4: JOB DESCRIPTION ANALYZER
+# MODULE 3: JOB DESCRIPTION ANALYZER
 # ---------------------------------------------------------
 elif nav_module == "💼 Job Description Analyzer":
     st.markdown("## 💼 Target Job Description Breakdown")
@@ -514,7 +445,7 @@ elif nav_module == "💼 Job Description Analyzer":
         st.text(jd_eval["raw_text"])
 
 # ---------------------------------------------------------
-# MODULE 5: AI SKILL GAP ANALYSIS
+# MODULE 4: AI SKILL GAP ANALYSIS
 # ---------------------------------------------------------
 elif nav_module == "📊 Skill Gap Analysis":
     st.markdown("## 📊 Comprehensive Skill Gap Matrix")
@@ -555,7 +486,7 @@ elif nav_module == "📊 Skill Gap Analysis":
         st.markdown('</div>', unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# MODULE 6: PERSONALIZED AI ROADMAP
+# MODULE 5: PERSONALIZED AI ROADMAP
 # ---------------------------------------------------------
 elif nav_module == "🗺️ Personalized AI Roadmap":
     st.markdown("## 🗺️ Personalized AI Learning Roadmap")
@@ -577,7 +508,7 @@ elif nav_module == "🗺️ Personalized AI Roadmap":
                 st.markdown(f"- 📖 {res}")
 
 # ---------------------------------------------------------
-# MODULE 7: AI PROJECT RECOMMENDER
+# MODULE 6: AI PROJECT RECOMMENDER
 # ---------------------------------------------------------
 elif nav_module == "💡 AI Project Recommender":
     st.markdown("## 💡 AI Portfolio Project Recommender")
@@ -601,9 +532,10 @@ elif nav_module == "💡 AI Project Recommender":
             st.markdown("#### Step-by-Step Architecture Steps:")
             for step_i, step_txt in enumerate(p["architecture_steps"], 1):
                 st.markdown(f"**Step {step_i}:** {step_txt}")
+            st.info("💡 **Resume Impact Tip:** Add this project under your Resume Projects section with quantitative metrics!")
 
 # ---------------------------------------------------------
-# MODULE 8: AI MOCK INTERVIEW COACH
+# MODULE 7: AI MOCK INTERVIEW COACH
 # ---------------------------------------------------------
 elif nav_module == "🎤 AI Mock Interview Coach":
     st.markdown("## 🎤 AI Mock Interview Coach")
@@ -649,9 +581,11 @@ elif nav_module == "🎤 AI Mock Interview Coach":
                 for imp in eval_res["improvements"]:
                     st.markdown(f"- {imp}")
                 st.markdown('</div>', unsafe_allow_html=True)
+        else:
+            st.error("Please type an answer before submitting for evaluation.")
 
 # ---------------------------------------------------------
-# MODULE 9: AI CAREER ASSISTANT
+# MODULE 8: AI CAREER ASSISTANT
 # ---------------------------------------------------------
 elif nav_module == "🤖 AI Career Assistant":
     st.markdown("## 🤖 AI Career Assistant Chatbot")

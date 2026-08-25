@@ -1,6 +1,6 @@
 """
-Dashboard Metrics & Visualizations Module - Clean Light High-Contrast Edition
-Creates crisp, high-contrast Plotly charts designed for clean light background themes.
+Dashboard Metrics & Visualizations Module
+Creates high-contrast, crystal-clear Plotly charts for Job Readiness Gauge, Radar Chart, and Skill Distribution.
 """
 
 import plotly.graph_objects as go
