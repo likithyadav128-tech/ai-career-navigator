@@ -1,6 +1,6 @@
 """
 AI Career Accelerator & Skill Gap Platform
-Full-stack Streamlit Application - Reorganized Layout Edition
+Next-Level Animated UI & Semantic Intelligence Edition
 """
 
 import streamlit as st
@@ -17,6 +17,8 @@ from modules.roadmap_generator import generate_personalized_roadmap
 from modules.project_recommender import recommend_projects_for_student
 from modules.interview_coach import get_questions_for_role, evaluate_student_answer
 from modules.career_assistant import generate_assistant_response
+from modules.github_verifier import verify_github_profile
+from modules.semantic_matcher import compute_semantic_cosine_similarity, optimize_resume_bullet
 from modules.dashboard_metrics import (
     create_readiness_gauge,
     create_skill_distribution_chart,
@@ -26,159 +28,161 @@ from modules.dashboard_metrics import (
 # Set Streamlit page configuration
 st.set_page_config(
     page_title="AI Career Accelerator & Skill Gap Platform",
-    page_icon="🎯",
+    page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom High-Contrast CSS with Fixed Sidebar Contrast
+# Inject High-End Next-Level CSS with Moving Animated Background & Glassmorphism
 st.markdown("""
 <style>
-    /* Main Background & Base Typography */
+    /* Keyframe Moving Gradient Background */
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
     .stApp {
-        background-color: #F8FAFC !important;
-        color: #0F172A !important;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
-    }
-    
-    /* Sidebar Dark Theme with High-Contrast White Text */
-    [data-testid="stSidebar"] {
-        background-color: #0F172A !important;
-    }
-    [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3, [data-testid="stSidebar"] p {
+        background: linear-gradient(-45deg, #090D16, #0F172A, #1E1B4B, #0F172A, #020617) !important;
+        background-size: 400% 400% !important;
+        animation: gradientBG 18s ease infinite !important;
         color: #F8FAFC !important;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
     }
     
-    /* Sidebar Navigation Radio Options Styling */
-    [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {
-        color: #F8FAFC !important;
-        font-size: 1.05rem !important;
-        font-weight: 600 !important;
+    /* Glassmorphism Content Box */
+    .glass-card {
+        background: rgba(15, 23, 42, 0.75) !important;
+        backdrop-filter: blur(16px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-radius: 20px !important;
+        padding: 28px !important;
+        margin-bottom: 24px !important;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
+    }
+    .glass-card:hover {
+        transform: translateY(-4px) !important;
+        box-shadow: 0 16px 40px 0 rgba(56, 189, 248, 0.2) !important;
+        border-color: rgba(56, 189, 248, 0.4) !important;
+    }
+
+    /* Animated Pulse Glow for Metric Cards */
+    @keyframes pulseGlow {
+        0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4); }
+        70% { box-shadow: 0 0 0 14px rgba(56, 189, 248, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
     }
     
-    /* Input Fields, Selectboxes & Textareas styling */
-    .stSelectbox label, .stTextArea label, .stTextInput label, .stFileUploader label {
-        color: #0F172A !important;
+    .card-metric {
+        background: rgba(30, 41, 59, 0.8) !important;
+        backdrop-filter: blur(12px) !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 18px !important;
+        padding: 22px 18px !important;
+        text-align: center !important;
+        margin-bottom: 18px !important;
+        transition: transform 0.3s ease !important;
+    }
+    .card-metric:hover {
+        transform: scale(1.03) !important;
+        border-color: #38BDF8 !important;
+    }
+    .card-metric-title {
+        font-size: 0.9rem !important;
         font-weight: 700 !important;
-        font-size: 0.95rem !important;
+        color: #94A3B8 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+        margin-bottom: 6px !important;
     }
-    div[data-baseweb="select"] > div {
-        background-color: #FFFFFF !important;
-        color: #0F172A !important;
-        border: 2px solid #CBD5E1 !important;
-        border-radius: 8px !important;
-    }
-    div[data-baseweb="select"] * {
-        color: #0F172A !important;
-    }
-    textarea {
-        background-color: #FFFFFF !important;
-        color: #0F172A !important;
-        border: 2px solid #CBD5E1 !important;
-        border-radius: 8px !important;
+    .card-metric-value {
+        font-size: 2.5rem !important;
+        font-weight: 800 !important;
+        color: #F8FAFC !important;
     }
 
     /* Main Header Banner */
-    .main-header {
-        background: linear-gradient(135deg, #0F172A 0%, #1E293B 40%, #1D4ED8 100%);
-        color: #FFFFFF !important;
-        padding: 28px 36px;
-        border-radius: 16px;
-        margin-bottom: 24px;
-        box-shadow: 0 8px 20px -4px rgba(29, 78, 216, 0.25);
+    .hero-banner {
+        background: linear-gradient(135deg, rgba(15,23,42,0.9) 0%, rgba(30,27,75,0.9) 50%, rgba(29,78,216,0.9) 100%) !important;
+        backdrop-filter: blur(20px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        padding: 32px 40px !important;
+        border-radius: 24px !important;
+        margin-bottom: 28px !important;
+        box-shadow: 0 12px 40px -5px rgba(56, 189, 248, 0.3) !important;
     }
-    .main-header h1 {
-        font-size: 2.2rem !important;
-        font-weight: 800 !important;
-        color: #FFFFFF !important;
+    .hero-title {
+        font-size: 2.5rem !important;
+        font-weight: 900 !important;
+        background: linear-gradient(90deg, #FFFFFF 0%, #38BDF8 50%, #818CF8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         margin: 0 !important;
         letter-spacing: -0.5px;
     }
-    .main-header p {
-        font-size: 1.05rem !important;
-        color: #E2E8F0 !important;
-        margin-top: 8px !important;
+    .hero-subtitle {
+        font-size: 1.15rem !important;
+        color: #CBD5E1 !important;
+        margin-top: 10px !important;
         margin-bottom: 0 !important;
     }
 
-    /* Metric Cards */
-    .card-metric {
-        background: #FFFFFF;
-        border: 2px solid #E2E8F0;
-        border-radius: 14px;
-        padding: 20px 16px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
-        text-align: center;
-        margin-bottom: 16px;
-    }
-    .card-metric-title {
-        font-size: 0.9rem;
-        font-weight: 700;
-        color: #475569;
-        text-transform: uppercase;
-        letter-spacing: 0.8px;
-        margin-bottom: 6px;
-    }
-    .card-metric-value {
-        font-size: 2.3rem;
-        font-weight: 800;
-        color: #0F172A;
-    }
-
-    /* Content Cards */
-    .content-box {
-        background: #FFFFFF;
-        border: 2px solid #E2E8F0;
-        border-radius: 16px;
-        padding: 24px;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-    }
-
-    /* High-Contrast Skill Tags */
+    /* Glowing Neon Skill Badges */
     .tag-strong {
-        background-color: #DCFCE7 !important;
-        color: #15803D !important;
-        border: 1.5px solid #16A34A !important;
+        background: rgba(22, 163, 74, 0.25) !important;
+        color: #4ADE80 !important;
+        border: 1.5px solid #22C55E !important;
         padding: 6px 14px;
         border-radius: 20px;
         font-size: 0.95rem;
         font-weight: 700;
         display: inline-block;
         margin: 4px;
+        box-shadow: 0 0 10px rgba(34, 197, 94, 0.2);
     }
     .tag-moderate {
-        background-color: #FEF3C7 !important;
-        color: #B45309 !important;
-        border: 1.5px solid #D97706 !important;
+        background: rgba(217, 119, 6, 0.25) !important;
+        color: #FBBF24 !important;
+        border: 1.5px solid #F59E0B !important;
         padding: 6px 14px;
         border-radius: 20px;
         font-size: 0.95rem;
         font-weight: 700;
         display: inline-block;
         margin: 4px;
+        box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
     }
     .tag-missing {
-        background-color: #FEE2E2 !important;
-        color: #B91C1C !important;
-        border: 1.5px solid #DC2626 !important;
+        background: rgba(220, 38, 38, 0.25) !important;
+        color: #FCA5A5 !important;
+        border: 1.5px solid #EF4444 !important;
         padding: 6px 14px;
         border-radius: 20px;
         font-size: 0.95rem;
         font-weight: 700;
         display: inline-block;
         margin: 4px;
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
     }
     .tag-bonus {
-        background-color: #DBEAFE !important;
-        color: #1E40AF !important;
-        border: 1.5px solid #2563EB !important;
+        background: rgba(37, 99, 235, 0.25) !important;
+        color: #60A5FA !important;
+        border: 1.5px solid #3B82F6 !important;
         padding: 6px 14px;
         border-radius: 20px;
         font-size: 0.95rem;
         font-weight: 700;
         display: inline-block;
         margin: 4px;
+        box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+    }
+    
+    /* Sidebar Dark Glass */
+    [data-testid="stSidebar"] {
+        background-color: rgba(15, 23, 42, 0.95) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -194,20 +198,23 @@ if "target_jd_text" not in st.session_state:
     st.session_state["target_jd_text"] = default_jd["text"]
     st.session_state["target_role"] = default_jd["title"]
 
+if "github_user" not in st.session_state:
+    st.session_state["github_user"] = "arivera"
+
 if "chat_history" not in st.session_state:
     st.session_state["chat_history"] = [
         {"role": "assistant", "content": "👋 Hi! I'm your AI Career Assistant. Ask me anything like:\n- *'What should I learn next?'*\n- *'Am I ready for a Data Analyst role?'*\n- *'Which skills should I add to my resume?'*"}
     ]
 
 # ---------------------------------------------------------
-# LEFT SIDEBAR: MODULE NAVIGATION MENU
+# SIDEBAR: NAVIGATION MENU & GITHUB VERIFIER
 # ---------------------------------------------------------
 with st.sidebar:
     st.markdown("""
     <div style="text-align: center; padding: 10px 0 15px 0;">
-        <div style="font-size: 2.8rem;">🎯</div>
-        <h2 style="margin: 0; color: #FFFFFF; font-size: 1.35rem;">AI Career Copilot</h2>
-        <p style="color: #94A3B8; font-size: 0.85rem; margin-top: 4px;">Skill Gap & Career Navigator</p>
+        <div style="font-size: 3rem;">⚡</div>
+        <h2 style="margin: 0; color: #F8FAFC; font-size: 1.4rem; font-weight:800;">AI Career Copilot</h2>
+        <p style="color: #38BDF8; font-size: 0.88rem; font-weight:600; margin-top: 4px;">Next-Gen Career Intelligence</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -219,6 +226,7 @@ with st.sidebar:
         "Navigation:",
         [
             "📈 Career Dashboard",
+            "🔗 GitHub Verifier",
             "📄 AI Resume Analyzer",
             "💼 Job Description Analyzer",
             "📊 Skill Gap Analysis",
@@ -232,24 +240,27 @@ with st.sidebar:
 
     st.divider()
     
-    # Active Role Badge Widget in Sidebar
-    st.markdown("### 🎯 Active Profile")
-    st.markdown(f"**Target Role:** `{st.session_state['target_role'][:20]}`")
-    st.markdown(f"**Extracted Skills:** `{len(st.session_state['candidate_skills'])} skills`")
+    # Active Role & GitHub Input Widget
+    st.markdown("### 🎯 Profile Controls")
+    st.markdown(f"**Target Role:** `{st.session_state['target_role'][:22]}`")
+    
+    gh_input = st.text_input("Verify GitHub Profile:", value=st.session_state["github_user"], placeholder="Enter GitHub username...")
+    if gh_input:
+        st.session_state["github_user"] = gh_input
 
 # ---------------------------------------------------------
-# MAIN AREA: HEADER & DATA INPUT CONTROL PANEL
+# MAIN AREA: HERO BANNER & CONTROL DRAWER
 # ---------------------------------------------------------
 st.markdown(f"""
-<div class="main-header">
-    <h1>🎯 AI Career Accelerator & Skill Gap Navigator</h1>
-    <p>AI Resume Analytics • Job Description Matching • Phased Learning Roadmap • Portfolio Projects • Interview Coaching</p>
+<div class="hero-banner">
+    <h1 class="hero-title">⚡ AI Career Accelerator & Skill Gap Platform</h1>
+    <p class="hero-subtitle">Semantic Vector NLP • Live GitHub Verifier • Resume ATS Optimization • Phased Roadmaps • AI Interview Coach</p>
 </div>
 """, unsafe_allow_html=True)
 
-# Main Data Input Control Drawer / Expandable Card
-with st.expander("⚙️ **Configure Profile Data & Target Job Description** (Click to expand/edit your Resume & Target Job)", expanded=False):
-    st.markdown('<div class="content-box">', unsafe_allow_html=True)
+# Main Data Input Control Drawer
+with st.expander("⚙️ **Configure Candidate Resume & Target Job Description** (Click to edit inputs)", expanded=False):
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
     col_input1, col_input2 = st.columns(2)
     
     with col_input1:
@@ -292,10 +303,12 @@ with st.expander("⚙️ **Configure Profile Data & Target Job Description** (Cl
                 
     st.markdown('</div>', unsafe_allow_html=True)
 
-# Compute Core Analytics Engine
+# Compute Core & Semantic Analytics
 resume_eval = evaluate_resume_quality(st.session_state["candidate_text"], st.session_state["candidate_skills"])
 jd_eval = analyze_job_description(st.session_state["target_jd_text"])
 gap_eval = analyze_skill_gaps(st.session_state["candidate_skills"], jd_eval["all_required_skills"])
+semantic_sim = compute_semantic_cosine_similarity(st.session_state["candidate_text"], st.session_state["target_jd_text"])
+github_res = verify_github_profile(st.session_state["github_user"])
 
 # ---------------------------------------------------------
 # MODULE 1: CAREER DASHBOARD
@@ -303,35 +316,35 @@ gap_eval = analyze_skill_gaps(st.session_state["candidate_skills"], jd_eval["all
 if nav_module == "📈 Career Dashboard":
     st.markdown("## 📈 Executive Career Readiness Overview")
     
-    # 4 Metric Cards
+    # 4 Glowing Metric Cards
     m1, m2, m3, m4 = st.columns(4)
     with m1:
-        readiness_color = '#16A34A' if gap_eval['readiness_score'] >= 75 else ('#D97706' if gap_eval['readiness_score'] >= 50 else '#DC2626')
+        readiness_color = '#4ADE80' if gap_eval['readiness_score'] >= 75 else ('#FBBF24' if gap_eval['readiness_score'] >= 50 else '#FCA5A5')
         st.markdown(f"""
         <div class="card-metric">
-            <div class="card-metric-title">Job Readiness Score</div>
+            <div class="card-metric-title">Job Readiness</div>
             <div class="card-metric-value" style="color: {readiness_color};">{gap_eval['readiness_score']}%</div>
         </div>
         """, unsafe_allow_html=True)
     with m2:
         st.markdown(f"""
         <div class="card-metric">
-            <div class="card-metric-title">Resume ATS Score</div>
-            <div class="card-metric-value" style="color: #2563EB;">{resume_eval['score']}/100</div>
+            <div class="card-metric-title">Semantic Vector Match</div>
+            <div class="card-metric-value" style="color: #38BDF8;">{semantic_sim}%</div>
         </div>
         """, unsafe_allow_html=True)
     with m3:
         st.markdown(f"""
         <div class="card-metric">
-            <div class="card-metric-title">Target Role</div>
-            <div class="card-metric-value" style="font-size: 1.35rem; padding-top: 10px;">{jd_eval['title'][:22]}</div>
+            <div class="card-metric-title">Resume ATS Score</div>
+            <div class="card-metric-value" style="color: #818CF8;">{resume_eval['score']}/100</div>
         </div>
         """, unsafe_allow_html=True)
     with m4:
         st.markdown(f"""
         <div class="card-metric">
-            <div class="card-metric-title">Missing Skill Gaps</div>
-            <div class="card-metric-value" style="color: #DC2626;">{gap_eval['missing_count']} Missing</div>
+            <div class="card-metric-title">Developer Badge</div>
+            <div class="card-metric-value" style="font-size: 1.15rem; color: {github_res.get('badge_color', '#38BDF8')};">{github_res.get('status_badge', '⚡ Active Dev')}</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -340,13 +353,13 @@ if nav_module == "📈 Career Dashboard":
     # Plotly Gauge Chart & Skill Matrix Donut
     col_g1, col_g2 = st.columns(2)
     with col_g1:
-        st.markdown('<div class="content-box">', unsafe_allow_html=True)
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
         gauge_fig = create_readiness_gauge(gap_eval["readiness_score"])
         st.plotly_chart(gauge_fig, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
         
     with col_g2:
-        st.markdown('<div class="content-box">', unsafe_allow_html=True)
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
         donut_fig = create_skill_distribution_chart(
             gap_eval["strong_count"], gap_eval["moderate_count"], gap_eval["missing_count"]
         )
@@ -356,37 +369,89 @@ if nav_module == "📈 Career Dashboard":
     # Radar Chart & Action Plan
     r_col1, r_col2 = st.columns([1.2, 1])
     with r_col1:
-        st.markdown('<div class="content-box">', unsafe_allow_html=True)
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
         radar_fig = create_competency_radar_chart(st.session_state["candidate_skills"], jd_eval["all_required_skills"])
         st.plotly_chart(radar_fig, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
         
     with r_col2:
-        st.markdown('<div class="content-box">', unsafe_allow_html=True)
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
         st.markdown("### ⚡ Priority Action Items")
         if gap_eval["readiness_score"] >= 80:
-            st.success("🎉 **High Job Readiness!** Your skill profile is competitive for " + jd_eval['title'] + ". Focus on mock interviews!")
+            st.success("🎉 **High Job Readiness!** Your profile strongly matches target requirements for " + jd_eval['title'])
         elif gap_eval["readiness_score"] >= 50:
-            st.warning("⚡ **Moderate Readiness!** You have solid fundamentals. Closing 2-3 key missing skills will elevate your readiness above 80%.")
+            st.warning("⚡ **Moderate Readiness!** Closing 2-3 key missing skills elevates readiness score above 80%.")
         else:
-            st.error("🎯 **Skills Gap Identified.** We recommend executing Phase 1 & 2 of your Personalized Learning Roadmap.")
+            st.error("🎯 **Skill Gap Identified.** Execute Phase 1 & 2 of your Personalized Learning Roadmap.")
 
-        st.markdown("#### 🔑 Immediate Focus Skills:")
+        st.markdown("#### 🔑 High Impact Missing Skills:")
         if gap_eval["missing_skills"]:
             for item in gap_eval["missing_skills"][:4]:
-                st.markdown(f"- 🔴 **{item['skill']}**: High-demand requirement for {jd_eval['title']}")
+                st.markdown(f"- 🔴 **{item['skill']}**: High requirement for {jd_eval['title']}")
         st.markdown('</div>', unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# MODULE 2: AI RESUME ANALYZER
+# MODULE 2: GITHUB VERIFIER
+# ---------------------------------------------------------
+elif nav_module == "🔗 GitHub Verifier":
+    st.markdown("## 🔗 Live GitHub Automated Profile Verifier")
+    
+    if github_res.get("verified"):
+        st.markdown(f"""
+        <div class="glass-card" style="border-left: 6px solid {github_res['badge_color']};">
+            <div style="display:flex; align-items:center; gap:20px;">
+                <img src="{github_res['avatar_url']}" style="width:80px; height:80px; border-radius:50%; border:3px solid {github_res['badge_color']};">
+                <div>
+                    <h2 style="margin:0; color:#F8FAFC;">{github_res['name']} (<a href="{github_res['profile_url']}" target="_blank" style="color:#38BDF8;">@{github_res['username']}</a>)</h2>
+                    <h3 style="margin-top:6px; color:{github_res['badge_color']};">{github_res['status_badge']}</h3>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        g1, g2, g3, g4 = st.columns(4)
+        with g1:
+            st.markdown(f'<div class="card-metric"><div class="card-metric-title">Public Repos</div><div class="card-metric-value">{github_res["public_repos"]}</div></div>', unsafe_allow_html=True)
+        with g2:
+            st.markdown(f'<div class="card-metric"><div class="card-metric-title">Total Stars</div><div class="card-metric-value">{github_res["total_stars"]}</div></div>', unsafe_allow_html=True)
+        with g3:
+            st.markdown(f'<div class="card-metric"><div class="card-metric-title">Followers</div><div class="card-metric-value">{github_res["followers"]}</div></div>', unsafe_allow_html=True)
+        with g4:
+            st.markdown(f'<div class="card-metric"><div class="card-metric-title">Dev Score</div><div class="card-metric-value" style="color:#38BDF8;">{github_res["developer_score"]}/100</div></div>', unsafe_allow_html=True)
+
+        gh_col1, gh_col2 = st.columns(2)
+        with gh_col1:
+            st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+            st.markdown("### 📊 Primary Code Languages")
+            if github_res["languages"]:
+                df_lang = pd.DataFrame(list(github_res["languages"].items()), columns=["Language", "Repositories"])
+                fig_lang = px.pie(df_lang, values="Repositories", names="Language", hole=0.5, color_discrete_sequence=px.colors.qualitative.Pastel)
+                fig_lang.update_layout(paper_bgcolor='rgba(0,0,0,0)', font=dict(color='#F8FAFC'))
+                st.plotly_chart(fig_lang, use_container_width=True)
+            st.markdown('</div>', unsafe_allow_html=True)
+            
+        with gh_col2:
+            st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+            st.markdown("### 🛠️ Verified Technology Repositories")
+            if github_res["verified_tech"]:
+                verified_html = "".join([f'<span class="tag-strong">✓ {t}</span>' for t in github_res["verified_tech"]])
+                st.markdown(f'<div style="margin-top:15px;">{verified_html}</div>', unsafe_allow_html=True)
+            else:
+                st.info("No specific framework keywords detected in repository descriptions.")
+            st.markdown('</div>', unsafe_allow_html=True)
+    else:
+        st.error(github_res.get("error", "Unable to fetch GitHub profile."))
+
+# ---------------------------------------------------------
+# MODULE 3: AI RESUME ANALYZER & BULLET OPTIMIZER
 # ---------------------------------------------------------
 elif nav_module == "📄 AI Resume Analyzer":
-    st.markdown("## 📄 AI Resume Quality & ATS Keyword Analysis")
+    st.markdown("## 📄 AI Resume Quality & Bullet Optimizer")
     
     col_a1, col_a2 = st.columns(2)
     with col_a1:
-        st.markdown('<div class="content-box">', unsafe_allow_html=True)
-        st.markdown(f"### ATS Score: **{resume_eval['score']} / 100**")
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+        st.markdown(f"### ATS Quality Score: **{resume_eval['score']} / 100**")
         st.progress(resume_eval['score'] / 100)
         
         st.markdown("#### 📋 Quality Criteria Checklist:")
@@ -400,40 +465,50 @@ elif nav_module == "📄 AI Resume Analyzer":
         st.markdown('</div>', unsafe_allow_html=True)
                 
     with col_a2:
-        st.markdown('<div class="content-box">', unsafe_allow_html=True)
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
         st.markdown("### 🛠️ Extracted Resume Skills")
-        st.write(f"Identified **{len(st.session_state['candidate_skills'])}** technical and analytical skills from your resume text:")
+        st.write(f"Identified **{len(st.session_state['candidate_skills'])}** technical skills:")
         
         skills_html = "".join([f'<span class="tag-strong">{s}</span>' for s in st.session_state['candidate_skills']])
         st.markdown(f'<div style="margin-top: 15px;">{skills_html}</div>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
-    with st.expander("🔍 View Extracted Resume Raw Text"):
-        st.text(st.session_state["candidate_text"])
+    # Interactive AI Resume Bullet Optimizer Tool
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+    st.markdown("### ✨ AI Resume Bullet Optimizer (STAR Method Generator)")
+    st.markdown("Paste any weak resume bullet point to instantly rewrite it into a high-impact, quantified STAR-method bullet point:")
+    
+    user_bullet = st.text_input("Paste Bullet Point:", value="Worked on customer churn prediction model using Python", placeholder="e.g. Built a machine learning model for churn...")
+    if st.button("🚀 Transform with AI Optimizer", type="primary"):
+        opt_res = optimize_resume_bullet(user_bullet, jd_eval["title"])
+        st.success("✅ **STAR Method Optimized Bullet Point:**")
+        st.code(opt_res["optimized"], language="text")
+        st.caption(f"Action Verb: **{opt_res['action_verb']}** | Quantified Metric: **{opt_res['impact_metric']}**")
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# MODULE 3: JOB DESCRIPTION ANALYZER
+# MODULE 4: JOB DESCRIPTION ANALYZER
 # ---------------------------------------------------------
 elif nav_module == "💼 Job Description Analyzer":
     st.markdown("## 💼 Target Job Description Breakdown")
     
     st.markdown(f"""
-    <div class="content-box">
-        <h2 style="margin:0; color:#0F172A;">Target Role: {jd_eval['title']}</h2>
-        <p style="font-size:1.1rem; color:#475569; margin-top:8px;">Experience Tier Requirement: <strong>{jd_eval['exp_level']}</strong></p>
+    <div class="glass-card">
+        <h2 style="margin:0; color:#F8FAFC;">Target Role: {jd_eval['title']}</h2>
+        <p style="font-size:1.1rem; color:#38BDF8; margin-top:8px;">Experience Tier Requirement: <strong>{jd_eval['exp_level']}</strong></p>
     </div>
     """, unsafe_allow_html=True)
     
     col_j1, col_j2 = st.columns(2)
     with col_j1:
-        st.markdown('<div class="content-box">', unsafe_allow_html=True)
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
         st.markdown("### 💻 Required Technical Skills")
         tech_html = "".join([f'<span class="tag-bonus">{s}</span>' for s in jd_eval['tech_skills']])
         st.markdown(f'<div>{tech_html}</div>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
         
     with col_j2:
-        st.markdown('<div class="content-box">', unsafe_allow_html=True)
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
         st.markdown("### 🤝 Required Soft & Domain Skills")
         soft_html = "".join([f'<span class="tag-moderate">{s}</span>' for s in jd_eval['soft_skills']])
         if not soft_html:
@@ -441,11 +516,8 @@ elif nav_module == "💼 Job Description Analyzer":
         st.markdown(f'<div>{soft_html}</div>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
-    with st.expander("📄 View Full Job Description Text"):
-        st.text(jd_eval["raw_text"])
-
 # ---------------------------------------------------------
-# MODULE 4: AI SKILL GAP ANALYSIS
+# MODULE 5: AI SKILL GAP ANALYSIS
 # ---------------------------------------------------------
 elif nav_module == "📊 Skill Gap Analysis":
     st.markdown("## 📊 Comprehensive Skill Gap Matrix")
@@ -454,39 +526,31 @@ elif nav_module == "📊 Skill Gap Analysis":
     col_sg1, col_sg2, col_sg3 = st.columns(3)
     
     with col_sg1:
-        st.markdown('<div class="content-box">', unsafe_allow_html=True)
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
         st.markdown(f"### 🟢 Strong Skills ({gap_eval['strong_count']})")
-        st.caption("Exact skill verified on candidate resume")
+        st.caption("Exact skill verified on resume")
         for item in gap_eval["strong_skills"]:
             st.markdown(f"- <span class='tag-strong'>{item['skill']}</span>", unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
             
     with col_sg2:
-        st.markdown('<div class="content-box">', unsafe_allow_html=True)
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
         st.markdown(f"### 🟡 Moderate Skills ({gap_eval['moderate_count']})")
         st.caption("Foundational match via related tools")
         for item in gap_eval["moderate_skills"]:
-            st.markdown(f"- <span class='tag-moderate'>{item['skill']}</span><br><small style='color:#64748B;'>{item['reason']}</small>", unsafe_allow_html=True)
+            st.markdown(f"- <span class='tag-moderate'>{item['skill']}</span><br><small style='color:#94A3B8;'>{item['reason']}</small>", unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
             
     with col_sg3:
-        st.markdown('<div class="content-box">', unsafe_allow_html=True)
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
         st.markdown(f"### 🔴 Missing Skills ({gap_eval['missing_count']})")
         st.caption("High-priority skills to acquire")
         for item in gap_eval["missing_skills"]:
             st.markdown(f"- <span class='tag-missing'>{item['skill']}</span>", unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
-    if gap_eval["bonus_skills"]:
-        st.markdown('<div class="content-box">', unsafe_allow_html=True)
-        st.markdown("### ✨ Candidate Bonus Skills")
-        st.caption("Skills on resume that distinguish you beyond the base JD requirements:")
-        bonus_html = "".join([f'<span class="tag-bonus">{s}</span>' for s in gap_eval['bonus_skills'][:12]])
-        st.markdown(f'<div>{bonus_html}</div>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
-
 # ---------------------------------------------------------
-# MODULE 5: PERSONALIZED AI ROADMAP
+# MODULE 6: PERSONALIZED AI ROADMAP
 # ---------------------------------------------------------
 elif nav_module == "🗺️ Personalized AI Roadmap":
     st.markdown("## 🗺️ Personalized AI Learning Roadmap")
@@ -508,7 +572,7 @@ elif nav_module == "🗺️ Personalized AI Roadmap":
                 st.markdown(f"- 📖 {res}")
 
 # ---------------------------------------------------------
-# MODULE 6: AI PROJECT RECOMMENDER
+# MODULE 7: AI PROJECT RECOMMENDER
 # ---------------------------------------------------------
 elif nav_module == "💡 AI Project Recommender":
     st.markdown("## 💡 AI Portfolio Project Recommender")
@@ -518,12 +582,12 @@ elif nav_module == "💡 AI Project Recommender":
     
     for p in recommended_projs:
         st.markdown(f"""
-        <div class="content-box">
+        <div class="glass-card">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h3 style="margin:0; color:#0F172A;">🚀 {p['title']}</h3>
-                <span class="tag-bonus" style="background:#DBEAFE; color:#1E40AF;">{p['difficulty']}</span>
+                <h3 style="margin:0; color:#F8FAFC;">🚀 {p['title']}</h3>
+                <span class="tag-bonus" style="background:rgba(59,130,246,0.3); color:#60A5FA;">{p['difficulty']}</span>
             </div>
-            <p style="color:#334155; font-size:1.05rem; margin-top:12px;">{p['description']}</p>
+            <p style="color:#CBD5E1; font-size:1.05rem; margin-top:12px;">{p['description']}</p>
             <p style="margin-bottom:0;"><strong>🛠️ Tech Stack Specs:</strong> <code>{" , ".join(p['tech_stack'])}</code></p>
         </div>
         """, unsafe_allow_html=True)
@@ -532,10 +596,9 @@ elif nav_module == "💡 AI Project Recommender":
             st.markdown("#### Step-by-Step Architecture Steps:")
             for step_i, step_txt in enumerate(p["architecture_steps"], 1):
                 st.markdown(f"**Step {step_i}:** {step_txt}")
-            st.info("💡 **Resume Impact Tip:** Add this project under your Resume Projects section with quantitative metrics!")
 
 # ---------------------------------------------------------
-# MODULE 7: AI MOCK INTERVIEW COACH
+# MODULE 8: AI MOCK INTERVIEW COACH
 # ---------------------------------------------------------
 elif nav_module == "🎤 AI Mock Interview Coach":
     st.markdown("## 🎤 AI Mock Interview Coach")
@@ -548,10 +611,10 @@ elif nav_module == "🎤 AI Mock Interview Coach":
     q_curr = questions[selected_q_idx]
     
     st.markdown(f"""
-    <div class="content-box" style="border-left: 6px solid #2563EB;">
-        <h4 style="margin:0; color:#2563EB;">Category: {q_curr['category']}</h4>
-        <h3 style="margin-top:8px; color:#0F172A;">{q_curr['question']}</h3>
-        <p style="color:#64748B; font-size:0.95rem; margin-bottom:0;"><em>Evaluates: {q_curr['rubric']}</em></p>
+    <div class="glass-card" style="border-left: 6px solid #38BDF8;">
+        <h4 style="margin:0; color:#38BDF8;">Category: {q_curr['category']}</h4>
+        <h3 style="margin-top:8px; color:#F8FAFC;">{q_curr['question']}</h3>
+        <p style="color:#94A3B8; font-size:0.95rem; margin-bottom:0;"><em>Evaluates: {q_curr['rubric']}</em></p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -562,7 +625,7 @@ elif nav_module == "🎤 AI Mock Interview Coach":
             eval_res = evaluate_student_answer(q_curr, student_ans)
             
             st.markdown(f"""
-            <div class="content-box">
+            <div class="glass-card">
                 <h3 style="margin:0;">AI Score: <strong>{eval_res['score']} / 10</strong> ({eval_res['rating']})</h3>
             </div>
             """, unsafe_allow_html=True)
@@ -570,22 +633,20 @@ elif nav_module == "🎤 AI Mock Interview Coach":
             
             e_col1, e_col2 = st.columns(2)
             with e_col1:
-                st.markdown('<div class="content-box">', unsafe_allow_html=True)
+                st.markdown('<div class="glass-card">', unsafe_allow_html=True)
                 st.success("✅ **Strengths Identified:**")
                 for s in eval_res["strengths"]:
                     st.markdown(f"- {s}")
                 st.markdown('</div>', unsafe_allow_html=True)
             with e_col2:
-                st.markdown('<div class="content-box">', unsafe_allow_html=True)
+                st.markdown('<div class="glass-card">', unsafe_allow_html=True)
                 st.warning("💡 **Improvement Feedback:**")
                 for imp in eval_res["improvements"]:
                     st.markdown(f"- {imp}")
                 st.markdown('</div>', unsafe_allow_html=True)
-        else:
-            st.error("Please type an answer before submitting for evaluation.")
 
 # ---------------------------------------------------------
-# MODULE 8: AI CAREER ASSISTANT
+# MODULE 9: AI CAREER ASSISTANT
 # ---------------------------------------------------------
 elif nav_module == "🤖 AI Career Assistant":
     st.markdown("## 🤖 AI Career Assistant Chatbot")
