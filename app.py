@@ -1,6 +1,6 @@
 """
 AI Career Intelligence & Job Readiness Operating System
-Full-stack Streamlit Application - Enterprise Job Readiness OS Edition
+Full-stack Streamlit Application - Hierarchical Skill Mastery & Prerequisites Edition
 """
 
 import streamlit as st
@@ -17,6 +17,7 @@ from modules.company_role_profiles import ROLE_TAXONOMY, COMPANY_PROFILES, SKILL
 from modules.career_twin_engine import calculate_7_factor_readiness
 from modules.daily_mission_engine import generate_daily_career_mission
 from modules.skill_verifier import get_assessment_for_skill, evaluate_skill_assessment
+from modules.hierarchical_skill_tree import analyze_hierarchical_skill_tree
 from modules.project_strength_analyzer import audit_project_strength, generate_flagship_project_blueprint
 from modules.advanced_interview_sim import get_questions_by_mode, evaluate_communication_intelligence
 from modules.career_route_simulator import simulate_multi_role_readiness, calculate_role_transition_delta
@@ -252,6 +253,7 @@ jd_eval = analyze_job_description(st.session_state["target_jd_text"])
 gap_eval = analyze_skill_gaps(st.session_state["candidate_skills"], role_info["core_skills"])
 semantic_sim = compute_semantic_cosine_similarity(st.session_state["candidate_text"], st.session_state["target_jd_text"])
 github_res = verify_github_profile(st.session_state["github_user"])
+hierarchy_analysis = analyze_hierarchical_skill_tree(st.session_state["candidate_skills"], st.session_state["target_role"])
 
 # Calculate 7-Factor Transparent Readiness Score
 readiness_eval = calculate_7_factor_readiness(
@@ -282,7 +284,7 @@ tabs = st.tabs([
     "🏆 Career Twin & Readiness OS",
     "🎯 Daily Mission ('Do Today')",
     "📄 Resume & Job Matcher",
-    "📊 Skill Graph & Verifier",
+    "📊 Skill Graph & Hierarchy Matrix",
     "🗺️ Adaptive AI Roadmap",
     "💡 Project Auditor & Builder",
     "🎤 Advanced Interview Simulator",
@@ -421,45 +423,103 @@ with tabs[2]:
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# TAB 4: SKILL GRAPH & VERIFIER
+# TAB 4: SKILL GRAPH & HIERARCHY MASTERY MATRIX
 # ---------------------------------------------------------
 with tabs[3]:
-    st.header("📊 Skill Dependency Knowledge Graph & Adaptive Assessment")
+    st.header(f"📊 Skill Hierarchy Matrix & Prerequisite Tree — {st.session_state['target_role']}")
+    st.markdown("Evaluates your **Mastered Skills** and identifies your **Exact Next Learning Targets** based on prerequisite dependencies.")
     
-    col_v1, col_v2 = st.columns([1.1, 1])
-    
-    with col_v1:
-        st.markdown('<div class="card-box">', unsafe_allow_html=True)
-        st.markdown(f"### 🕸️ Skill Dependency Graph for {st.session_state['target_role']}")
+    # Hierarchy Summary Cards
+    h_sum = hierarchy_analysis["summary"]
+    hc1, hc2, hc3, hc4 = st.columns(4)
+    with hc1:
+        st.markdown(f"""
+        <div class="metric-card">
+            <div class="metric-lbl">Mastered Skills</div>
+            <div class="metric-val" style="color: #16A34A;">{h_sum['mastered']} / {h_sum['total_skills']}</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with hc2:
+        st.markdown(f"""
+        <div class="metric-card">
+            <div class="metric-lbl">Next Learning Targets</div>
+            <div class="metric-val" style="color: #2563EB;">{h_sum['next_targets']} Ready</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with hc3:
+        st.markdown(f"""
+        <div class="metric-card">
+            <div class="metric-lbl">Blocked by Prereqs</div>
+            <div class="metric-val" style="color: #DC2626;">{h_sum['blocked']} Skills</div>
+        </div>
+        """, unsafe_allow_html=True)
+    with hc4:
+        st.markdown(f"""
+        <div class="metric-card">
+            <div class="metric-lbl">Hierarchy Mastery</div>
+            <div class="metric-val" style="color: #D97706;">{round((h_sum['mastered']/h_sum['total_skills'])*100, 1)}%</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # High Priority Callout: Next Immediate Learning Targets
+    if hierarchy_analysis["next_learning_targets"]:
+        st.markdown('<div class="card-box" style="border-left: 6px solid #2563EB; background: #F0F9FF;">', unsafe_allow_html=True)
+        st.markdown("### 🚀 What Should You Learn Next? (Prerequisites Satisfied)")
+        st.markdown("Based on your verified skills, all prerequisites for these skills are met! **Target these next:**")
         
-        dep_graph = SKILL_DEPENDENCY_GRAPH.get(st.session_state["target_role"], SKILL_DEPENDENCY_GRAPH["Data Analyst"])
-        for node in dep_graph:
-            prereq_str = f" (Requires: {', '.join(node['prereqs'])})" if node['prereqs'] else " (Foundational Level 1)"
-            status_icon = "🟢" if node['skill'] in st.session_state['candidate_skills'] else "🔴"
-            st.markdown(f"- {status_icon} **{node['skill']}** - Level {node['level']}{prereq_str}")
+        for tgt in hierarchy_analysis["next_learning_targets"]:
+            prereq_str = f" (Prerequisites satisfied: {', '.join(tgt['prereqs'])})" if tgt['prereqs'] else " (Foundational Skill)"
+            st.markdown(f"- 🚀 **{tgt['skill']}** `[Level {tgt['level']} — {tgt['category']}]`{prereq_str}")
         st.markdown('</div>', unsafe_allow_html=True)
 
-    with col_v2:
-        st.markdown('<div class="card-box">', unsafe_allow_html=True)
-        st.markdown("### 🧪 Adaptive Skill Verification Test")
-        st.caption("Self-Claimed skills vs. Verified Assessment levels:")
+    # Detailed Hierarchy Level Matrix
+    st.subheader("🌲 Complete Role Skill Hierarchy Tree")
+    
+    level_titles = {
+        1: "Level 1: Foundations & Prerequisites",
+        2: "Level 2: Core Analytical Tools & Libraries",
+        3: "Level 3: Advanced Modeling & Domain Expertise",
+        4: "Level 4: Production, Infrastructure & Deployment"
+    }
+
+    for lvl in range(1, 5):
+        items = hierarchy_analysis["levels"].get(lvl, [])
+        if items:
+            with st.expander(f"📍 {level_titles[lvl]} ({len(items)} Skills)", expanded=(lvl <= 2)):
+                for sk in items:
+                    badge_style = "badge-strong" if sk["status_code"] == "STRONG" else ("badge-bonus" if sk["status_code"] == "NEXT_TARGET" else "badge-missing")
+                    
+                    st.markdown(f"""
+                    <div style="border-bottom: 1px solid #E2E8F0; padding: 10px 0;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <h4 style="margin:0; color:#1E293B;">{sk['status'].split()[0]} {sk['skill']}</h4>
+                            <span class="{badge_style}">{sk['status']}</span>
+                        </div>
+                        <p style="color:#64748B; margin:4px 0 0 0; font-size:0.9rem;">Category: <code>{sk['category']}</code> | {sk['reason']}</p>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+    st.divider()
+
+    # Adaptive Assessment Tool
+    st.subheader("🧪 Adaptive Skill Verification Test")
+    test_skill = st.selectbox("Select Skill to Verify:", ["SQL", "Python", "Power BI", "Machine Learning"])
+    questions = get_assessment_for_skill(test_skill)
+    
+    user_ans = {}
+    for idx, q in enumerate(questions):
+        st.markdown(f"**Q{idx+1}: {q['question']}**")
+        user_ans[idx] = st.radio(f"Select answer for Q{idx+1}:", range(len(q['options'])), format_func=lambda i: q['options'][i], key=f"q_{test_skill}_{idx}")
         
-        test_skill = st.selectbox("Select Skill to Verify:", ["SQL", "Python", "Power BI", "Machine Learning"])
-        questions = get_assessment_for_skill(test_skill)
+    if st.button(f"Submit {test_skill} Verification Assessment"):
+        eval_res = evaluate_skill_assessment(test_skill, user_ans, questions)
+        st.session_state["verified_skills"][test_skill] = eval_res["verified_level"]
         
-        user_ans = {}
-        for idx, q in enumerate(questions):
-            st.markdown(f"**Q{idx+1}: {q['question']}**")
-            user_ans[idx] = st.radio(f"Select answer for Q{idx+1}:", range(len(q['options'])), format_func=lambda i: q['options'][i], key=f"q_{test_skill}_{idx}")
-            
-        if st.button(f"Submit {test_skill} Verification Assessment"):
-            eval_res = evaluate_skill_assessment(test_skill, user_ans, questions)
-            st.session_state["verified_skills"][test_skill] = eval_res["verified_level"]
-            
-            st.success(f"🎉 Result: **{eval_res['verified_level']}** ({eval_res['verified_percentage']}% Score)")
-            for d in eval_res["details"]:
-                st.markdown(f"- {'✅' if d['is_correct'] else '❌'} {d['question']} (Your choice: *{d['user_choice']}*)")
-        st.markdown('</div>', unsafe_allow_html=True)
+        st.success(f"🎉 Result: **{eval_res['verified_level']}** ({eval_res['verified_percentage']}% Score)")
+        for d in eval_res["details"]:
+            st.markdown(f"- {'✅' if d['is_correct'] else '❌'} {d['question']} (Your choice: *{d['user_choice']}*)")
 
 # ---------------------------------------------------------
 # TAB 5: ADAPTIVE AI ROADMAP
