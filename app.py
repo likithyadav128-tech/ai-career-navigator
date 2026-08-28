@@ -1,6 +1,6 @@
 """
 AI Career Intelligence & Job Readiness Operating System
-Full-stack Streamlit Application - Hierarchical Skill Mastery & Prerequisites Edition
+Full-stack Streamlit Application - Multi-Tenant Student Login & Workspace Persistence Edition
 """
 
 import streamlit as st
@@ -10,6 +10,9 @@ import plotly.graph_objects as go
 
 # Imports from local modules
 from modules.sample_data import SAMPLE_RESUMES, SAMPLE_JOB_DESCRIPTIONS
+from modules.user_auth_db import (
+    register_user, authenticate_user, save_user_profile, load_user_profile
+)
 from modules.resume_analyzer import extract_text_from_pdf, extract_skills_from_text, evaluate_resume_quality
 from modules.job_analyzer import analyze_job_description
 from modules.skill_gap_engine import analyze_skill_gaps
@@ -41,7 +44,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom Clean Styling
+# Custom Styling
 st.markdown("""
 <style>
     /* Main Background & Base Typography */
@@ -164,6 +167,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Initialize Session State Variables
+if "logged_in" not in st.session_state:
+    st.session_state["logged_in"] = False
+    st.session_state["user_info"] = None
+
 if "candidate_text" not in st.session_state:
     default_res = SAMPLE_RESUMES["Data Science Student (Alex Rivera)"]
     st.session_state["candidate_text"] = default_res["text"]
@@ -183,31 +190,118 @@ if "github_user" not in st.session_state:
 if "verified_skills" not in st.session_state:
     st.session_state["verified_skills"] = {}
 
-if "project_audit_history" not in st.session_state:
-    st.session_state["project_audit_history"] = {}
-
 if "chat_history" not in st.session_state:
     st.session_state["chat_history"] = [
         {"role": "assistant", "content": "👋 Hi! I'm your AI Career Assistant. Ask me anything like:\n- *'What should I learn next?'*\n- *'Am I ready for a Data Analyst role?'*\n- *'Which skills should I add to my resume?'*"}
     ]
 
 # ---------------------------------------------------------
-# SIDEBAR: CONTROLS & PROFILE TARGETING
+# AUTHENTICATION GUARD (LOGIN / REGISTER VIEW)
 # ---------------------------------------------------------
-with st.sidebar:
+if not st.session_state["logged_in"]:
     st.markdown("""
+    <div class="main-header" style="text-align: center; padding: 40px 20px;">
+        <div style="font-size: 3.5rem;">🔐</div>
+        <h1 style="font-size: 2.4rem !important;">AI Career Intelligence OS — Student Portal</h1>
+        <p style="font-size: 1.15rem !important;">Personalized Multi-Tenant Job Readiness Operating System</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    auth_tab1, auth_tab2 = st.tabs(["🔑 Student Login", "📝 Create New Account"])
+
+    with auth_tab1:
+        st.markdown('<div class="card-box" style="max-width: 500px; margin: 0 auto;">', unsafe_allow_html=True)
+        st.markdown("### Sign in to Your Personal Career Workspace")
+        
+        login_user = st.text_input("Username:", key="login_user_input")
+        login_pass = st.text_input("Password:", type="password", key="login_pass_input")
+        
+        if st.button("Sign In to Workspace", type="primary", use_container_width=True):
+            auth_res = authenticate_user(login_user, login_pass)
+            if auth_res["success"]:
+                st.session_state["logged_in"] = True
+                st.session_state["user_info"] = auth_res
+                
+                # Load saved profile
+                prof = load_user_profile(auth_res["user_id"])
+                if prof["has_profile"]:
+                    st.session_state["target_role"] = prof["target_role"]
+                    st.session_state["target_company"] = prof["target_company"]
+                    st.session_state["candidate_text"] = prof["candidate_text"]
+                    st.session_state["candidate_skills"] = prof["candidate_skills"]
+                    st.session_state["github_user"] = prof["github_user"] or "arivera"
+                st.success(f"Welcome back, {auth_res['full_name']}!")
+                st.rerun()
+            else:
+                st.error(auth_res["message"])
+
+        st.divider()
+        st.markdown("##### ⚡ Quick 1-Click Demo Accounts:")
+        col_d1, col_d2 = st.columns(2)
+        with col_d1:
+            if st.button("Login as Alex Rivera (Data Science)", use_container_width=True):
+                auth_res = authenticate_user("alex_rivera", "demo123")
+                st.session_state["logged_in"] = True
+                st.session_state["user_info"] = auth_res
+                st.rerun()
+        with col_d2:
+            if st.button("Login as Sam Chen (Developer)", use_container_width=True):
+                auth_res = authenticate_user("sam_chen", "demo123")
+                st.session_state["logged_in"] = True
+                st.session_state["user_info"] = auth_res
+                default_res = SAMPLE_RESUMES["Software & Web Developer (Sam Chen)"]
+                st.session_state["candidate_text"] = default_res["text"]
+                st.session_state["candidate_skills"] = default_res["extracted_skills"]
+                st.session_state["target_role"] = "Full-Stack Developer"
+                st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    with auth_tab2:
+        st.markdown('<div class="card-box" style="max-width: 500px; margin: 0 auto;">', unsafe_allow_html=True)
+        st.markdown("### Create Your Personal Student Account")
+        reg_name = st.text_input("Full Name:", key="reg_name_input")
+        reg_user = st.text_input("Choose Username:", key="reg_user_input")
+        reg_pass = st.text_input("Choose Password:", type="password", key="reg_pass_input")
+        
+        if st.button("Register & Create Workspace", type="primary", use_container_width=True):
+            reg_res = register_user(reg_user, reg_pass, reg_name)
+            if reg_res["success"]:
+                st.success("Account created successfully! Switching to login...")
+                st.session_state["logged_in"] = True
+                st.session_state["user_info"] = {"user_id": reg_res["user_id"], "username": reg_res["username"], "full_name": reg_res["full_name"]}
+                st.rerun()
+            else:
+                st.error(reg_res["message"])
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    st.stop()
+
+# ---------------------------------------------------------
+# SIDEBAR: LOGGED-IN USER CONTROLS & WORKSPACE
+# ---------------------------------------------------------
+user_info = st.session_state["user_info"]
+
+with st.sidebar:
+    st.markdown(f"""
     <div style="text-align: center; padding: 10px 0 15px 0;">
         <div style="font-size: 2.8rem;">🎯</div>
         <h2 style="margin: 0; color: #FFFFFF; font-size: 1.35rem;">AI Career OS</h2>
-        <p style="color: #94A3B8; font-size: 0.85rem; margin-top: 4px;">Personal Job-Preparation System</p>
+        <p style="color: #4ADE80; font-size: 0.9rem; font-weight:700; margin-top: 4px;">👤 {user_info['full_name']}</p>
     </div>
     """, unsafe_allow_html=True)
     
-    st.title("⚙️ Profile & Targeting")
+    if st.button("🚪 Logout Workspace", use_container_width=True):
+        st.session_state["logged_in"] = False
+        st.session_state["user_info"] = None
+        st.rerun()
+        
+    st.divider()
+    
+    st.title("⚙️ Personal Profile & Targeting")
     
     st.subheader("1. Target Role & Company")
     role_keys = list(ROLE_TAXONOMY.keys())
-    sel_role = st.selectbox("Select Target Job Role:", role_keys, index=0)
+    sel_role = st.selectbox("Select Target Job Role:", role_keys, index=role_keys.index(st.session_state["target_role"]) if st.session_state["target_role"] in role_keys else 0)
     st.session_state["target_role"] = sel_role
 
     company_keys = list(COMPANY_PROFILES.keys())
@@ -249,13 +343,12 @@ role_info = ROLE_TAXONOMY.get(st.session_state["target_role"], ROLE_TAXONOMY["Da
 resume_eval = evaluate_resume_quality(st.session_state["candidate_text"], st.session_state["candidate_skills"])
 jd_eval = analyze_job_description(st.session_state["target_jd_text"])
 
-# Gap evaluation against selected role core skills
 gap_eval = analyze_skill_gaps(st.session_state["candidate_skills"], role_info["core_skills"])
 semantic_sim = compute_semantic_cosine_similarity(st.session_state["candidate_text"], st.session_state["target_jd_text"])
 github_res = verify_github_profile(st.session_state["github_user"])
 hierarchy_analysis = analyze_hierarchical_skill_tree(st.session_state["candidate_skills"], st.session_state["target_role"])
 
-# Calculate 7-Factor Transparent Readiness Score
+# Calculate 7-Factor Readiness Score
 readiness_eval = calculate_7_factor_readiness(
     resume_score=resume_eval["score"],
     skill_gap_result=gap_eval,
@@ -268,6 +361,17 @@ readiness_eval = calculate_7_factor_readiness(
     company_name=st.session_state["target_company"]
 )
 
+# Auto-save user workspace to SQLite Database
+save_user_profile(
+    user_id=user_info["user_id"],
+    target_role=st.session_state["target_role"],
+    target_company=st.session_state["target_company"],
+    candidate_text=st.session_state["candidate_text"],
+    candidate_skills=st.session_state["candidate_skills"],
+    github_user=st.session_state["github_user"],
+    readiness_score=readiness_eval["overall_readiness"]
+)
+
 # Daily Career Mission
 daily_mission = generate_daily_career_mission(gap_eval["missing_skills"], gap_eval["moderate_skills"], st.session_state["target_role"])
 
@@ -275,7 +379,7 @@ daily_mission = generate_daily_career_mission(gap_eval["missing_skills"], gap_ev
 st.markdown(f"""
 <div class="main-header">
     <h1>🎯 AI Career Intelligence & Job Readiness OS</h1>
-    <p>Target Role: <strong>{st.session_state['target_role']}</strong> | Target Company: <strong>{st.session_state['target_company'].split('(')[0]}</strong> | Overall Job Readiness: <strong>{readiness_eval['overall_readiness']}%</strong></p>
+    <p>Student: <strong>{user_info['full_name']}</strong> | Target Role: <strong>{st.session_state['target_role']}</strong> | Target Company: <strong>{st.session_state['target_company'].split('(')[0]}</strong> | Job Readiness: <strong>{readiness_eval['overall_readiness']}%</strong></p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -296,8 +400,8 @@ tabs = st.tabs([
 # TAB 1: CAREER TWIN & TRANSPARENT 7-FACTOR READINESS OS
 # ---------------------------------------------------------
 with tabs[0]:
-    st.header("🏆 Personal Career Twin & Transparent 7-Factor Readiness")
-    st.markdown(f"Continuously tracking digital twin profile for **{st.session_state['target_role']}** targeting **{st.session_state['target_company']}**.")
+    st.header(f"🏆 Personal Career Twin — {user_info['full_name']}")
+    st.markdown(f"Continuously tracking digital twin workspace profile for **{st.session_state['target_role']}** targeting **{st.session_state['target_company']}**.")
     
     m1, m2, m3, m4 = st.columns(4)
     with m1:
