@@ -592,53 +592,96 @@ if not st.session_state["logged_in"]:
     auth_tab1, auth_tab2 = st.tabs(["🔑 Sign In", "📝 Create Account"])
 
     with auth_tab1:
-        # ---- Full-screen split-layout login ----
-        st.markdown("""
-        <div class="login-fullscreen">
-            <div class="login-container">
-                <!-- LEFT: Branding Panel -->
-                <div class="login-brand-panel">
-                    <div class="brand-icon">🎯</div>
-                    <h1>Welcome<br><span>Back</span></h1>
-                    <p class="brand-tagline">
+        # Use st.columns for TRUE side-by-side layout (branding left, form right)
+        brand_col, form_col = st.columns([1.1, 0.9], gap="small")
+
+        with brand_col:
+            st.markdown("""
+            <div style="
+                background: linear-gradient(150deg, rgba(108,99,255,0.15) 0%, rgba(6,182,212,0.08) 50%, rgba(108,99,255,0.1) 100%);
+                border: 1px solid rgba(108,99,255,0.12);
+                border-radius: 24px;
+                padding: 52px 44px;
+                min-height: 580px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                position: relative;
+                overflow: hidden;
+            ">
+                <div style="position:absolute; top:-30%; right:-20%; width:300px; height:300px;
+                     background:radial-gradient(circle, rgba(108,99,255,0.1) 0%, transparent 70%); border-radius:50%;"></div>
+                <div style="position:absolute; bottom:-25%; left:-10%; width:250px; height:250px;
+                     background:radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%); border-radius:50%;"></div>
+                <div style="position:relative; z-index:1;">
+                    <div style="font-size: 3.2rem; margin-bottom: 10px;">🎯</div>
+                    <h1 style="font-size: 3.2rem !important; font-weight: 900 !important; color: #ffffff !important;
+                        line-height: 1.05 !important; margin: 0 0 18px 0 !important; letter-spacing: -1px;">
+                        Welcome<br>
+                        <span style="background: linear-gradient(135deg, #6C63FF, #06b6d4);
+                            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Back</span>
+                    </h1>
+                    <p style="font-size: 1.02rem; color: #94a3b8; line-height: 1.65; margin-bottom: 30px;">
                         Your AI-powered personal job-preparation operating system. 
                         Track skills, build projects, practice interviews, and measure 
                         your readiness — all in one place.
                     </p>
-                    <div class="brand-features">
-                        <div class="feature-item"><div class="feature-dot"></div>7-Factor Job Readiness Score</div>
-                        <div class="feature-item"><div class="feature-dot"></div>AI-Powered Skill Gap Analysis</div>
-                        <div class="feature-item"><div class="feature-dot"></div>Smart Interview Simulator</div>
-                        <div class="feature-item"><div class="feature-dot"></div>Career Route Planner & Roadmap</div>
-                        <div class="feature-item"><div class="feature-dot"></div>Resume ATS Optimizer</div>
+                    <div style="display:flex; flex-direction:column; gap:13px; margin-bottom:32px;">
+                        <div style="display:flex; align-items:center; gap:10px; color:#cbd5e1; font-size:0.92rem; font-weight:500;">
+                            <div style="width:8px; height:8px; border-radius:50%; background:#6C63FF; box-shadow:0 0 8px rgba(108,99,255,0.5); flex-shrink:0;"></div>
+                            7-Factor Job Readiness Score
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px; color:#cbd5e1; font-size:0.92rem; font-weight:500;">
+                            <div style="width:8px; height:8px; border-radius:50%; background:#6C63FF; box-shadow:0 0 8px rgba(108,99,255,0.5); flex-shrink:0;"></div>
+                            AI-Powered Skill Gap Analysis
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px; color:#cbd5e1; font-size:0.92rem; font-weight:500;">
+                            <div style="width:8px; height:8px; border-radius:50%; background:#6C63FF; box-shadow:0 0 8px rgba(108,99,255,0.5); flex-shrink:0;"></div>
+                            Smart Interview Simulator
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px; color:#cbd5e1; font-size:0.92rem; font-weight:500;">
+                            <div style="width:8px; height:8px; border-radius:50%; background:#6C63FF; box-shadow:0 0 8px rgba(108,99,255,0.5); flex-shrink:0;"></div>
+                            Career Route Planner & Roadmap
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px; color:#cbd5e1; font-size:0.92rem; font-weight:500;">
+                            <div style="width:8px; height:8px; border-radius:50%; background:#6C63FF; box-shadow:0 0 8px rgba(108,99,255,0.5); flex-shrink:0;"></div>
+                            Resume ATS Optimizer
+                        </div>
                     </div>
-                    <div class="brand-social">
-                        <div class="social-icon">🌐</div>
-                        <div class="social-icon">💼</div>
-                        <div class="social-icon">🐙</div>
-                        <div class="social-icon">📧</div>
+                    <div style="display:flex; gap:14px;">
+                        <div style="width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.06);
+                            border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center;
+                            font-size:0.9rem; color:#94a3b8;">🌐</div>
+                        <div style="width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.06);
+                            border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center;
+                            font-size:0.9rem; color:#94a3b8;">💼</div>
+                        <div style="width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.06);
+                            border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center;
+                            font-size:0.9rem; color:#94a3b8;">🐙</div>
+                        <div style="width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.06);
+                            border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center;
+                            font-size:0.9rem; color:#94a3b8;">📧</div>
                     </div>
                 </div>
-                <!-- RIGHT: Form Panel (placeholder - Streamlit widgets go below) -->
-                <div class="login-form-panel">
-                    <div class="form-title">Sign in</div>
-                    <div class="form-subtitle">Enter your credentials to access your workspace</div>
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        # Streamlit form widgets (rendered below the HTML since Streamlit can't inject inside HTML divs)
-        st.markdown("---")
-        
-        login_col_left, login_col_center, login_col_right = st.columns([1, 2, 1])
-        with login_col_center:
-            st.markdown("""
-            <div style="text-align:center; margin-bottom:20px;">
-                <span style="font-size:1.3rem; font-weight:700; color:#ffffff;">🔐 Enter Your Credentials</span>
             </div>
             """, unsafe_allow_html=True)
-            
+
+        with form_col:
+            st.markdown("""
+            <div style="
+                background: rgba(15, 20, 35, 0.7);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border: 1px solid rgba(108,99,255,0.1);
+                border-radius: 24px;
+                padding: 44px 36px 20px 36px;
+                min-height: 580px;
+            ">
+                <div style="font-size: 1.8rem; font-weight: 800; color: #ffffff; margin-bottom: 4px;">Sign in</div>
+                <div style="font-size: 0.92rem; color: #64748b; margin-bottom: 24px;">Enter your credentials to access your workspace</div>
+            </div>
+            """, unsafe_allow_html=True)
+
             login_user = st.text_input("Username", key="login_user_input", placeholder="Enter your username")
             login_pass = st.text_input("Password", type="password", key="login_pass_input", placeholder="Enter your password")
             
@@ -659,10 +702,11 @@ if not st.session_state["logged_in"]:
                 else:
                     st.error(auth_res["message"])
 
-            # Demo accounts strip
             st.markdown("""
-            <div class="demo-strip">
-                <div class="demo-label">⚡ Quick Demo Access</div>
+            <div style="background: rgba(108,99,255,0.06); border: 1px solid rgba(108,99,255,0.12);
+                 border-radius: 14px; padding: 14px 18px; margin-top: 16px;">
+                <div style="font-size: 0.75rem; font-weight: 700; color: #6C63FF;
+                     text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px;">⚡ Quick Demo Access</div>
             </div>
             """, unsafe_allow_html=True)
             
@@ -685,31 +729,28 @@ if not st.session_state["logged_in"]:
                     st.rerun()
 
             st.markdown("""
-            <div style="text-align:center; margin-top:18px; color:#475569; font-size:0.82rem;">
+            <div style="text-align:center; margin-top:16px; color:#475569; font-size:0.8rem; line-height:1.5;">
                 By signing in, you access your personal AI Career Workspace<br>
                 <span style="color:#6C63FF;">Terms of Service</span> · <span style="color:#6C63FF;">Privacy Policy</span>
             </div>
             """, unsafe_allow_html=True)
 
     with auth_tab2:
-        # ---- Registration page ----
-        st.markdown("""
-        <div class="register-fullscreen">
-            <div class="register-box">
-                <div style="text-align:center; font-size:3rem; margin-bottom:8px;">🚀</div>
-                <div class="reg-title">Create Account</div>
-                <div class="reg-subtitle">Start your AI-powered career journey today</div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        st.markdown("---")
-        
         reg_col_l, reg_col_c, reg_col_r = st.columns([1, 2, 1])
         with reg_col_c:
             st.markdown("""
-            <div style="text-align:center; margin-bottom:20px;">
-                <span style="font-size:1.3rem; font-weight:700; color:#ffffff;">📝 Create Your Workspace</span>
+            <div style="
+                background: rgba(15, 20, 35, 0.7);
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(108,99,255,0.15);
+                border-radius: 24px;
+                padding: 44px 40px 20px 40px;
+                text-align: center;
+                margin-top: 30px;
+            ">
+                <div style="font-size: 3rem; margin-bottom: 8px;">🚀</div>
+                <div style="font-size: 1.8rem; font-weight: 800; color: #ffffff; margin-bottom: 4px;">Create Account</div>
+                <div style="font-size: 0.92rem; color: #64748b; margin-bottom: 24px;">Start your AI-powered career journey today</div>
             </div>
             """, unsafe_allow_html=True)
             
