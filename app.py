@@ -271,288 +271,246 @@ st.markdown("""
     .skill-row h4 { margin: 0; color: #e2e8f0 !important; }
     .skill-row p { color: #64748b !important; margin: 4px 0 0 0; font-size: 0.88rem; }
 
-    /* ===== FULL-SCREEN LOGIN PORTAL ===== */
-    @keyframes gradientShift {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-    @keyframes floatOrb {
-        0%, 100% { transform: translateY(0px) scale(1); }
-        50% { transform: translateY(-20px) scale(1.05); }
-    }
-    @keyframes pulseGlow {
-        0%, 100% { opacity: 0.4; }
-        50% { opacity: 0.8; }
-    }
-    @keyframes slideUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
+    /* ===== FULL-SCREEN AI RESUME CAREER NAVIGATOR LOGIN ===== */
+    .auth-bg-wrapper {
+        min-height: 95vh;
+        background: radial-gradient(circle at 75% 30%, rgba(99, 102, 241, 0.12) 0%, transparent 50%),
+                    radial-gradient(circle at 20% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 40%),
+                    linear-gradient(145deg, #070913 0%, #0c1022 50%, #0a0d1a 100%);
+        border-radius: 28px;
+        padding: 40px 32px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.04);
     }
 
-    .login-fullscreen {
-        min-height: 88vh;
-        background: linear-gradient(-45deg, #0a0e1a, #1a0a2e, #0c1a3a, #0a1628, #160a28);
-        background-size: 400% 400%;
-        animation: gradientShift 15s ease infinite;
-        border-radius: 24px;
+    .brand-logo-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 28px;
+    }
+
+    .brand-logo-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #6366F1 0%, #A855F7 50%, #EC4899 100%);
         display: flex;
         align-items: center;
         justify-content: center;
-        position: relative;
-        overflow: hidden;
-        padding: 40px 20px;
-    }
-    /* Floating orb effects */
-    .login-fullscreen::before {
-        content: '';
-        position: absolute;
-        top: 10%; left: 8%;
-        width: 350px; height: 350px;
-        background: radial-gradient(circle, rgba(108, 99, 255, 0.18) 0%, transparent 70%);
-        border-radius: 50%;
-        animation: floatOrb 8s ease-in-out infinite;
-    }
-    .login-fullscreen::after {
-        content: '';
-        position: absolute;
-        bottom: 5%; right: 10%;
-        width: 280px; height: 280px;
-        background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, transparent 70%);
-        border-radius: 50%;
-        animation: floatOrb 10s ease-in-out infinite reverse;
+        box-shadow: 0 0 24px rgba(168, 85, 247, 0.5);
     }
 
-    .login-container {
-        display: flex;
-        width: 100%;
-        max-width: 1100px;
-        min-height: 520px;
-        border-radius: 24px;
-        overflow: hidden;
-        position: relative;
-        z-index: 2;
-        animation: slideUp 0.8s ease-out;
-        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+    .brand-logo-icon span {
+        color: #ffffff;
+        font-weight: 900;
+        font-size: 1.35rem;
+        letter-spacing: -1px;
     }
 
-    /* Left branding panel */
-    .login-brand-panel {
-        flex: 1.1;
-        background: linear-gradient(150deg, rgba(108, 99, 255, 0.15) 0%, rgba(6, 182, 212, 0.08) 50%, rgba(108, 99, 255, 0.1) 100%);
-        padding: 60px 48px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        position: relative;
-        border-right: 1px solid rgba(108, 99, 255, 0.1);
-    }
-    .login-brand-panel::before {
-        content: '';
-        position: absolute;
-        top: -30%; right: -20%;
-        width: 300px; height: 300px;
-        background: radial-gradient(circle, rgba(108, 99, 255, 0.1) 0%, transparent 70%);
-        border-radius: 50%;
-    }
-    .login-brand-panel .brand-icon {
-        font-size: 3.5rem;
-        margin-bottom: 12px;
-    }
-    .login-brand-panel h1 {
-        font-size: 3rem !important;
+    .brand-title-main {
+        font-size: 3.2rem !important;
         font-weight: 900 !important;
         color: #ffffff !important;
         line-height: 1.1 !important;
-        margin: 0 0 16px 0 !important;
+        margin: 0 !important;
         letter-spacing: -1px;
     }
-    .login-brand-panel h1 span {
-        background: linear-gradient(135deg, #6C63FF, #06b6d4);
+
+    .brand-title-gradient {
+        font-size: 3.2rem !important;
+        font-weight: 900 !important;
+        line-height: 1.15 !important;
+        margin: 0 0 16px 0 !important;
+        letter-spacing: -1px;
+        background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 45%, #F472B6 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
-    .login-brand-panel .brand-tagline {
+
+    .brand-subtitle-text {
         font-size: 1.05rem;
         color: #94a3b8;
         line-height: 1.6;
         margin-bottom: 32px;
     }
-    .login-brand-panel .brand-features {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-    }
-    .login-brand-panel .feature-item {
+
+    .feature-item-card {
         display: flex;
         align-items: center;
-        gap: 10px;
-        color: #cbd5e1;
-        font-size: 0.92rem;
-        font-weight: 500;
-    }
-    .login-brand-panel .feature-dot {
-        width: 8px; height: 8px;
-        border-radius: 50%;
-        background: #6C63FF;
-        box-shadow: 0 0 8px rgba(108, 99, 255, 0.5);
-        flex-shrink: 0;
-    }
-    .login-brand-panel .brand-social {
-        margin-top: 36px;
-        display: flex;
         gap: 16px;
+        margin-bottom: 22px;
     }
-    .login-brand-panel .social-icon {
-        width: 36px; height: 36px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+
+    .feature-icon-box {
+        width: 50px;
+        height: 50px;
+        border-radius: 14px;
+        background: rgba(30, 41, 59, 0.7);
+        border: 1px solid rgba(99, 102, 241, 0.25);
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
+        font-size: 1.35rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .feature-text-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 3px;
+    }
+
+    .feature-text-desc {
+        font-size: 0.88rem;
+        color: #94a3b8;
+        line-height: 1.4;
+    }
+
+    /* Right Glassmorphic Card */
+    .auth-glass-card {
+        background: rgba(15, 23, 42, 0.75);
+        backdrop-filter: blur(28px);
+        -webkit-backdrop-filter: blur(28px);
+        border: 1px solid rgba(139, 92, 246, 0.25);
+        border-radius: 28px;
+        padding: 38px 34px;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7), 0 0 40px rgba(108, 99, 255, 0.08);
+        position: relative;
+    }
+
+    .auth-card-top-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #1E1B4B 0%, #312E81 100%);
+        border: 1px solid rgba(139, 92, 246, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 16px auto;
+        box-shadow: 0 0 25px rgba(99, 102, 241, 0.35);
+    }
+
+    .auth-card-top-icon span {
+        font-size: 1.7rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #818CF8, #C084FC, #F472B6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .auth-card-title {
+        font-size: 1.8rem !important;
+        font-weight: 800 !important;
+        color: #ffffff !important;
+        text-align: center;
+        margin: 0 0 4px 0 !important;
+    }
+
+    .auth-card-subtitle {
         font-size: 0.9rem;
         color: #94a3b8;
-        transition: all 0.3s ease;
-    }
-    .login-brand-panel .social-icon:hover {
-        background: rgba(108, 99, 255, 0.2);
-        border-color: rgba(108, 99, 255, 0.4);
-        color: #a5b4fc;
+        text-align: center;
+        margin-bottom: 24px;
     }
 
-    /* Right form panel */
-    .login-form-panel {
-        flex: 0.9;
-        background: rgba(15, 20, 35, 0.85);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        padding: 52px 44px;
+    .auth-nav-tabs {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    .login-form-panel .form-title {
-        font-size: 1.8rem !important;
-        font-weight: 800 !important;
-        color: #ffffff !important;
-        margin: 0 0 6px 0 !important;
-    }
-    .login-form-panel .form-subtitle {
-        font-size: 0.92rem;
-        color: #64748b;
-        margin-bottom: 28px;
-    }
-    .login-form-panel .form-footer {
-        margin-top: 24px;
-        text-align: center;
-        color: #475569;
-        font-size: 0.82rem;
-        line-height: 1.5;
-    }
-    .login-form-panel .form-footer a {
-        color: #6C63FF;
-        text-decoration: none;
-    }
-
-    /* Demo accounts strip */
-    .demo-strip {
-        background: rgba(108, 99, 255, 0.06);
-        border: 1px solid rgba(108, 99, 255, 0.12);
-        border-radius: 14px;
-        padding: 16px 20px;
-        margin-top: 20px;
-    }
-    .demo-strip .demo-label {
-        font-size: 0.78rem;
-        font-weight: 700;
-        color: #6C63FF;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        margin-bottom: 10px;
-    }
-
-    /* Registration fullscreen wrapper */
-    .register-fullscreen {
-        min-height: 75vh;
-        background: linear-gradient(-45deg, #0a0e1a, #1a0a2e, #0c1a3a, #0a1628);
-        background-size: 400% 400%;
-        animation: gradientShift 15s ease infinite;
-        border-radius: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        overflow: hidden;
-        padding: 40px 20px;
-    }
-    .register-fullscreen::before {
-        content: '';
-        position: absolute;
-        top: 15%; right: 12%;
-        width: 250px; height: 250px;
-        background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, transparent 70%);
-        border-radius: 50%;
-        animation: floatOrb 9s ease-in-out infinite;
-    }
-    .register-box {
-        background: rgba(15, 20, 35, 0.8);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(108, 99, 255, 0.15);
-        border-radius: 24px;
-        padding: 48px 44px;
-        max-width: 500px;
-        width: 100%;
-        position: relative;
-        z-index: 2;
-        animation: slideUp 0.8s ease-out;
-        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
-    }
-    .register-box .reg-title {
-        font-size: 1.8rem !important;
-        font-weight: 800 !important;
-        color: #ffffff !important;
-        margin: 0 0 6px 0 !important;
-        text-align: center;
-    }
-    .register-box .reg-subtitle {
-        font-size: 0.92rem;
-        color: #64748b;
-        margin-bottom: 28px;
-        text-align: center;
-    }
-
-    /* ===== GENERAL OVERRIDES ===== */
-    h1, h2, h3, h4, h5 { color: #e2e8f0 !important; }
-    .stProgress > div > div { background: #6C63FF !important; }
-    .stDivider { border-color: rgba(255, 255, 255, 0.06) !important; }
-    .stAlert { border-radius: 12px !important; }
-
-    /* Tabs styling */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 4px;
-        background: rgba(255, 255, 255, 0.02);
+        background: rgba(255, 255, 255, 0.04);
         border-radius: 12px;
         padding: 4px;
-    }
-    .stTabs [data-baseweb="tab"] {
-        border-radius: 8px;
-        color: #94a3b8 !important;
-        font-weight: 500;
-        padding: 8px 16px;
-    }
-    .stTabs [aria-selected="true"] {
-        background: rgba(108, 99, 255, 0.15) !important;
-        color: #a5b4fc !important;
+        margin-bottom: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    /* Chat messages */
-    [data-testid="stChatMessage"] {
-        background: rgba(255, 255, 255, 0.025) !important;
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
-        border-radius: 14px !important;
+    .auth-nav-item {
+        flex: 1;
+        text-align: center;
+        padding: 10px 0;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #94a3b8;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .auth-nav-item.active {
+        background: rgba(99, 102, 241, 0.25);
+        color: #ffffff;
+        border-bottom: 2px solid #818CF8;
+    }
+
+    .auth-input-label {
+        font-size: 0.76rem;
+        font-weight: 700;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        margin-bottom: 6px;
+        margin-top: 14px;
+    }
+
+    .auth-divider-row {
+        display: flex;
+        align-items: center;
+        margin: 20px 0 16px 0;
+        color: #64748b;
+        font-size: 0.82rem;
+    }
+
+    .auth-divider-row::before, .auth-divider-row::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .auth-divider-row span {
+        padding: 0 12px;
+    }
+
+    .auth-security-footer {
+        text-align: center;
+        margin-top: 24px;
+        color: #64748b;
+        font-size: 0.78rem;
+        line-height: 1.5;
+    }
+
+    /* Custom Streamlit Button Styling inside Auth */
+    div[data-testid="stButton"] button[kind="primary"] {
+        background: linear-gradient(135deg, #3B82F6 0%, #7C3AED 50%, #A855F7 100%) !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 12px 24px !important;
+        box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4) !important;
+        transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    }
+
+    div[data-testid="stButton"] button[kind="primary"]:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 12px 30px rgba(124, 58, 237, 0.6) !important;
+    }
+
+    /* Custom Text Inputs */
+    div[data-baseweb="input"] {
+        background: rgba(15, 23, 42, 0.8) !important;
+        border: 1px solid rgba(139, 92, 246, 0.2) !important;
+        border-radius: 12px !important;
+    }
+
+    div[data-baseweb="input"]:focus-within {
+        border-color: #818CF8 !important;
+        box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2) !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -588,104 +546,218 @@ if "chat_history" not in st.session_state:
 
 # Authentication Guard
 if not st.session_state["logged_in"]:
+    if "auth_mode" not in st.session_state:
+        st.session_state["auth_mode"] = "Sign In"
 
-    auth_tab1, auth_tab2 = st.tabs(["🔑 Sign In", "📝 Create Account"])
+    # Wrapper container matching the user image reference
+    st.markdown('<div class="auth-bg-wrapper">', unsafe_allow_html=True)
+    
+    brand_col, form_col = st.columns([1.15, 0.85], gap="large")
 
-    with auth_tab1:
-        # Use st.columns for TRUE side-by-side layout (branding left, form right)
-        brand_col, form_col = st.columns([1.1, 0.9], gap="small")
+    # ==========================================
+    # LEFT COLUMN: BRANDING, FEATURES & 3D GRAPHIC
+    # ==========================================
+    with brand_col:
+        st.markdown("""
+        <div>
+            <!-- Brand Badge -->
+            <div class="brand-logo-badge">
+                <div class="brand-logo-icon">
+                    <span>A<sup style="font-size:0.75rem;">✦</sup></span>
+                </div>
+                <div>
+                    <div style="font-size: 0.95rem; font-weight: 800; color: #FFFFFF; letter-spacing: 2px; line-height: 1.2;">AI RESUME</div>
+                    <div style="font-size: 0.72rem; font-weight: 700; color: #818CF8; letter-spacing: 1.5px;">CAREER NAVIGATOR</div>
+                </div>
+            </div>
 
-        with brand_col:
-            st.markdown("""
-            <div style="
-                background: linear-gradient(150deg, rgba(108,99,255,0.15) 0%, rgba(6,182,212,0.08) 50%, rgba(108,99,255,0.1) 100%);
-                border: 1px solid rgba(108,99,255,0.12);
-                border-radius: 24px;
-                padding: 52px 44px;
-                min-height: 580px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                position: relative;
-                overflow: hidden;
-            ">
-                <div style="position:absolute; top:-30%; right:-20%; width:300px; height:300px;
-                     background:radial-gradient(circle, rgba(108,99,255,0.1) 0%, transparent 70%); border-radius:50%;"></div>
-                <div style="position:absolute; bottom:-25%; left:-10%; width:250px; height:250px;
-                     background:radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%); border-radius:50%;"></div>
-                <div style="position:relative; z-index:1;">
-                    <div style="font-size: 3.2rem; margin-bottom: 10px;">🎯</div>
-                    <h1 style="font-size: 3.2rem !important; font-weight: 900 !important; color: #ffffff !important;
-                        line-height: 1.05 !important; margin: 0 0 18px 0 !important; letter-spacing: -1px;">
-                        Welcome<br>
-                        <span style="background: linear-gradient(135deg, #6C63FF, #06b6d4);
-                            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Back</span>
-                    </h1>
-                    <p style="font-size: 1.02rem; color: #94a3b8; line-height: 1.65; margin-bottom: 30px;">
-                        Your AI-powered personal job-preparation operating system. 
-                        Track skills, build projects, practice interviews, and measure 
-                        your readiness — all in one place.
-                    </p>
-                    <div style="display:flex; flex-direction:column; gap:13px; margin-bottom:32px;">
-                        <div style="display:flex; align-items:center; gap:10px; color:#cbd5e1; font-size:0.92rem; font-weight:500;">
-                            <div style="width:8px; height:8px; border-radius:50%; background:#6C63FF; box-shadow:0 0 8px rgba(108,99,255,0.5); flex-shrink:0;"></div>
-                            7-Factor Job Readiness Score
-                        </div>
-                        <div style="display:flex; align-items:center; gap:10px; color:#cbd5e1; font-size:0.92rem; font-weight:500;">
-                            <div style="width:8px; height:8px; border-radius:50%; background:#6C63FF; box-shadow:0 0 8px rgba(108,99,255,0.5); flex-shrink:0;"></div>
-                            AI-Powered Skill Gap Analysis
-                        </div>
-                        <div style="display:flex; align-items:center; gap:10px; color:#cbd5e1; font-size:0.92rem; font-weight:500;">
-                            <div style="width:8px; height:8px; border-radius:50%; background:#6C63FF; box-shadow:0 0 8px rgba(108,99,255,0.5); flex-shrink:0;"></div>
-                            Smart Interview Simulator
-                        </div>
-                        <div style="display:flex; align-items:center; gap:10px; color:#cbd5e1; font-size:0.92rem; font-weight:500;">
-                            <div style="width:8px; height:8px; border-radius:50%; background:#6C63FF; box-shadow:0 0 8px rgba(108,99,255,0.5); flex-shrink:0;"></div>
-                            Career Route Planner & Roadmap
-                        </div>
-                        <div style="display:flex; align-items:center; gap:10px; color:#cbd5e1; font-size:0.92rem; font-weight:500;">
-                            <div style="width:8px; height:8px; border-radius:50%; background:#6C63FF; box-shadow:0 0 8px rgba(108,99,255,0.5); flex-shrink:0;"></div>
-                            Resume ATS Optimizer
-                        </div>
+            <!-- Main Titles -->
+            <h1 class="brand-title-main">AI Resume</h1>
+            <div class="brand-title-gradient">Career Navigator</div>
+            
+            <div class="brand-subtitle-text">
+                Navigate your career. Build your future.<br>
+                Powered by AI.
+            </div>
+
+            <!-- 3 Core Features -->
+            <div style="margin-bottom: 28px;">
+                <!-- Feature 1 -->
+                <div class="feature-item-card">
+                    <div class="feature-icon-box" style="color: #38BDF8;">
+                        🧠
                     </div>
-                    <div style="display:flex; gap:14px;">
-                        <div style="width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.06);
-                            border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center;
-                            font-size:0.9rem; color:#94a3b8;">🌐</div>
-                        <div style="width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.06);
-                            border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center;
-                            font-size:0.9rem; color:#94a3b8;">💼</div>
-                        <div style="width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.06);
-                            border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center;
-                            font-size:0.9rem; color:#94a3b8;">🐙</div>
-                        <div style="width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.06);
-                            border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center;
-                            font-size:0.9rem; color:#94a3b8;">📧</div>
+                    <div>
+                        <div class="feature-text-title">AI Powered Resume Analysis</div>
+                        <div class="feature-text-desc">Get AI-driven insights to improve your resume and skills.</div>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-item-card">
+                    <div class="feature-icon-box" style="color: #C084FC;">
+                        🎯
+                    </div>
+                    <div>
+                        <div class="feature-text-title">ATS Score Optimization</div>
+                        <div class="feature-text-desc">Optimize your resume for ATS and increase interview chances.</div>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-item-card">
+                    <div class="feature-icon-box" style="color: #60A5FA;">
+                        📈
+                    </div>
+                    <div>
+                        <div class="feature-text-title">Personalized Career Guidance</div>
+                        <div class="feature-text-desc">Discover the best career paths and opportunities for you.</div>
                     </div>
                 </div>
             </div>
-            """, unsafe_allow_html=True)
 
-        with form_col:
-            st.markdown("""
-            <div style="
-                background: rgba(15, 20, 35, 0.7);
-                backdrop-filter: blur(20px);
-                -webkit-backdrop-filter: blur(20px);
-                border: 1px solid rgba(108,99,255,0.1);
-                border-radius: 24px;
-                padding: 44px 36px 20px 36px;
-                min-height: 580px;
-            ">
-                <div style="font-size: 1.8rem; font-weight: 800; color: #ffffff; margin-bottom: 4px;">Sign in</div>
-                <div style="font-size: 0.92rem; color: #64748b; margin-bottom: 24px;">Enter your credentials to access your workspace</div>
+            <!-- 3D Glowing ATS Resume & Growth Graph Graphic -->
+            <div style="position: relative; width: 100%; max-width: 440px; margin-top: 10px;">
+                <svg viewBox="0 0 440 220" width="100%" height="100%" style="overflow: visible; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.6));">
+                    <defs>
+                        <!-- Gradients -->
+                        <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.8"/>
+                            <stop offset="100%" stop-color="#1E1B4B" stop-opacity="0.9"/>
+                        </linearGradient>
+                        <linearGradient id="barGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#60A5FA"/>
+                            <stop offset="100%" stop-color="#1D4ED8"/>
+                        </linearGradient>
+                        <linearGradient id="barGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#818CF8"/>
+                            <stop offset="100%" stop-color="#4338CA"/>
+                        </linearGradient>
+                        <linearGradient id="barGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#C084FC"/>
+                            <stop offset="100%" stop-color="#7E22CE"/>
+                        </linearGradient>
+                        <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#38BDF8"/>
+                            <stop offset="100%" stop-color="#A855F7"/>
+                        </linearGradient>
+                        <radialGradient id="platformGlow" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="#6366F1" stop-opacity="0.4"/>
+                            <stop offset="100%" stop-color="#0F172A" stop-opacity="0"/>
+                        </radialGradient>
+                    </defs>
+
+                    <!-- Platform Glow Base -->
+                    <ellipse cx="220" cy="180" rx="180" ry="35" fill="url(#platformGlow)"/>
+                    <ellipse cx="220" cy="180" rx="150" ry="28" fill="none" stroke="rgba(99, 102, 241, 0.3)" stroke-width="1.5"/>
+
+                    <!-- Left Isometric Resume Card -->
+                    <g transform="translate(60, 20) rotate(-4)">
+                        <!-- Card Background -->
+                        <rect x="0" y="0" width="160" height="150" rx="18" fill="url(#cardGrad)" stroke="rgba(147, 197, 253, 0.4)" stroke-width="2"/>
+                        
+                        <!-- Avatar Profile Box -->
+                        <rect x="18" y="20" width="40" height="40" rx="10" fill="rgba(255,255,255,0.15)"/>
+                        <circle cx="38" cy="36" r="10" fill="#93C5FD"/>
+                        <path d="M26 54 Q38 42 50 54" fill="#93C5FD"/>
+
+                        <!-- Header Lines -->
+                        <rect x="68" y="24" width="72" height="7" rx="3.5" fill="#FFFFFF" opacity="0.9"/>
+                        <rect x="68" y="38" width="50" height="6" rx="3" fill="#93C5FD" opacity="0.6"/>
+
+                        <!-- Stars -->
+                        <text x="18" y="80" font-size="12" fill="#FBBF24">★★★★★</text>
+
+                        <!-- Progress Bar Rows -->
+                        <rect x="18" y="96" width="124" height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
+                        <rect x="18" y="96" width="98" height="6" rx="3" fill="#38BDF8"/>
+
+                        <rect x="18" y="112" width="124" height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
+                        <rect x="18" y="112" width="112" height="6" rx="3" fill="#A855F7"/>
+
+                        <rect x="18" y="128" width="124" height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
+                        <rect x="18" y="128" width="80" height="6" rx="3" fill="#34D399"/>
+                    </g>
+
+                    <!-- Right Isometric 3D Analytics Bars -->
+                    <g transform="translate(240, 50)">
+                        <!-- 3D Bar 1 -->
+                        <rect x="15" y="80" width="22" height="65" rx="6" fill="url(#barGrad1)"/>
+                        <ellipse cx="26" cy="80" rx="11" ry="5" fill="#93C5FD"/>
+
+                        <!-- 3D Bar 2 -->
+                        <rect x="50" y="55" width="22" height="90" rx="6" fill="url(#barGrad2)"/>
+                        <ellipse cx="61" cy="55" rx="11" ry="5" fill="#C7D2FE"/>
+
+                        <!-- 3D Bar 3 -->
+                        <rect x="85" y="30" width="22" height="115" rx="6" fill="url(#barGrad3)"/>
+                        <ellipse cx="96" cy="30" rx="11" ry="5" fill="#E9D5FF"/>
+
+                        <!-- Connected Trend Line -->
+                        <path d="M-10 75 Q26 40 61 25 T120 -5" fill="none" stroke="url(#lineGrad)" stroke-width="3.5" stroke-linecap="round"/>
+                        
+                        <!-- Glowing Nodes on Trend Line -->
+                        <circle cx="-10" cy="75" r="5" fill="#38BDF8" filter="drop-shadow(0 0 6px #38BDF8)"/>
+                        <circle cx="26" cy="52" r="5" fill="#60A5FA" filter="drop-shadow(0 0 6px #60A5FA)"/>
+                        <circle cx="61" cy="25" r="5.5" fill="#A855F7" filter="drop-shadow(0 0 8px #A855F7)"/>
+                        <circle cx="105" cy="5" r="6" fill="#F472B6" filter="drop-shadow(0 0 10px #F472B6)"/>
+                    </g>
+                </svg>
             </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # ==========================================
+    # RIGHT COLUMN: SLEEK GLASSMORPHIC LOGIN CARD
+    # ==========================================
+    with form_col:
+        st.markdown("""
+        <div class="auth-glass-card">
+            <!-- Top App Badge -->
+            <div class="auth-card-top-icon">
+                <span>A<sup style="font-size:0.9rem;">✦</sup></span>
+            </div>
+        """, unsafe_allow_html=True)
+
+        if st.session_state["auth_mode"] == "Sign In":
+            st.markdown("""
+                <div class="auth-card-title">Welcome back!</div>
+                <div class="auth-card-subtitle">Sign in to continue your career journey</div>
+            """, unsafe_allow_html=True)
+        else:
+            st.markdown("""
+                <div class="auth-card-title">Create Account</div>
+                <div class="auth-card-subtitle">Join the AI career operating system</div>
             """, unsafe_allow_html=True)
 
-            login_user = st.text_input("Username", key="login_user_input", placeholder="Enter your username")
-            login_pass = st.text_input("Password", type="password", key="login_pass_input", placeholder="Enter your password")
-            
-            if st.button("🚀  Sign In Now", type="primary", use_container_width=True):
+        # Tab Switcher inside the card
+        col_tab1, col_tab2 = st.columns(2)
+        with col_tab1:
+            if st.button("Sign In", key="btn_switch_signin", use_container_width=True, 
+                         type="primary" if st.session_state["auth_mode"] == "Sign In" else "secondary"):
+                st.session_state["auth_mode"] = "Sign In"
+                st.rerun()
+        with col_tab2:
+            if st.button("Sign Up", key="btn_switch_signup", use_container_width=True,
+                         type="primary" if st.session_state["auth_mode"] == "Sign Up" else "secondary"):
+                st.session_state["auth_mode"] = "Sign Up"
+                st.rerun()
+
+        # FORM FIELDS
+        if st.session_state["auth_mode"] == "Sign In":
+            st.markdown('<div class="auth-input-label">EMAIL / USERNAME</div>', unsafe_allow_html=True)
+            login_user = st.text_input("Username", label_visibility="collapsed", key="auth_user_in", placeholder="✉️  Enter your email or username")
+
+            st.markdown('<div style="display:flex; justify-content:space-between; align-items:center;">'
+                        '<span class="auth-input-label">PASSWORD</span>'
+                        '<span style="font-size:0.78rem; color:#818CF8; font-weight:600; cursor:pointer;">Forgot password?</span>'
+                        '</div>', unsafe_allow_html=True)
+            login_pass = st.text_input("Password", label_visibility="collapsed", type="password", key="auth_pass_in", placeholder="🔒  Enter your password")
+
+            st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
+
+            # Main Submit Button
+            if st.button("➔  Sign In", type="primary", use_container_width=True):
                 auth_res = authenticate_user(login_user, login_pass)
                 if auth_res["success"]:
                     st.session_state["logged_in"] = True
@@ -702,23 +774,19 @@ if not st.session_state["logged_in"]:
                 else:
                     st.error(auth_res["message"])
 
-            st.markdown("""
-            <div style="background: rgba(108,99,255,0.06); border: 1px solid rgba(108,99,255,0.12);
-                 border-radius: 14px; padding: 14px 18px; margin-top: 16px;">
-                <div style="font-size: 0.75rem; font-weight: 700; color: #6C63FF;
-                     text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px;">⚡ Quick Demo Access</div>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            demo_c1, demo_c2 = st.columns(2)
-            with demo_c1:
-                if st.button("👤 Alex Rivera — Data Science", use_container_width=True):
+            # Divider
+            st.markdown('<div class="auth-divider-row"><span>or continue with</span></div>', unsafe_allow_html=True)
+
+            # Quick Demo Accounts (Google / Demo buttons)
+            col_g1, col_g2 = st.columns(2)
+            with col_g1:
+                if st.button("🔴 Alex (Data Science)", key="quick_alex", use_container_width=True):
                     auth_res = authenticate_user("alex_rivera", "demo123")
                     st.session_state["logged_in"] = True
                     st.session_state["user_info"] = auth_res
                     st.rerun()
-            with demo_c2:
-                if st.button("👤 Sam Chen — Developer", use_container_width=True):
+            with col_g2:
+                if st.button("🔵 Sam (Developer)", key="quick_sam", use_container_width=True):
                     auth_res = authenticate_user("sam_chen", "demo123")
                     st.session_state["logged_in"] = True
                     st.session_state["user_info"] = auth_res
@@ -728,37 +796,27 @@ if not st.session_state["logged_in"]:
                     st.session_state["target_role"] = "Full-Stack Developer"
                     st.rerun()
 
+            # Switch link
             st.markdown("""
-            <div style="text-align:center; margin-top:16px; color:#475569; font-size:0.8rem; line-height:1.5;">
-                By signing in, you access your personal AI Career Workspace<br>
-                <span style="color:#6C63FF;">Terms of Service</span> · <span style="color:#6C63FF;">Privacy Policy</span>
+            <div style="text-align:center; margin-top:20px; font-size:0.85rem; color:#94a3b8;">
+                Don't have an account? <span style="color:#818CF8; font-weight:700;">Sign Up</span>
             </div>
             """, unsafe_allow_html=True)
 
-    with auth_tab2:
-        reg_col_l, reg_col_c, reg_col_r = st.columns([1, 2, 1])
-        with reg_col_c:
-            st.markdown("""
-            <div style="
-                background: rgba(15, 20, 35, 0.7);
-                backdrop-filter: blur(20px);
-                border: 1px solid rgba(108,99,255,0.15);
-                border-radius: 24px;
-                padding: 44px 40px 20px 40px;
-                text-align: center;
-                margin-top: 30px;
-            ">
-                <div style="font-size: 3rem; margin-bottom: 8px;">🚀</div>
-                <div style="font-size: 1.8rem; font-weight: 800; color: #ffffff; margin-bottom: 4px;">Create Account</div>
-                <div style="font-size: 0.92rem; color: #64748b; margin-bottom: 24px;">Start your AI-powered career journey today</div>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            reg_name = st.text_input("Full Name", key="reg_name_input", placeholder="Your full name")
-            reg_user = st.text_input("Choose Username", key="reg_user_input", placeholder="Pick a username")
-            reg_pass = st.text_input("Choose Password", type="password", key="reg_pass_input", placeholder="Create a secure password")
-            
-            if st.button("🎯  Register & Launch Workspace", type="primary", use_container_width=True):
+        else:
+            # SIGN UP MODE
+            st.markdown('<div class="auth-input-label">FULL NAME</div>', unsafe_allow_html=True)
+            reg_name = st.text_input("Full Name", label_visibility="collapsed", key="reg_name_in", placeholder="👤  Enter your full name")
+
+            st.markdown('<div class="auth-input-label">CHOOSE USERNAME / EMAIL</div>', unsafe_allow_html=True)
+            reg_user = st.text_input("Username", label_visibility="collapsed", key="reg_user_in", placeholder="✉️  Enter your username or email")
+
+            st.markdown('<div class="auth-input-label">CHOOSE PASSWORD</div>', unsafe_allow_html=True)
+            reg_pass = st.text_input("Password", label_visibility="collapsed", type="password", key="reg_pass_in", placeholder="🔒  Enter a secure password")
+
+            st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
+
+            if st.button("➔  Create Account", type="primary", use_container_width=True):
                 reg_res = register_user(reg_user, reg_pass, reg_name)
                 if reg_res["success"]:
                     st.success("✅ Account created! Signing in...")
@@ -768,6 +826,22 @@ if not st.session_state["logged_in"]:
                 else:
                     st.error(reg_res["message"])
 
+            st.markdown("""
+            <div style="text-align:center; margin-top:20px; font-size:0.85rem; color:#94a3b8;">
+                Already have an account? <span style="color:#818CF8; font-weight:700;">Sign In</span>
+            </div>
+            """, unsafe_allow_html=True)
+
+        # Security Footnote
+        st.markdown("""
+            <div class="auth-security-footer">
+                🛡️ Your data is secure with us.<br>
+                We never share your information.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)
     st.stop()
 
 # Sidebar (logged-in state)
