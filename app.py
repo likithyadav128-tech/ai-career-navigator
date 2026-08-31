@@ -271,47 +271,257 @@ st.markdown("""
     .skill-row h4 { margin: 0; color: #e2e8f0 !important; }
     .skill-row p { color: #64748b !important; margin: 4px 0 0 0; font-size: 0.88rem; }
 
-    /* ===== LOGIN PORTAL ===== */
-    .login-hero {
-        background: linear-gradient(160deg, #1a1145 0%, #0c2340 50%, #162050 100%);
-        border: 1px solid rgba(108, 99, 255, 0.2);
+    /* ===== FULL-SCREEN LOGIN PORTAL ===== */
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    @keyframes floatOrb {
+        0%, 100% { transform: translateY(0px) scale(1); }
+        50% { transform: translateY(-20px) scale(1.05); }
+    }
+    @keyframes pulseGlow {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 0.8; }
+    }
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-fullscreen {
+        min-height: 88vh;
+        background: linear-gradient(-45deg, #0a0e1a, #1a0a2e, #0c1a3a, #0a1628, #160a28);
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
         border-radius: 24px;
-        padding: 48px 24px;
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         position: relative;
         overflow: hidden;
+        padding: 40px 20px;
     }
-    .login-hero::before {
+    /* Floating orb effects */
+    .login-fullscreen::before {
         content: '';
         position: absolute;
-        top: -60%; right: -40%;
-        width: 500px; height: 500px;
+        top: 10%; left: 8%;
+        width: 350px; height: 350px;
+        background: radial-gradient(circle, rgba(108, 99, 255, 0.18) 0%, transparent 70%);
+        border-radius: 50%;
+        animation: floatOrb 8s ease-in-out infinite;
+    }
+    .login-fullscreen::after {
+        content: '';
+        position: absolute;
+        bottom: 5%; right: 10%;
+        width: 280px; height: 280px;
+        background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, transparent 70%);
+        border-radius: 50%;
+        animation: floatOrb 10s ease-in-out infinite reverse;
+    }
+
+    .login-container {
+        display: flex;
+        width: 100%;
+        max-width: 1100px;
+        min-height: 520px;
+        border-radius: 24px;
+        overflow: hidden;
+        position: relative;
+        z-index: 2;
+        animation: slideUp 0.8s ease-out;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Left branding panel */
+    .login-brand-panel {
+        flex: 1.1;
+        background: linear-gradient(150deg, rgba(108, 99, 255, 0.15) 0%, rgba(6, 182, 212, 0.08) 50%, rgba(108, 99, 255, 0.1) 100%);
+        padding: 60px 48px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        border-right: 1px solid rgba(108, 99, 255, 0.1);
+    }
+    .login-brand-panel::before {
+        content: '';
+        position: absolute;
+        top: -30%; right: -20%;
+        width: 300px; height: 300px;
         background: radial-gradient(circle, rgba(108, 99, 255, 0.1) 0%, transparent 70%);
         border-radius: 50%;
     }
-    .login-hero h1 {
-        font-size: 2.6rem !important;
-        font-weight: 800 !important;
-        color: #ffffff !important;
-        margin: 10px 0 0 0 !important;
-        position: relative;
-        z-index: 1;
+    .login-brand-panel .brand-icon {
+        font-size: 3.5rem;
+        margin-bottom: 12px;
     }
-    .login-hero p {
-        font-size: 1.1rem !important;
-        color: #94a3b8 !important;
-        position: relative;
-        z-index: 1;
+    .login-brand-panel h1 {
+        font-size: 3rem !important;
+        font-weight: 900 !important;
+        color: #ffffff !important;
+        line-height: 1.1 !important;
+        margin: 0 0 16px 0 !important;
+        letter-spacing: -1px;
+    }
+    .login-brand-panel h1 span {
+        background: linear-gradient(135deg, #6C63FF, #06b6d4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .login-brand-panel .brand-tagline {
+        font-size: 1.05rem;
+        color: #94a3b8;
+        line-height: 1.6;
+        margin-bottom: 32px;
+    }
+    .login-brand-panel .brand-features {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .login-brand-panel .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #cbd5e1;
+        font-size: 0.92rem;
+        font-weight: 500;
+    }
+    .login-brand-panel .feature-dot {
+        width: 8px; height: 8px;
+        border-radius: 50%;
+        background: #6C63FF;
+        box-shadow: 0 0 8px rgba(108, 99, 255, 0.5);
+        flex-shrink: 0;
+    }
+    .login-brand-panel .brand-social {
+        margin-top: 36px;
+        display: flex;
+        gap: 16px;
+    }
+    .login-brand-panel .social-icon {
+        width: 36px; height: 36px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        color: #94a3b8;
+        transition: all 0.3s ease;
+    }
+    .login-brand-panel .social-icon:hover {
+        background: rgba(108, 99, 255, 0.2);
+        border-color: rgba(108, 99, 255, 0.4);
+        color: #a5b4fc;
     }
 
-    .login-box {
-        background: rgba(255, 255, 255, 0.03);
+    /* Right form panel */
+    .login-form-panel {
+        flex: 0.9;
+        background: rgba(15, 20, 35, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        padding: 52px 44px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .login-form-panel .form-title {
+        font-size: 1.8rem !important;
+        font-weight: 800 !important;
+        color: #ffffff !important;
+        margin: 0 0 6px 0 !important;
+    }
+    .login-form-panel .form-subtitle {
+        font-size: 0.92rem;
+        color: #64748b;
+        margin-bottom: 28px;
+    }
+    .login-form-panel .form-footer {
+        margin-top: 24px;
+        text-align: center;
+        color: #475569;
+        font-size: 0.82rem;
+        line-height: 1.5;
+    }
+    .login-form-panel .form-footer a {
+        color: #6C63FF;
+        text-decoration: none;
+    }
+
+    /* Demo accounts strip */
+    .demo-strip {
+        background: rgba(108, 99, 255, 0.06);
+        border: 1px solid rgba(108, 99, 255, 0.12);
+        border-radius: 14px;
+        padding: 16px 20px;
+        margin-top: 20px;
+    }
+    .demo-strip .demo-label {
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: #6C63FF;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 10px;
+    }
+
+    /* Registration fullscreen wrapper */
+    .register-fullscreen {
+        min-height: 75vh;
+        background: linear-gradient(-45deg, #0a0e1a, #1a0a2e, #0c1a3a, #0a1628);
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        padding: 40px 20px;
+    }
+    .register-fullscreen::before {
+        content: '';
+        position: absolute;
+        top: 15%; right: 12%;
+        width: 250px; height: 250px;
+        background: radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        animation: floatOrb 9s ease-in-out infinite;
+    }
+    .register-box {
+        background: rgba(15, 20, 35, 0.8);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(108, 99, 255, 0.15);
-        border-radius: 20px;
-        padding: 32px;
-        max-width: 480px;
-        margin: 24px auto;
-        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 48px 44px;
+        max-width: 500px;
+        width: 100%;
+        position: relative;
+        z-index: 2;
+        animation: slideUp 0.8s ease-out;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+    }
+    .register-box .reg-title {
+        font-size: 1.8rem !important;
+        font-weight: 800 !important;
+        color: #ffffff !important;
+        margin: 0 0 6px 0 !important;
+        text-align: center;
+    }
+    .register-box .reg-subtitle {
+        font-size: 0.92rem;
+        color: #64748b;
+        margin-bottom: 28px;
+        text-align: center;
     }
 
     /* ===== GENERAL OVERRIDES ===== */
@@ -378,78 +588,144 @@ if "chat_history" not in st.session_state:
 
 # Authentication Guard
 if not st.session_state["logged_in"]:
-    st.markdown("""
-    <div class="login-hero">
-        <div style="font-size: 3.5rem;">🔐</div>
-        <h1>AI Career Intelligence OS</h1>
-        <p>Your Personal Job-Readiness Operating System</p>
-    </div>
-    """, unsafe_allow_html=True)
 
-    auth_tab1, auth_tab2 = st.tabs(["🔑 Student Login", "📝 Create New Account"])
+    auth_tab1, auth_tab2 = st.tabs(["🔑 Sign In", "📝 Create Account"])
 
     with auth_tab1:
-        st.markdown('<div class="login-box">', unsafe_allow_html=True)
-        st.markdown("### Sign in to Your Workspace")
-        
-        login_user = st.text_input("Username:", key="login_user_input")
-        login_pass = st.text_input("Password:", type="password", key="login_pass_input")
-        
-        if st.button("Sign In", type="primary", use_container_width=True):
-            auth_res = authenticate_user(login_user, login_pass)
-            if auth_res["success"]:
-                st.session_state["logged_in"] = True
-                st.session_state["user_info"] = auth_res
-                prof = load_user_profile(auth_res["user_id"])
-                if prof["has_profile"]:
-                    st.session_state["target_role"] = prof["target_role"]
-                    st.session_state["target_company"] = prof["target_company"]
-                    st.session_state["candidate_text"] = prof["candidate_text"]
-                    st.session_state["candidate_skills"] = prof["candidate_skills"]
-                    st.session_state["github_user"] = prof["github_user"] or "arivera"
-                st.success(f"Welcome back, {auth_res['full_name']}!")
-                st.rerun()
-            else:
-                st.error(auth_res["message"])
+        # ---- Full-screen split-layout login ----
+        st.markdown("""
+        <div class="login-fullscreen">
+            <div class="login-container">
+                <!-- LEFT: Branding Panel -->
+                <div class="login-brand-panel">
+                    <div class="brand-icon">🎯</div>
+                    <h1>Welcome<br><span>Back</span></h1>
+                    <p class="brand-tagline">
+                        Your AI-powered personal job-preparation operating system. 
+                        Track skills, build projects, practice interviews, and measure 
+                        your readiness — all in one place.
+                    </p>
+                    <div class="brand-features">
+                        <div class="feature-item"><div class="feature-dot"></div>7-Factor Job Readiness Score</div>
+                        <div class="feature-item"><div class="feature-dot"></div>AI-Powered Skill Gap Analysis</div>
+                        <div class="feature-item"><div class="feature-dot"></div>Smart Interview Simulator</div>
+                        <div class="feature-item"><div class="feature-dot"></div>Career Route Planner & Roadmap</div>
+                        <div class="feature-item"><div class="feature-dot"></div>Resume ATS Optimizer</div>
+                    </div>
+                    <div class="brand-social">
+                        <div class="social-icon">🌐</div>
+                        <div class="social-icon">💼</div>
+                        <div class="social-icon">🐙</div>
+                        <div class="social-icon">📧</div>
+                    </div>
+                </div>
+                <!-- RIGHT: Form Panel (placeholder - Streamlit widgets go below) -->
+                <div class="login-form-panel">
+                    <div class="form-title">Sign in</div>
+                    <div class="form-subtitle">Enter your credentials to access your workspace</div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
-        st.divider()
-        st.markdown("##### ⚡ Quick Demo Accounts:")
-        col_d1, col_d2 = st.columns(2)
-        with col_d1:
-            if st.button("Alex Rivera (Data Science)", use_container_width=True):
-                auth_res = authenticate_user("alex_rivera", "demo123")
-                st.session_state["logged_in"] = True
-                st.session_state["user_info"] = auth_res
-                st.rerun()
-        with col_d2:
-            if st.button("Sam Chen (Developer)", use_container_width=True):
-                auth_res = authenticate_user("sam_chen", "demo123")
-                st.session_state["logged_in"] = True
-                st.session_state["user_info"] = auth_res
-                default_res = SAMPLE_RESUMES["Software & Web Developer (Sam Chen)"]
-                st.session_state["candidate_text"] = default_res["text"]
-                st.session_state["candidate_skills"] = default_res["extracted_skills"]
-                st.session_state["target_role"] = "Full-Stack Developer"
-                st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
+        # Streamlit form widgets (rendered below the HTML since Streamlit can't inject inside HTML divs)
+        st.markdown("---")
+        
+        login_col_left, login_col_center, login_col_right = st.columns([1, 2, 1])
+        with login_col_center:
+            st.markdown("""
+            <div style="text-align:center; margin-bottom:20px;">
+                <span style="font-size:1.3rem; font-weight:700; color:#ffffff;">🔐 Enter Your Credentials</span>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            login_user = st.text_input("Username", key="login_user_input", placeholder="Enter your username")
+            login_pass = st.text_input("Password", type="password", key="login_pass_input", placeholder="Enter your password")
+            
+            if st.button("🚀  Sign In Now", type="primary", use_container_width=True):
+                auth_res = authenticate_user(login_user, login_pass)
+                if auth_res["success"]:
+                    st.session_state["logged_in"] = True
+                    st.session_state["user_info"] = auth_res
+                    prof = load_user_profile(auth_res["user_id"])
+                    if prof["has_profile"]:
+                        st.session_state["target_role"] = prof["target_role"]
+                        st.session_state["target_company"] = prof["target_company"]
+                        st.session_state["candidate_text"] = prof["candidate_text"]
+                        st.session_state["candidate_skills"] = prof["candidate_skills"]
+                        st.session_state["github_user"] = prof["github_user"] or "arivera"
+                    st.success(f"Welcome back, {auth_res['full_name']}!")
+                    st.rerun()
+                else:
+                    st.error(auth_res["message"])
+
+            # Demo accounts strip
+            st.markdown("""
+            <div class="demo-strip">
+                <div class="demo-label">⚡ Quick Demo Access</div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            demo_c1, demo_c2 = st.columns(2)
+            with demo_c1:
+                if st.button("👤 Alex Rivera — Data Science", use_container_width=True):
+                    auth_res = authenticate_user("alex_rivera", "demo123")
+                    st.session_state["logged_in"] = True
+                    st.session_state["user_info"] = auth_res
+                    st.rerun()
+            with demo_c2:
+                if st.button("👤 Sam Chen — Developer", use_container_width=True):
+                    auth_res = authenticate_user("sam_chen", "demo123")
+                    st.session_state["logged_in"] = True
+                    st.session_state["user_info"] = auth_res
+                    default_res = SAMPLE_RESUMES["Software & Web Developer (Sam Chen)"]
+                    st.session_state["candidate_text"] = default_res["text"]
+                    st.session_state["candidate_skills"] = default_res["extracted_skills"]
+                    st.session_state["target_role"] = "Full-Stack Developer"
+                    st.rerun()
+
+            st.markdown("""
+            <div style="text-align:center; margin-top:18px; color:#475569; font-size:0.82rem;">
+                By signing in, you access your personal AI Career Workspace<br>
+                <span style="color:#6C63FF;">Terms of Service</span> · <span style="color:#6C63FF;">Privacy Policy</span>
+            </div>
+            """, unsafe_allow_html=True)
 
     with auth_tab2:
-        st.markdown('<div class="login-box">', unsafe_allow_html=True)
-        st.markdown("### Create Your Account")
-        reg_name = st.text_input("Full Name:", key="reg_name_input")
-        reg_user = st.text_input("Choose Username:", key="reg_user_input")
-        reg_pass = st.text_input("Choose Password:", type="password", key="reg_pass_input")
+        # ---- Registration page ----
+        st.markdown("""
+        <div class="register-fullscreen">
+            <div class="register-box">
+                <div style="text-align:center; font-size:3rem; margin-bottom:8px;">🚀</div>
+                <div class="reg-title">Create Account</div>
+                <div class="reg-subtitle">Start your AI-powered career journey today</div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
         
-        if st.button("Register & Create Workspace", type="primary", use_container_width=True):
-            reg_res = register_user(reg_user, reg_pass, reg_name)
-            if reg_res["success"]:
-                st.success("Account created! Signing in...")
-                st.session_state["logged_in"] = True
-                st.session_state["user_info"] = {"user_id": reg_res["user_id"], "username": reg_res["username"], "full_name": reg_res["full_name"]}
-                st.rerun()
-            else:
-                st.error(reg_res["message"])
-        st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown("---")
+        
+        reg_col_l, reg_col_c, reg_col_r = st.columns([1, 2, 1])
+        with reg_col_c:
+            st.markdown("""
+            <div style="text-align:center; margin-bottom:20px;">
+                <span style="font-size:1.3rem; font-weight:700; color:#ffffff;">📝 Create Your Workspace</span>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            reg_name = st.text_input("Full Name", key="reg_name_input", placeholder="Your full name")
+            reg_user = st.text_input("Choose Username", key="reg_user_input", placeholder="Pick a username")
+            reg_pass = st.text_input("Choose Password", type="password", key="reg_pass_input", placeholder="Create a secure password")
+            
+            if st.button("🎯  Register & Launch Workspace", type="primary", use_container_width=True):
+                reg_res = register_user(reg_user, reg_pass, reg_name)
+                if reg_res["success"]:
+                    st.success("✅ Account created! Signing in...")
+                    st.session_state["logged_in"] = True
+                    st.session_state["user_info"] = {"user_id": reg_res["user_id"], "username": reg_res["username"], "full_name": reg_res["full_name"]}
+                    st.rerun()
+                else:
+                    st.error(reg_res["message"])
 
     st.stop()
 
