@@ -549,7 +549,6 @@ if not st.session_state["logged_in"]:
     if "auth_mode" not in st.session_state:
         st.session_state["auth_mode"] = "Sign In"
 
-    # Wrapper container matching the user image reference
     st.markdown('<div class="auth-bg-wrapper">', unsafe_allow_html=True)
     
     brand_col, form_col = st.columns([1.15, 0.85], gap="large")
@@ -558,177 +557,141 @@ if not st.session_state["logged_in"]:
     # LEFT COLUMN: BRANDING, FEATURES & 3D GRAPHIC
     # ==========================================
     with brand_col:
-        st.markdown("""
-        <div>
-            <!-- Brand Badge -->
-            <div class="brand-logo-badge">
-                <div class="brand-logo-icon">
-                    <span>A<sup style="font-size:0.75rem;">✦</sup></span>
-                </div>
-                <div>
-                    <div style="font-size: 0.95rem; font-weight: 800; color: #FFFFFF; letter-spacing: 2px; line-height: 1.2;">AI RESUME</div>
-                    <div style="font-size: 0.72rem; font-weight: 700; color: #818CF8; letter-spacing: 1.5px;">CAREER NAVIGATOR</div>
-                </div>
-            </div>
+        st.markdown("""<div>
+<!-- Brand Badge -->
+<div class="brand-logo-badge">
+<div class="brand-logo-icon">
+<span>A<sup style="font-size:0.75rem;">✦</sup></span>
+</div>
+<div>
+<div style="font-size: 0.95rem; font-weight: 800; color: #FFFFFF; letter-spacing: 2px; line-height: 1.2;">AI RESUME</div>
+<div style="font-size: 0.72rem; font-weight: 700; color: #818CF8; letter-spacing: 1.5px;">CAREER NAVIGATOR</div>
+</div>
+</div>
 
-            <!-- Main Titles -->
-            <h1 class="brand-title-main">AI Resume</h1>
-            <div class="brand-title-gradient">Career Navigator</div>
-            
-            <div class="brand-subtitle-text">
-                Navigate your career. Build your future.<br>
-                Powered by AI.
-            </div>
+<!-- Main Titles -->
+<h1 class="brand-title-main">AI Resume</h1>
+<div class="brand-title-gradient">Career Navigator</div>
 
-            <!-- 3 Core Features -->
-            <div style="margin-bottom: 28px;">
-                <!-- Feature 1 -->
-                <div class="feature-item-card">
-                    <div class="feature-icon-box" style="color: #38BDF8;">
-                        🧠
-                    </div>
-                    <div>
-                        <div class="feature-text-title">AI Powered Resume Analysis</div>
-                        <div class="feature-text-desc">Get AI-driven insights to improve your resume and skills.</div>
-                    </div>
-                </div>
+<div class="brand-subtitle-text">
+Navigate your career. Build your future.<br>
+Powered by AI.
+</div>
 
-                <!-- Feature 2 -->
-                <div class="feature-item-card">
-                    <div class="feature-icon-box" style="color: #C084FC;">
-                        🎯
-                    </div>
-                    <div>
-                        <div class="feature-text-title">ATS Score Optimization</div>
-                        <div class="feature-text-desc">Optimize your resume for ATS and increase interview chances.</div>
-                    </div>
-                </div>
+<!-- 3 Core Features -->
+<div style="margin-bottom: 28px;">
+<!-- Feature 1 -->
+<div class="feature-item-card">
+<div class="feature-icon-box" style="color: #38BDF8;">🧠</div>
+<div>
+<div class="feature-text-title">AI Powered Resume Analysis</div>
+<div class="feature-text-desc">Get AI-driven insights to improve your resume and skills.</div>
+</div>
+</div>
 
-                <!-- Feature 3 -->
-                <div class="feature-item-card">
-                    <div class="feature-icon-box" style="color: #60A5FA;">
-                        📈
-                    </div>
-                    <div>
-                        <div class="feature-text-title">Personalized Career Guidance</div>
-                        <div class="feature-text-desc">Discover the best career paths and opportunities for you.</div>
-                    </div>
-                </div>
-            </div>
+<!-- Feature 2 -->
+<div class="feature-item-card">
+<div class="feature-icon-box" style="color: #C084FC;">🎯</div>
+<div>
+<div class="feature-text-title">ATS Score Optimization</div>
+<div class="feature-text-desc">Optimize your resume for ATS and increase interview chances.</div>
+</div>
+</div>
 
-            <!-- 3D Glowing ATS Resume & Growth Graph Graphic -->
-            <div style="position: relative; width: 100%; max-width: 440px; margin-top: 10px;">
-                <svg viewBox="0 0 440 220" width="100%" height="100%" style="overflow: visible; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.6));">
-                    <defs>
-                        <!-- Gradients -->
-                        <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.8"/>
-                            <stop offset="100%" stop-color="#1E1B4B" stop-opacity="0.9"/>
-                        </linearGradient>
-                        <linearGradient id="barGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#60A5FA"/>
-                            <stop offset="100%" stop-color="#1D4ED8"/>
-                        </linearGradient>
-                        <linearGradient id="barGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#818CF8"/>
-                            <stop offset="100%" stop-color="#4338CA"/>
-                        </linearGradient>
-                        <linearGradient id="barGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#C084FC"/>
-                            <stop offset="100%" stop-color="#7E22CE"/>
-                        </linearGradient>
-                        <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="#38BDF8"/>
-                            <stop offset="100%" stop-color="#A855F7"/>
-                        </linearGradient>
-                        <radialGradient id="platformGlow" cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stop-color="#6366F1" stop-opacity="0.4"/>
-                            <stop offset="100%" stop-color="#0F172A" stop-opacity="0"/>
-                        </radialGradient>
-                    </defs>
+<!-- Feature 3 -->
+<div class="feature-item-card">
+<div class="feature-icon-box" style="color: #60A5FA;">📈</div>
+<div>
+<div class="feature-text-title">Personalized Career Guidance</div>
+<div class="feature-text-desc">Discover the best career paths and opportunities for you.</div>
+</div>
+</div>
+</div>
 
-                    <!-- Platform Glow Base -->
-                    <ellipse cx="220" cy="180" rx="180" ry="35" fill="url(#platformGlow)"/>
-                    <ellipse cx="220" cy="180" rx="150" ry="28" fill="none" stroke="rgba(99, 102, 241, 0.3)" stroke-width="1.5"/>
+<!-- 3D Glowing ATS Resume & Growth Graph Graphic -->
+<div style="position: relative; width: 100%; max-width: 440px; margin-top: 10px;">
+<svg viewBox="0 0 440 220" width="100%" height="100%" style="overflow: visible; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.6));">
+<defs>
+<linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#3B82F6" stop-opacity="0.8"/>
+<stop offset="100%" stop-color="#1E1B4B" stop-opacity="0.9"/>
+</linearGradient>
+<linearGradient id="barGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" stop-color="#60A5FA"/>
+<stop offset="100%" stop-color="#1D4ED8"/>
+</linearGradient>
+<linearGradient id="barGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" stop-color="#818CF8"/>
+<stop offset="100%" stop-color="#4338CA"/>
+</linearGradient>
+<linearGradient id="barGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" stop-color="#C084FC"/>
+<stop offset="100%" stop-color="#7E22CE"/>
+</linearGradient>
+<linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+<stop offset="0%" stop-color="#38BDF8"/>
+<stop offset="100%" stop-color="#A855F7"/>
+</linearGradient>
+<radialGradient id="platformGlow" cx="50%" cy="50%" r="50%">
+<stop offset="0%" stop-color="#6366F1" stop-opacity="0.4"/>
+<stop offset="100%" stop-color="#0F172A" stop-opacity="0"/>
+</radialGradient>
+</defs>
 
-                    <!-- Left Isometric Resume Card -->
-                    <g transform="translate(60, 20) rotate(-4)">
-                        <!-- Card Background -->
-                        <rect x="0" y="0" width="160" height="150" rx="18" fill="url(#cardGrad)" stroke="rgba(147, 197, 253, 0.4)" stroke-width="2"/>
-                        
-                        <!-- Avatar Profile Box -->
-                        <rect x="18" y="20" width="40" height="40" rx="10" fill="rgba(255,255,255,0.15)"/>
-                        <circle cx="38" cy="36" r="10" fill="#93C5FD"/>
-                        <path d="M26 54 Q38 42 50 54" fill="#93C5FD"/>
+<!-- Platform Glow Base -->
+<ellipse cx="220" cy="180" rx="180" ry="35" fill="url(#platformGlow)"/>
+<ellipse cx="220" cy="180" rx="150" ry="28" fill="none" stroke="rgba(99, 102, 241, 0.3)" stroke-width="1.5"/>
 
-                        <!-- Header Lines -->
-                        <rect x="68" y="24" width="72" height="7" rx="3.5" fill="#FFFFFF" opacity="0.9"/>
-                        <rect x="68" y="38" width="50" height="6" rx="3" fill="#93C5FD" opacity="0.6"/>
+<!-- Left Isometric Resume Card -->
+<g transform="translate(60, 20) rotate(-4)">
+<rect x="0" y="0" width="160" height="150" rx="18" fill="url(#cardGrad)" stroke="rgba(147, 197, 253, 0.4)" stroke-width="2"/>
+<rect x="18" y="20" width="40" height="40" rx="10" fill="rgba(255,255,255,0.15)"/>
+<circle cx="38" cy="36" r="10" fill="#93C5FD"/>
+<path d="M26 54 Q38 42 50 54" fill="#93C5FD"/>
+<rect x="68" y="24" width="72" height="7" rx="3.5" fill="#FFFFFF" opacity="0.9"/>
+<rect x="68" y="38" width="50" height="6" rx="3" fill="#93C5FD" opacity="0.6"/>
+<text x="18" y="80" font-size="12" fill="#FBBF24">★★★★★</text>
+<rect x="18" y="96" width="124" height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
+<rect x="18" y="96" width="98" height="6" rx="3" fill="#38BDF8"/>
+<rect x="18" y="112" width="124" height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
+<rect x="18" y="112" width="112" height="6" rx="3" fill="#A855F7"/>
+<rect x="18" y="128" width="124" height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
+<rect x="18" y="128" width="80" height="6" rx="3" fill="#34D399"/>
+</g>
 
-                        <!-- Stars -->
-                        <text x="18" y="80" font-size="12" fill="#FBBF24">★★★★★</text>
-
-                        <!-- Progress Bar Rows -->
-                        <rect x="18" y="96" width="124" height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
-                        <rect x="18" y="96" width="98" height="6" rx="3" fill="#38BDF8"/>
-
-                        <rect x="18" y="112" width="124" height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
-                        <rect x="18" y="112" width="112" height="6" rx="3" fill="#A855F7"/>
-
-                        <rect x="18" y="128" width="124" height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
-                        <rect x="18" y="128" width="80" height="6" rx="3" fill="#34D399"/>
-                    </g>
-
-                    <!-- Right Isometric 3D Analytics Bars -->
-                    <g transform="translate(240, 50)">
-                        <!-- 3D Bar 1 -->
-                        <rect x="15" y="80" width="22" height="65" rx="6" fill="url(#barGrad1)"/>
-                        <ellipse cx="26" cy="80" rx="11" ry="5" fill="#93C5FD"/>
-
-                        <!-- 3D Bar 2 -->
-                        <rect x="50" y="55" width="22" height="90" rx="6" fill="url(#barGrad2)"/>
-                        <ellipse cx="61" cy="55" rx="11" ry="5" fill="#C7D2FE"/>
-
-                        <!-- 3D Bar 3 -->
-                        <rect x="85" y="30" width="22" height="115" rx="6" fill="url(#barGrad3)"/>
-                        <ellipse cx="96" cy="30" rx="11" ry="5" fill="#E9D5FF"/>
-
-                        <!-- Connected Trend Line -->
-                        <path d="M-10 75 Q26 40 61 25 T120 -5" fill="none" stroke="url(#lineGrad)" stroke-width="3.5" stroke-linecap="round"/>
-                        
-                        <!-- Glowing Nodes on Trend Line -->
-                        <circle cx="-10" cy="75" r="5" fill="#38BDF8" filter="drop-shadow(0 0 6px #38BDF8)"/>
-                        <circle cx="26" cy="52" r="5" fill="#60A5FA" filter="drop-shadow(0 0 6px #60A5FA)"/>
-                        <circle cx="61" cy="25" r="5.5" fill="#A855F7" filter="drop-shadow(0 0 8px #A855F7)"/>
-                        <circle cx="105" cy="5" r="6" fill="#F472B6" filter="drop-shadow(0 0 10px #F472B6)"/>
-                    </g>
-                </svg>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+<!-- Right Isometric 3D Analytics Bars -->
+<g transform="translate(240, 50)">
+<rect x="15" y="80" width="22" height="65" rx="6" fill="url(#barGrad1)"/>
+<ellipse cx="26" cy="80" rx="11" ry="5" fill="#93C5FD"/>
+<rect x="50" y="55" width="22" height="90" rx="6" fill="url(#barGrad2)"/>
+<ellipse cx="61" cy="55" rx="11" ry="5" fill="#C7D2FE"/>
+<rect x="85" y="30" width="22" height="115" rx="6" fill="url(#barGrad3)"/>
+<ellipse cx="96" cy="30" rx="11" ry="5" fill="#E9D5FF"/>
+<path d="M-10 75 Q26 40 61 25 T120 -5" fill="none" stroke="url(#lineGrad)" stroke-width="3.5" stroke-linecap="round"/>
+<circle cx="-10" cy="75" r="5" fill="#38BDF8" filter="drop-shadow(0 0 6px #38BDF8)"/>
+<circle cx="26" cy="52" r="5" fill="#60A5FA" filter="drop-shadow(0 0 6px #60A5FA)"/>
+<circle cx="61" cy="25" r="5.5" fill="#A855F7" filter="drop-shadow(0 0 8px #A855F7)"/>
+<circle cx="105" cy="5" r="6" fill="#F472B6" filter="drop-shadow(0 0 10px #F472B6)"/>
+</g>
+</svg>
+</div>
+</div>""", unsafe_allow_html=True)
 
     # ==========================================
     # RIGHT COLUMN: SLEEK GLASSMORPHIC LOGIN CARD
     # ==========================================
     with form_col:
-        st.markdown("""
-        <div class="auth-glass-card">
-            <!-- Top App Badge -->
-            <div class="auth-card-top-icon">
-                <span>A<sup style="font-size:0.9rem;">✦</sup></span>
-            </div>
-        """, unsafe_allow_html=True)
+        st.markdown("""<div class="auth-glass-card">
+<div class="auth-card-top-icon">
+<span>A<sup style="font-size:0.9rem;">✦</sup></span>
+</div>""", unsafe_allow_html=True)
 
         if st.session_state["auth_mode"] == "Sign In":
-            st.markdown("""
-                <div class="auth-card-title">Welcome back!</div>
-                <div class="auth-card-subtitle">Sign in to continue your career journey</div>
-            """, unsafe_allow_html=True)
+            st.markdown("""<div class="auth-card-title">Welcome back!</div>
+<div class="auth-card-subtitle">Sign in to continue your career journey</div>""", unsafe_allow_html=True)
         else:
-            st.markdown("""
-                <div class="auth-card-title">Create Account</div>
-                <div class="auth-card-subtitle">Join the AI career operating system</div>
-            """, unsafe_allow_html=True)
+            st.markdown("""<div class="auth-card-title">Create Account</div>
+<div class="auth-card-subtitle">Join the AI career operating system</div>""", unsafe_allow_html=True)
 
         # Tab Switcher inside the card
         col_tab1, col_tab2 = st.columns(2)
@@ -797,11 +760,9 @@ if not st.session_state["logged_in"]:
                     st.rerun()
 
             # Switch link
-            st.markdown("""
-            <div style="text-align:center; margin-top:20px; font-size:0.85rem; color:#94a3b8;">
-                Don't have an account? <span style="color:#818CF8; font-weight:700;">Sign Up</span>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown("""<div style="text-align:center; margin-top:20px; font-size:0.85rem; color:#94a3b8;">
+Don't have an account? <span style="color:#818CF8; font-weight:700;">Sign Up</span>
+</div>""", unsafe_allow_html=True)
 
         else:
             # SIGN UP MODE
@@ -826,20 +787,16 @@ if not st.session_state["logged_in"]:
                 else:
                     st.error(reg_res["message"])
 
-            st.markdown("""
-            <div style="text-align:center; margin-top:20px; font-size:0.85rem; color:#94a3b8;">
-                Already have an account? <span style="color:#818CF8; font-weight:700;">Sign In</span>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown("""<div style="text-align:center; margin-top:20px; font-size:0.85rem; color:#94a3b8;">
+Already have an account? <span style="color:#818CF8; font-weight:700;">Sign In</span>
+</div>""", unsafe_allow_html=True)
 
         # Security Footnote
-        st.markdown("""
-            <div class="auth-security-footer">
-                🛡️ Your data is secure with us.<br>
-                We never share your information.
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown("""<div class="auth-security-footer">
+🛡️ Your data is secure with us.<br>
+We never share your information.
+</div>
+</div>""", unsafe_allow_html=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
     st.stop()
