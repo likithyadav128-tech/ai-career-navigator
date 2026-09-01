@@ -12,7 +12,9 @@ from modules.sample_data import SAMPLE_RESUMES, SAMPLE_JOB_DESCRIPTIONS
 from modules.user_auth_db import (
     register_user, authenticate_user, save_user_profile, load_user_profile
 )
-from modules.resume_analyzer import extract_text_from_pdf, extract_skills_from_text, evaluate_resume_quality
+from modules.resume_analyzer import (
+    extract_text_from_pdf, extract_skills_from_text, evaluate_resume_quality, SKILL_TAXONOMY
+)
 from modules.job_analyzer import analyze_job_description
 from modules.skill_gap_engine import analyze_skill_gaps
 from modules.company_role_profiles import ROLE_TAXONOMY, COMPANY_PROFILES, SKILL_DEPENDENCY_GRAPH
