@@ -82,16 +82,60 @@ ROLE_SKILL_HIERARCHIES = {
     ]
 }
 
+SKILL_SYNONYMS = {
+    "excel": {"excel", "ms excel", "microsoft excel", "spreadsheets", "advanced excel", "vlookup", "pivot tables"},
+    "joins": {"joins", "join", "sql joins", "inner join", "left join", "cross join"},
+    "window functions": {"window functions", "window function", "analytic functions"},
+    "subqueries & ctes": {"subqueries & ctes", "subqueries", "subquery", "cte", "ctes", "common table expressions"},
+    "executive dashboards": {"executive dashboards", "dashboards", "dashboard", "interactive dashboards", "business dashboards"},
+    "data storytelling": {"data storytelling", "storytelling", "data presentation"},
+    "exploratory data analysis": {"exploratory data analysis", "eda", "data exploration"},
+    "a/b testing": {"a/b testing", "ab testing"},
+    "hypothesis testing": {"hypothesis testing", "statistical testing"},
+    "statistics": {"statistics", "applied statistics", "statistical analysis"},
+    "machine learning": {"machine learning", "ml"},
+    "deep learning": {"deep learning", "dl", "neural networks"},
+    "feature engineering": {"feature engineering", "data transformation"},
+    "mlops": {"mlops", "machine learning operations"},
+    "ci/cd": {"ci/cd", "cicd", "continuous integration"}
+}
+
+def is_skill_present(skill: str, cand_set: set) -> bool:
+    """Checks if a skill is present in candidate skills, matching canonical names, synonyms, and variations."""
+    s_lower = skill.lower().strip()
+    if s_lower in cand_set:
+        return True
+        
+    # Check singular/plural variations
+    if s_lower.endswith("s") and s_lower[:-1] in cand_set:
+        return True
+    if (s_lower + "s") in cand_set:
+        return True
+        
+    # Check mapped synonyms
+    synonyms = SKILL_SYNONYMS.get(s_lower, set())
+    if any(syn in cand_set for syn in synonyms):
+        return True
+        
+    # Partial token match for multi-word skills
+    for c in cand_set:
+        if s_lower in c or c in s_lower:
+            # Avoid false positives like "r" in "pytorch"
+            if len(s_lower) >= 4 and len(c) >= 4:
+                return True
+                
+    return False
+
 def analyze_hierarchical_skill_tree(candidate_skills: list, target_role: str = "Data Analyst") -> dict:
     """
     Analyzes skill mastery based on hierarchy level and prerequisite readiness.
     
     Status Rules:
-    - 🟢 STRONG / MASTERED: Candidate possesses exact skill.
+    - 🟢 STRONG / MASTERED: Candidate possesses exact skill or recognized synonym.
     - 🚀 NEXT IMMEDIATE LEARNING TARGET: Skill missing, BUT ALL PREREQUISITES ARE SATISFIED!
     - 🔒 BLOCKED: Skill missing AND one or more prerequisites are missing.
     """
-    cand_set = {s.lower() for s in candidate_skills}
+    cand_set = {s.lower().strip() for s in candidate_skills if s}
     hierarchy = ROLE_SKILL_HIERARCHIES.get(target_role, ROLE_SKILL_HIERARCHIES["Data Analyst"])
     
     levels = {1: [], 2: [], 3: [], 4: []}
@@ -109,10 +153,10 @@ def analyze_hierarchical_skill_tree(candidate_skills: list, target_role: str = "
         category = item["category"]
         
         # Check if candidate has skill
-        has_skill = skill_name.lower() in cand_set
+        has_skill = is_skill_present(skill_name, cand_set)
         
         # Check prerequisites
-        missing_prereqs = [p for p in prereqs if p.lower() not in cand_set]
+        missing_prereqs = [p for p in prereqs if not is_skill_present(p, cand_set)]
         prereqs_satisfied = len(missing_prereqs) == 0
         
         if has_skill:

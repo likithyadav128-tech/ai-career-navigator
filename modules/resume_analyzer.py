@@ -11,10 +11,21 @@ except ImportError:
     pypdf = None
 
 # Comprehensive Tech & Soft Skills Taxonomy
+# Comprehensive Tech & Soft Skills Taxonomy
 SKILL_TAXONOMY = {
     # Programming Languages
     "python": "Python", "sql": "SQL", "r": "R", "java": "Java", "c++": "C++", "javascript": "JavaScript",
-    "typescript": "TypeScript", "c#": "C#", "go": "Go", "rust": "Rust", "bash": "Bash", "scala": "Scala",
+    "typescript": "TypeScript", "c#": "C#", "go": "Go", "golang": "Go", "rust": "Rust", "bash": "Bash", "scala": "Scala",
+    
+    # Spreadsheets & Analytical Tools
+    "excel": "Excel", "ms excel": "Excel", "microsoft excel": "Excel", "advanced excel": "Excel",
+    "vlookup": "Excel", "xlookup": "Excel", "pivot tables": "Excel", "pivot table": "Excel", "spreadsheets": "Excel", "spreadsheet": "Excel",
+    
+    # SQL & Database Concepts
+    "joins": "JOINs", "join": "JOINs", "sql joins": "JOINs", "inner join": "JOINs", "left join": "JOINs", "outer join": "JOINs",
+    "window functions": "Window Functions", "analytic functions": "Window Functions", "window function": "Window Functions",
+    "subqueries": "Subqueries & CTEs", "subquery": "Subqueries & CTEs", "cte": "Subqueries & CTEs", "ctes": "Subqueries & CTEs",
+    "subqueries & ctes": "Subqueries & CTEs", "common table expressions": "Subqueries & CTEs",
     
     # ML / AI / Data Science
     "machine learning": "Machine Learning", "deep learning": "Deep Learning", "nlp": "Natural Language Processing",
@@ -23,6 +34,9 @@ SKILL_TAXONOMY = {
     "xgboost": "XGBoost", "lightgbm": "LightGBM", "pandas": "Pandas", "numpy": "NumPy", "scipy": "SciPy",
     "bert": "BERT", "transformers": "Transformers", "llm": "LLMs", "large language models": "LLMs",
     "hugging face": "Hugging Face", "langchain": "LangChain", "genai": "Generative AI",
+    "vector databases": "Vector Databases", "vector database": "Vector Databases", "vector db": "Vector Databases",
+    "pinecone": "Vector Databases", "chromadb": "Vector Databases", "weaviate": "Vector Databases",
+    "rag": "RAG", "prompt engineering": "Prompt Engineering", "cuda": "CUDA",
     
     # Data Engineering & Databases
     "postgresql": "PostgreSQL", "postgres": "PostgreSQL", "mysql": "MySQL", "mongodb": "MongoDB",
@@ -32,6 +46,9 @@ SKILL_TAXONOMY = {
     # Visualization & BI
     "tableau": "Tableau", "power bi": "Power BI", "plotly": "Plotly", "matplotlib": "Matplotlib",
     "seaborn": "Seaborn", "looker": "Looker",
+    "dashboards": "Executive Dashboards", "dashboard": "Executive Dashboards",
+    "executive dashboards": "Executive Dashboards", "interactive dashboards": "Executive Dashboards",
+    "data storytelling": "Data Storytelling", "storytelling": "Data Storytelling",
     
     # Web & API Frameworks
     "fastapi": "FastAPI", "flask": "Flask", "django": "Django", "streamlit": "Streamlit",
@@ -42,9 +59,10 @@ SKILL_TAXONOMY = {
     "git": "Git", "github": "GitHub", "linux": "Linux", "mlops": "MLOps", "ci/cd": "CI/CD",
     "airflow": "Apache Airflow", "mlflow": "MLflow",
     
-    # Concepts & Analytics
+    # Concepts & Mathematics
     "statistics": "Statistics", "applied statistics": "Statistics", "hypothesis testing": "Hypothesis Testing",
     "a/b testing": "A/B Testing", "feature engineering": "Feature Engineering",
+    "linear algebra": "Linear Algebra",
     "eda": "Exploratory Data Analysis", "exploratory data analysis": "Exploratory Data Analysis",
     "time series": "Time Series Forecasting", "recommendation systems": "Recommendation Systems",
     
@@ -76,20 +94,34 @@ def extract_text_from_pdf(pdf_file) -> str:
         return f"Error parsing PDF: {str(e)}"
 
 def extract_skills_from_text(text: str) -> list:
-    """Extract recognized technical & soft skills from resume text."""
+    """Extract recognized technical & soft skills from resume text or skill list."""
+    if not text:
+        return []
+        
     lower_text = text.lower()
     found_skills = set()
     
-    # Search for skills using taxonomy
+    # 1. Search for skills using taxonomy dictionary
     for term, canonical_name in SKILL_TAXONOMY.items():
-        # Word boundary check for accuracy
         pattern = r'\b' + re.escape(term) + r'\b'
         if re.search(pattern, lower_text):
             found_skills.add(canonical_name)
             
-    # Also capture custom capitalized acronyms / technologies in text
+    # 2. Check comma/bullet/newline-separated direct tokens
+    tokens = re.split(r'[,;\n•|/\t]+', text)
+    for token in tokens:
+        cleaned = token.strip()
+        cleaned_lower = cleaned.lower()
+        if cleaned_lower in SKILL_TAXONOMY:
+            found_skills.add(SKILL_TAXONOMY[cleaned_lower])
+        elif len(cleaned) >= 2 and cleaned_lower in {s.lower() for s in SKILL_TAXONOMY.values()}:
+            for canon in SKILL_TAXONOMY.values():
+                if canon.lower() == cleaned_lower:
+                    found_skills.add(canon)
+            
+    # 3. Capture custom capitalized acronyms / technologies in text
     custom_matches = re.findall(r'\b[A-Z][a-zA-Z0-9\+#]{1,15}\b', text)
-    known_tech = {"SQL", "AWS", "GCP", "BERT", "API", "REST", "JSON", "SMOTE", "NLP", "CUDA", "CI/CD", "MLOps", "LLM"}
+    known_tech = {"SQL", "AWS", "GCP", "BERT", "API", "REST", "JSON", "SMOTE", "NLP", "CUDA", "CI/CD", "MLOps", "LLM", "RAG"}
     for m in custom_matches:
         if m in known_tech:
             found_skills.add(m)

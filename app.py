@@ -831,7 +831,7 @@ with st.sidebar:
 
     st.divider()
 
-    st.subheader("2. Resume Source")
+    st.subheader("2. Resume Source & Skills")
     sample_res_choice = st.selectbox(
         "Load Profile:",
         ["Custom Upload / Input", "Data Science Student (Alex Rivera)", "Software & Web Developer (Sam Chen)"]
@@ -839,18 +839,29 @@ with st.sidebar:
     
     if sample_res_choice != "Custom Upload / Input":
         st.session_state["candidate_text"] = SAMPLE_RESUMES[sample_res_choice]["text"]
-        st.session_state["candidate_skills"] = SAMPLE_RESUMES[sample_res_choice]["extracted_skills"]
+        st.session_state["candidate_skills"] = list(SAMPLE_RESUMES[sample_res_choice]["extracted_skills"])
     else:
         uploaded_pdf = st.file_uploader("Upload PDF Resume", type=["pdf"])
         if uploaded_pdf is not None:
             pdf_text = extract_text_from_pdf(uploaded_pdf)
             st.session_state["candidate_text"] = pdf_text
-            st.session_state["candidate_skills"] = extract_skills_from_text(pdf_text)
+            extracted = extract_skills_from_text(pdf_text)
+            st.session_state["candidate_skills"] = sorted(list(set(st.session_state.get("candidate_skills", []) + extracted)))
         else:
-            resume_text_input = st.text_area("Or Paste Resume Text:", value=st.session_state["candidate_text"], height=140)
-            if resume_text_input:
+            resume_text_input = st.text_area("Or Paste Resume Text / Skill List:", value=st.session_state["candidate_text"], height=130)
+            if resume_text_input != st.session_state["candidate_text"]:
                 st.session_state["candidate_text"] = resume_text_input
                 st.session_state["candidate_skills"] = extract_skills_from_text(resume_text_input)
+
+    # Direct Skill Selector / Manager
+    all_known_skills = sorted(list(set(SKILL_TAXONOMY.values())))
+    selected_skill_list = st.multiselect(
+        "Manage Mastered Skills:",
+        options=all_known_skills,
+        default=[s for s in st.session_state["candidate_skills"] if s in all_known_skills],
+        help="Add or remove any skills you know. Changes immediately recalculate your Job Readiness and Skill Hierarchy Tree."
+    )
+    st.session_state["candidate_skills"] = sorted(list(set(selected_skill_list)))
 
     st.divider()
 

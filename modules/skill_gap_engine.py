@@ -14,15 +14,22 @@ SKILL_RELATIONSHIPS = {
     "Flask": ["FastAPI", "Django", "Python", "REST APIs"],
     "PostgreSQL": ["SQL", "MySQL", "SQLite", "Database Management"],
     "MySQL": ["SQL", "PostgreSQL", "SQLite"],
+    "JOINs": ["SQL", "PostgreSQL", "MySQL"],
+    "Window Functions": ["SQL", "JOINs", "PostgreSQL"],
+    "Subqueries & CTEs": ["SQL", "JOINs", "PostgreSQL"],
+    "Excel": ["Power BI", "Tableau", "Spreadsheets"],
     "Tableau": ["Power BI", "Plotly", "Matplotlib", "Seaborn"],
     "Power BI": ["Tableau", "Plotly", "Excel"],
+    "Exploratory Data Analysis": ["Pandas", "Python", "Data Analysis", "Statistics"],
+    "Data Storytelling": ["Communication", "Power BI", "Tableau"],
     "PySpark": ["Pandas", "Python", "SQL", "Big Data"],
     "MLOps": ["Docker", "Git", "CI/CD", "Machine Learning"],
     "Docker": ["Kubernetes", "Linux", "DevOps"],
     "AWS": ["GCP", "Azure", "Cloud Computing"],
     "GCP": ["AWS", "Azure", "Cloud Computing"],
     "A/B Testing": ["Statistics", "Hypothesis Testing", "Data Analysis"],
-    "Hypothesis Testing": ["Statistics", "Data Analysis"]
+    "Hypothesis Testing": ["Statistics", "Data Analysis"],
+    "Communication": ["Data Storytelling", "Team Collaboration", "Presentation"]
 }
 
 def analyze_skill_gaps(candidate_skills: list, required_skills: list) -> dict:
