@@ -83,13 +83,26 @@ def extract_text_from_pdf(pdf_file) -> str:
     if pypdf is None:
         return "PDF parser not installed."
     try:
-        reader = pypdf.PdfReader(pdf_file)
-        text = ""
-        for page in reader.pages:
-            t = page.extract_text()
-            if t:
-                text += t + "\n"
-        return text.strip()
+        if hasattr(pdf_file, "seek"):
+            pdf_file.seek(0)
+        
+        # Read bytes if Streamlit UploadedFile
+        if hasattr(pdf_file, "getvalue"):
+            file_stream = io.BytesIO(pdf_file.getvalue())
+        elif isinstance(pdf_file, bytes):
+            file_stream = io.BytesIO(pdf_file)
+        else:
+            file_stream = pdf_file
+            
+        reader = pypdf.PdfReader(file_stream)
+        text_parts = []
+        for page_idx, page in enumerate(reader.pages):
+            page_text = page.extract_text()
+            if page_text:
+                text_parts.append(page_text)
+                
+        full_text = "\n".join(text_parts).strip()
+        return full_text if full_text else "No extractable text found in PDF. Please paste resume text below."
     except Exception as e:
         return f"Error parsing PDF: {str(e)}"
 

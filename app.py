@@ -839,31 +839,57 @@ with st.sidebar:
         ["Custom Upload / Input", "Data Science Student (Alex Rivera)", "Software & Web Developer (Sam Chen)"]
     )
     
-    if sample_res_choice != "Custom Upload / Input":
-        st.session_state["candidate_text"] = SAMPLE_RESUMES[sample_res_choice]["text"]
-        st.session_state["candidate_skills"] = list(SAMPLE_RESUMES[sample_res_choice]["extracted_skills"])
-    else:
+    # Handle sample profile changes
+    if "last_sample_choice" not in st.session_state:
+        st.session_state["last_sample_choice"] = sample_res_choice
+        
+    if sample_res_choice != st.session_state["last_sample_choice"]:
+        st.session_state["last_sample_choice"] = sample_res_choice
+        if sample_res_choice != "Custom Upload / Input":
+            st.session_state["candidate_text"] = SAMPLE_RESUMES[sample_res_choice]["text"]
+            st.session_state["candidate_skills"] = list(SAMPLE_RESUMES[sample_res_choice]["extracted_skills"])
+            if "mastered_skills_ms" in st.session_state:
+                del st.session_state["mastered_skills_ms"]
+            st.rerun()
+
+    if sample_res_choice == "Custom Upload / Input":
         uploaded_pdf = st.file_uploader("Upload PDF Resume", type=["pdf"])
         if uploaded_pdf is not None:
-            pdf_text = extract_text_from_pdf(uploaded_pdf)
-            st.session_state["candidate_text"] = pdf_text
-            extracted = extract_skills_from_text(pdf_text)
-            st.session_state["candidate_skills"] = sorted(list(set(st.session_state.get("candidate_skills", []) + extracted)))
+            # Check if this is a newly uploaded file
+            if st.session_state.get("last_uploaded_filename") != uploaded_pdf.name:
+                st.session_state["last_uploaded_filename"] = uploaded_pdf.name
+                pdf_text = extract_text_from_pdf(uploaded_pdf)
+                st.session_state["candidate_text"] = pdf_text
+                st.session_state["candidate_skills"] = extract_skills_from_text(pdf_text)
+                if "mastered_skills_ms" in st.session_state:
+                    del st.session_state["mastered_skills_ms"]
+                st.rerun()
         else:
+            if st.session_state.get("last_uploaded_filename") is not None:
+                st.session_state["last_uploaded_filename"] = None
+                
             resume_text_input = st.text_area("Or Paste Resume Text / Skill List:", value=st.session_state["candidate_text"], height=130)
             if resume_text_input != st.session_state["candidate_text"]:
                 st.session_state["candidate_text"] = resume_text_input
                 st.session_state["candidate_skills"] = extract_skills_from_text(resume_text_input)
+                if "mastered_skills_ms" in st.session_state:
+                    del st.session_state["mastered_skills_ms"]
+                st.rerun()
 
     # Direct Skill Selector / Manager
     all_known_skills = sorted(list(set(SKILL_TAXONOMY.values())))
+    current_in_taxonomy = [s for s in st.session_state["candidate_skills"] if s in all_known_skills]
+    
     selected_skill_list = st.multiselect(
         "Manage Mastered Skills:",
         options=all_known_skills,
-        default=[s for s in st.session_state["candidate_skills"] if s in all_known_skills],
+        default=current_in_taxonomy,
+        key="mastered_skills_ms",
         help="Add or remove any skills you know. Changes immediately recalculate your Job Readiness and Skill Hierarchy Tree."
     )
-    st.session_state["candidate_skills"] = sorted(list(set(selected_skill_list)))
+    
+    custom_extras = [s for s in st.session_state["candidate_skills"] if s not in all_known_skills]
+    st.session_state["candidate_skills"] = sorted(list(set(selected_skill_list + custom_extras)))
 
     st.divider()
 
@@ -882,14 +908,36 @@ semantic_sim = compute_semantic_cosine_similarity(st.session_state["candidate_te
 github_res = verify_github_profile(st.session_state["github_user"])
 hierarchy_analysis = analyze_hierarchical_skill_tree(st.session_state["candidate_skills"], st.session_state["target_role"])
 
+# Dynamic factor calculation based on user's real activities
+cand_lower = st.session_state["candidate_text"].lower()
+
+# Dynamic Project Score
+calc_proj = 50.0
+if "project" in cand_lower: calc_proj += 15.0
+if "github.com" in cand_lower or github_res.get("verified"): calc_proj += 15.0
+if "deployed" in cand_lower or "streamlit" in cand_lower or "api" in cand_lower: calc_proj += 10.0
+proj_score = min(100.0, max(30.0, st.session_state.get("last_project_audit_score", calc_proj)))
+
+# Dynamic Assessment Score
+verified_scores = st.session_state.get("verified_skills_scores", {})
+if verified_scores:
+    assess_score = round(sum(verified_scores.values()) / len(verified_scores), 1)
+else:
+    assess_score = round(gap_eval["readiness_score"] * 0.85, 1)
+
+# Dynamic Interview & Communication Scores
+interv_score = st.session_state.get("last_interview_score", round(gap_eval["readiness_score"] * 0.8, 1))
+comm_score = st.session_state.get("last_comm_score", 75.0 if "communication" in cand_lower else 60.0)
+evidence_score = 90.0 if github_res.get("verified") else (70.0 if "github.com" in cand_lower else 40.0)
+
 readiness_eval = calculate_7_factor_readiness(
     resume_score=resume_eval["score"],
     skill_gap_result=gap_eval,
-    project_score=72.0,
-    assessment_score=68.0,
-    interview_score=75.0,
-    communication_score=80.0,
-    evidence_score=85.0 if github_res.get("verified") else 50.0,
+    project_score=proj_score,
+    assessment_score=assess_score,
+    interview_score=interv_score,
+    communication_score=comm_score,
+    evidence_score=evidence_score,
     target_role=st.session_state["target_role"],
     company_name=st.session_state["target_company"]
 )
@@ -1065,6 +1113,9 @@ with tabs[3]:
     if st.button(f"Submit {test_skill} Assessment"):
         eval_res = evaluate_skill_assessment(test_skill, user_ans, questions)
         st.session_state["verified_skills"][test_skill] = eval_res["verified_level"]
+        if "verified_skills_scores" not in st.session_state:
+            st.session_state["verified_skills_scores"] = {}
+        st.session_state["verified_skills_scores"][test_skill] = float(eval_res["verified_percentage"])
         st.success(f"🎉 Result: **{eval_res['verified_level']}** ({eval_res['verified_percentage']}% Score)")
         for d in eval_res["details"]:
             st.markdown(f"- {'✅' if d['is_correct'] else '❌'} {d['question']}")
@@ -1095,6 +1146,7 @@ with tabs[5]:
         has_doc = st.checkbox("Has README.md", value=True)
         if st.button("Audit Project"):
             audit_res = audit_project_strength(p_name, p_tech, p_desc, has_dep, has_doc)
+            st.session_state["last_project_audit_score"] = float(audit_res["overall_score"])
             st.subheader(f"Score: **{audit_res['overall_score']}/100**")
             for c_name, c_score in audit_res["criteria"].items():
                 st.write(f"**{c_name}:** {c_score}/100")
@@ -1137,6 +1189,8 @@ with tabs[6]:
             if user_answer.strip():
                 ans_eval = evaluate_student_answer(q_item, user_answer)
                 comm_eval = evaluate_communication_intelligence(user_answer)
+                st.session_state["last_interview_score"] = float(ans_eval["score"] * 10)
+                st.session_state["last_comm_score"] = float(comm_eval["comm_score"])
                 st.subheader(f"Score: **{ans_eval['score']}/10**")
                 st.write(f"**STAR Communication:** `{comm_eval['comm_score']}/100`")
                 st.info(comm_eval["time_feedback"])
