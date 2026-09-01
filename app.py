@@ -271,29 +271,32 @@ st.markdown("""
     .skill-row h4 { margin: 0; color: #e2e8f0 !important; }
     .skill-row p { color: #64748b !important; margin: 4px 0 0 0; font-size: 0.88rem; }
 
-    /* ===== FULL-SCREEN AI RESUME CAREER NAVIGATOR LOGIN ===== */
-    .auth-bg-wrapper {
-        min-height: 95vh;
-        background: radial-gradient(circle at 75% 30%, rgba(99, 102, 241, 0.12) 0%, transparent 50%),
-                    radial-gradient(circle at 20% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 40%),
-                    linear-gradient(145deg, #070913 0%, #0c1022 50%, #0a0d1a 100%);
-        border-radius: 28px;
-        padding: 40px 32px;
-        position: relative;
-        overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.04);
+    /* ===== TOP PADDING & VIEWPORT OPTIMIZATION ===== */
+    .block-container {
+        padding-top: 1.2rem !important;
+        padding-bottom: 1.5rem !important;
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+        max-width: 1320px !important;
+        margin: 0 auto !important;
     }
 
+    header[data-testid="stHeader"] {
+        background: transparent !important;
+        height: 0px !important;
+    }
+
+    /* ===== AI RESUME CAREER NAVIGATOR STYLES ===== */
     .brand-logo-badge {
         display: inline-flex;
         align-items: center;
         gap: 12px;
-        margin-bottom: 28px;
+        margin-bottom: 20px;
     }
 
     .brand-logo-icon {
-        width: 44px;
-        height: 44px;
+        width: 42px;
+        height: 42px;
         border-radius: 12px;
         background: linear-gradient(135deg, #6366F1 0%, #A855F7 50%, #EC4899 100%);
         display: flex;
@@ -305,24 +308,24 @@ st.markdown("""
     .brand-logo-icon span {
         color: #ffffff;
         font-weight: 900;
-        font-size: 1.35rem;
+        font-size: 1.3rem;
         letter-spacing: -1px;
     }
 
     .brand-title-main {
-        font-size: 3.2rem !important;
+        font-size: 2.8rem !important;
         font-weight: 900 !important;
         color: #ffffff !important;
-        line-height: 1.1 !important;
+        line-height: 1.05 !important;
         margin: 0 !important;
         letter-spacing: -1px;
     }
 
     .brand-title-gradient {
-        font-size: 3.2rem !important;
+        font-size: 2.8rem !important;
         font-weight: 900 !important;
-        line-height: 1.15 !important;
-        margin: 0 0 16px 0 !important;
+        line-height: 1.1 !important;
+        margin: 0 0 12px 0 !important;
         letter-spacing: -1px;
         background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 45%, #F472B6 100%);
         -webkit-background-clip: text;
@@ -331,56 +334,55 @@ st.markdown("""
     }
 
     .brand-subtitle-text {
-        font-size: 1.05rem;
+        font-size: 0.98rem;
         color: #94a3b8;
-        line-height: 1.6;
-        margin-bottom: 32px;
+        line-height: 1.5;
+        margin-bottom: 22px;
     }
 
     .feature-item-card {
         display: flex;
         align-items: center;
-        gap: 16px;
-        margin-bottom: 22px;
+        gap: 14px;
+        margin-bottom: 16px;
     }
 
     .feature-icon-box {
-        width: 50px;
-        height: 50px;
-        border-radius: 14px;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
         background: rgba(30, 41, 59, 0.7);
         border: 1px solid rgba(99, 102, 241, 0.25);
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        font-size: 1.35rem;
+        font-size: 1.25rem;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
     .feature-text-title {
-        font-size: 1rem;
+        font-size: 0.95rem;
         font-weight: 700;
         color: #ffffff;
-        margin-bottom: 3px;
+        margin-bottom: 2px;
     }
 
     .feature-text-desc {
-        font-size: 0.88rem;
+        font-size: 0.84rem;
         color: #94a3b8;
-        line-height: 1.4;
+        line-height: 1.35;
     }
 
-    /* Right Glassmorphic Card */
-    .auth-glass-card {
-        background: rgba(15, 23, 42, 0.75);
-        backdrop-filter: blur(28px);
-        -webkit-backdrop-filter: blur(28px);
-        border: 1px solid rgba(139, 92, 246, 0.25);
-        border-radius: 28px;
-        padding: 38px 34px;
-        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7), 0 0 40px rgba(108, 99, 255, 0.08);
-        position: relative;
+    /* Right Column Direct Glassmorphic Card Container */
+    [data-testid="column"]:nth-of-type(2) {
+        background: rgba(15, 23, 42, 0.75) !important;
+        backdrop-filter: blur(28px) !important;
+        -webkit-backdrop-filter: blur(28px) !important;
+        border: 1px solid rgba(139, 92, 246, 0.25) !important;
+        border-radius: 28px !important;
+        padding: 30px 28px !important;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7), 0 0 40px rgba(108, 99, 255, 0.08) !important;
     }
 
     .auth-card-top-icon {
@@ -548,8 +550,6 @@ if "chat_history" not in st.session_state:
 if not st.session_state["logged_in"]:
     if "auth_mode" not in st.session_state:
         st.session_state["auth_mode"] = "Sign In"
-
-    st.markdown('<div class="auth-bg-wrapper">', unsafe_allow_html=True)
     
     brand_col, form_col = st.columns([1.15, 0.85], gap="large")
 
@@ -564,8 +564,8 @@ if not st.session_state["logged_in"]:
 <span>A<sup style="font-size:0.75rem;">✦</sup></span>
 </div>
 <div>
-<div style="font-size: 0.95rem; font-weight: 800; color: #FFFFFF; letter-spacing: 2px; line-height: 1.2;">AI RESUME</div>
-<div style="font-size: 0.72rem; font-weight: 700; color: #818CF8; letter-spacing: 1.5px;">CAREER NAVIGATOR</div>
+<div style="font-size: 0.92rem; font-weight: 800; color: #FFFFFF; letter-spacing: 2px; line-height: 1.2;">AI RESUME</div>
+<div style="font-size: 0.70rem; font-weight: 700; color: #818CF8; letter-spacing: 1.5px;">CAREER NAVIGATOR</div>
 </div>
 </div>
 
@@ -579,7 +579,7 @@ Powered by AI.
 </div>
 
 <!-- 3 Core Features -->
-<div style="margin-bottom: 28px;">
+<div style="margin-bottom: 20px;">
 <!-- Feature 1 -->
 <div class="feature-item-card">
 <div class="feature-icon-box" style="color: #38BDF8;">🧠</div>
@@ -609,8 +609,8 @@ Powered by AI.
 </div>
 
 <!-- 3D Glowing ATS Resume & Growth Graph Graphic -->
-<div style="position: relative; width: 100%; max-width: 440px; margin-top: 10px;">
-<svg viewBox="0 0 440 220" width="100%" height="100%" style="overflow: visible; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.6));">
+<div style="position: relative; width: 100%; max-width: 420px; margin-top: 4px;">
+<svg viewBox="0 0 440 200" width="100%" height="100%" style="overflow: visible; filter: drop-shadow(0 15px 30px rgba(0,0,0,0.6));">
 <defs>
 <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
 <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.8"/>
@@ -639,39 +639,39 @@ Powered by AI.
 </defs>
 
 <!-- Platform Glow Base -->
-<ellipse cx="220" cy="180" rx="180" ry="35" fill="url(#platformGlow)"/>
-<ellipse cx="220" cy="180" rx="150" ry="28" fill="none" stroke="rgba(99, 102, 241, 0.3)" stroke-width="1.5"/>
+<ellipse cx="220" cy="165" rx="180" ry="30" fill="url(#platformGlow)"/>
+<ellipse cx="220" cy="165" rx="150" ry="24" fill="none" stroke="rgba(99, 102, 241, 0.3)" stroke-width="1.5"/>
 
 <!-- Left Isometric Resume Card -->
-<g transform="translate(60, 20) rotate(-4)">
-<rect x="0" y="0" width="160" height="150" rx="18" fill="url(#cardGrad)" stroke="rgba(147, 197, 253, 0.4)" stroke-width="2"/>
-<rect x="18" y="20" width="40" height="40" rx="10" fill="rgba(255,255,255,0.15)"/>
-<circle cx="38" cy="36" r="10" fill="#93C5FD"/>
-<path d="M26 54 Q38 42 50 54" fill="#93C5FD"/>
-<rect x="68" y="24" width="72" height="7" rx="3.5" fill="#FFFFFF" opacity="0.9"/>
-<rect x="68" y="38" width="50" height="6" rx="3" fill="#93C5FD" opacity="0.6"/>
-<text x="18" y="80" font-size="12" fill="#FBBF24">★★★★★</text>
-<rect x="18" y="96" width="124" height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
-<rect x="18" y="96" width="98" height="6" rx="3" fill="#38BDF8"/>
-<rect x="18" y="112" width="124" height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
-<rect x="18" y="112" width="112" height="6" rx="3" fill="#A855F7"/>
-<rect x="18" y="128" width="124" height="6" rx="3" fill="rgba(255,255,255,0.1)"/>
-<rect x="18" y="128" width="80" height="6" rx="3" fill="#34D399"/>
+<g transform="translate(60, 15) rotate(-4)">
+<rect x="0" y="0" width="150" height="140" rx="16" fill="url(#cardGrad)" stroke="rgba(147, 197, 253, 0.4)" stroke-width="2"/>
+<rect x="16" y="16" width="36" height="36" rx="10" fill="rgba(255,255,255,0.15)"/>
+<circle cx="34" cy="30" r="9" fill="#93C5FD"/>
+<path d="M23 48 Q34 38 45 48" fill="#93C5FD"/>
+<rect x="62" y="20" width="68" height="6" rx="3" fill="#FFFFFF" opacity="0.9"/>
+<rect x="62" y="32" width="46" height="5" rx="2.5" fill="#93C5FD" opacity="0.6"/>
+<text x="16" y="72" font-size="11" fill="#FBBF24">★★★★★</text>
+<rect x="16" y="86" width="118" height="5.5" rx="2.7" fill="rgba(255,255,255,0.1)"/>
+<rect x="16" y="86" width="92" height="5.5" rx="2.7" fill="#38BDF8"/>
+<rect x="16" y="100" width="118" height="5.5" rx="2.7" fill="rgba(255,255,255,0.1)"/>
+<rect x="16" y="100" width="106" height="5.5" rx="2.7" fill="#A855F7"/>
+<rect x="16" y="114" width="118" height="5.5" rx="2.7" fill="rgba(255,255,255,0.1)"/>
+<rect x="16" y="114" width="76" height="5.5" rx="2.7" fill="#34D399"/>
 </g>
 
 <!-- Right Isometric 3D Analytics Bars -->
-<g transform="translate(240, 50)">
-<rect x="15" y="80" width="22" height="65" rx="6" fill="url(#barGrad1)"/>
-<ellipse cx="26" cy="80" rx="11" ry="5" fill="#93C5FD"/>
-<rect x="50" y="55" width="22" height="90" rx="6" fill="url(#barGrad2)"/>
-<ellipse cx="61" cy="55" rx="11" ry="5" fill="#C7D2FE"/>
-<rect x="85" y="30" width="22" height="115" rx="6" fill="url(#barGrad3)"/>
-<ellipse cx="96" cy="30" rx="11" ry="5" fill="#E9D5FF"/>
-<path d="M-10 75 Q26 40 61 25 T120 -5" fill="none" stroke="url(#lineGrad)" stroke-width="3.5" stroke-linecap="round"/>
-<circle cx="-10" cy="75" r="5" fill="#38BDF8" filter="drop-shadow(0 0 6px #38BDF8)"/>
-<circle cx="26" cy="52" r="5" fill="#60A5FA" filter="drop-shadow(0 0 6px #60A5FA)"/>
-<circle cx="61" cy="25" r="5.5" fill="#A855F7" filter="drop-shadow(0 0 8px #A855F7)"/>
-<circle cx="105" cy="5" r="6" fill="#F472B6" filter="drop-shadow(0 0 10px #F472B6)"/>
+<g transform="translate(235, 40)">
+<rect x="15" y="75" width="20" height="60" rx="5" fill="url(#barGrad1)"/>
+<ellipse cx="25" cy="75" rx="10" ry="4.5" fill="#93C5FD"/>
+<rect x="48" y="50" width="20" height="85" rx="5" fill="url(#barGrad2)"/>
+<ellipse cx="58" cy="50" rx="10" ry="4.5" fill="#C7D2FE"/>
+<rect x="81" y="25" width="20" height="110" rx="5" fill="url(#barGrad3)"/>
+<ellipse cx="91" cy="25" rx="10" ry="4.5" fill="#E9D5FF"/>
+<path d="M-10 70 Q25 35 58 20 T115 -8" fill="none" stroke="url(#lineGrad)" stroke-width="3" stroke-linecap="round"/>
+<circle cx="-10" cy="70" r="4.5" fill="#38BDF8" filter="drop-shadow(0 0 6px #38BDF8)"/>
+<circle cx="25" cy="48" r="4.5" fill="#60A5FA" filter="drop-shadow(0 0 6px #60A5FA)"/>
+<circle cx="58" cy="20" r="5" fill="#A855F7" filter="drop-shadow(0 0 8px #A855F7)"/>
+<circle cx="100" cy="2" r="5.5" fill="#F472B6" filter="drop-shadow(0 0 10px #F472B6)"/>
 </g>
 </svg>
 </div>
@@ -681,7 +681,7 @@ Powered by AI.
     # RIGHT COLUMN: SLEEK GLASSMORPHIC LOGIN CARD
     # ==========================================
     with form_col:
-        st.markdown("""<div class="auth-glass-card">
+        st.markdown("""
 <div class="auth-card-top-icon">
 <span>A<sup style="font-size:0.9rem;">✦</sup></span>
 </div>""", unsafe_allow_html=True)
@@ -717,7 +717,7 @@ Powered by AI.
                         '</div>', unsafe_allow_html=True)
             login_pass = st.text_input("Password", label_visibility="collapsed", type="password", key="auth_pass_in", placeholder="🔒  Enter your password")
 
-            st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
+            st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
 
             # Main Submit Button
             if st.button("➔  Sign In", type="primary", use_container_width=True):
@@ -760,7 +760,7 @@ Powered by AI.
                     st.rerun()
 
             # Switch link
-            st.markdown("""<div style="text-align:center; margin-top:20px; font-size:0.85rem; color:#94a3b8;">
+            st.markdown("""<div style="text-align:center; margin-top:16px; font-size:0.85rem; color:#94a3b8;">
 Don't have an account? <span style="color:#818CF8; font-weight:700;">Sign Up</span>
 </div>""", unsafe_allow_html=True)
 
@@ -775,7 +775,7 @@ Don't have an account? <span style="color:#818CF8; font-weight:700;">Sign Up</sp
             st.markdown('<div class="auth-input-label">CHOOSE PASSWORD</div>', unsafe_allow_html=True)
             reg_pass = st.text_input("Password", label_visibility="collapsed", type="password", key="reg_pass_in", placeholder="🔒  Enter a secure password")
 
-            st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
+            st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
 
             if st.button("➔  Create Account", type="primary", use_container_width=True):
                 reg_res = register_user(reg_user, reg_pass, reg_name)
@@ -787,7 +787,7 @@ Don't have an account? <span style="color:#818CF8; font-weight:700;">Sign Up</sp
                 else:
                     st.error(reg_res["message"])
 
-            st.markdown("""<div style="text-align:center; margin-top:20px; font-size:0.85rem; color:#94a3b8;">
+            st.markdown("""<div style="text-align:center; margin-top:16px; font-size:0.85rem; color:#94a3b8;">
 Already have an account? <span style="color:#818CF8; font-weight:700;">Sign In</span>
 </div>""", unsafe_allow_html=True)
 
@@ -795,10 +795,8 @@ Already have an account? <span style="color:#818CF8; font-weight:700;">Sign In</
         st.markdown("""<div class="auth-security-footer">
 🛡️ Your data is secure with us.<br>
 We never share your information.
-</div>
 </div>""", unsafe_allow_html=True)
 
-    st.markdown('</div>', unsafe_allow_html=True)
     st.stop()
 
 # Sidebar (logged-in state)
