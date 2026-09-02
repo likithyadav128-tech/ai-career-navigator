@@ -116,10 +116,26 @@ st.markdown("""
 
     /* Container Spacing */
     .block-container {
-        padding-top: 1.2rem !important;
-        padding-bottom: 2rem !important;
+        padding-top: 3.5rem !important;
+        padding-bottom: 2.5rem !important;
         max-width: 1320px !important;
         margin: 0 auto !important;
+    }
+
+    /* Smooth Morph & Fade-in Animations */
+    @keyframes smoothFadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(14px) scale(0.98);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .smooth-transition-container {
+        animation: smoothFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     header[data-testid="stHeader"] {
@@ -414,49 +430,65 @@ if "portfolio" in query_params:
 
 # 5. Routing Logic: Authentication Gateway vs Authenticated Dashboard
 if not st.session_state["logged_in"]:
+    if "portal_view" not in st.session_state:
+        st.session_state["portal_view"] = "initial"
+
     if "auth_mode" not in st.session_state:
         st.session_state["auth_mode"] = "Sign In"
 
-    col_left, col_right = st.columns([1.15, 1], gap="large")
+    # Smooth Animated Container Wrapper
+    st.markdown('<div class="smooth-transition-container">', unsafe_allow_html=True)
 
-    # ===== LEFT HERO / BRANDING COLUMN =====
-    with col_left:
-        st.markdown("""<div class="brand-logo-badge">
+    # ==========================================
+    # STAGE 1: INITIAL LANDING / HERO SCREEN
+    # ==========================================
+    if st.session_state["portal_view"] == "initial":
+        col_left, col_right = st.columns([1.1, 1], gap="large")
+
+        with col_left:
+            st.markdown("""<div class="brand-logo-badge">
 <div class="brand-logo-icon"><span>⬡</span></div>
 <div>
 <div style="font-size: 0.72rem; font-weight: 800; color: #818CF8; letter-spacing: 1.5px; text-transform: uppercase;">AI PLACEMENT PORTAL</div>
 <div style="font-size: 0.95rem; font-weight: 800; color: #FFFFFF; letter-spacing: -0.2px;">CAREER INTELLIGENCE OS</div>
 </div>
 </div>
-<div style="font-size: 3.2rem; font-weight: 900; line-height: 1.08; color: #FFFFFF; letter-spacing: -1px;">
+<div style="font-size: 3.4rem; font-weight: 900; line-height: 1.05; color: #FFFFFF; letter-spacing: -1px; margin-bottom: 8px;">
 Your Dream<br>
 <span style="color: #FFFFFF;">Tech Career</span><br>
 <span style="background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 50%, #F472B6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Starts Here</span>
 </div>
-<div style="font-size: 1.05rem; color: #94A3B8; margin: 12px 0 20px 0; font-weight: 500;">
+<div style="font-size: 1.1rem; color: #94A3B8; margin-bottom: 24px; font-weight: 500;">
 Practice. Improve. Get Placed.
 </div>
-<div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px;">
-<div style="display: flex; align-items: center; gap: 10px; font-size: 0.92rem; color: #E2E8F0; font-weight: 600;">
-<span style="background: rgba(99,102,241,0.25); color: #818CF8; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; border: 1px solid rgba(99,102,241,0.4);">✓</span>
+<div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px;">
+<div style="display: flex; align-items: center; gap: 10px; font-size: 0.95rem; color: #E2E8F0; font-weight: 600;">
+<span style="background: rgba(99,102,241,0.25); color: #818CF8; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.8rem; border: 1px solid rgba(99,102,241,0.4);">✓</span>
 14+ Company Mock Tests & Roles
 </div>
-<div style="display: flex; align-items: center; gap: 10px; font-size: 0.92rem; color: #E2E8F0; font-weight: 600;">
-<span style="background: rgba(99,102,241,0.25); color: #818CF8; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; border: 1px solid rgba(99,102,241,0.4);">✓</span>
+<div style="display: flex; align-items: center; gap: 10px; font-size: 0.95rem; color: #E2E8F0; font-weight: 600;">
+<span style="background: rgba(99,102,241,0.25); color: #818CF8; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.8rem; border: 1px solid rgba(99,102,241,0.4);">✓</span>
 AI Interview Simulator with STAR Feedback
 </div>
-<div style="display: flex; align-items: center; gap: 10px; font-size: 0.92rem; color: #E2E8F0; font-weight: 600;">
-<span style="background: rgba(99,102,241,0.25); color: #818CF8; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; border: 1px solid rgba(99,102,241,0.4);">✓</span>
+<div style="display: flex; align-items: center; gap: 10px; font-size: 0.95rem; color: #E2E8F0; font-weight: 600;">
+<span style="background: rgba(99,102,241,0.25); color: #818CF8; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.8rem; border: 1px solid rgba(99,102,241,0.4);">✓</span>
 Skill Assessments & Prerequisite Trees
 </div>
-<div style="display: flex; align-items: center; gap: 10px; font-size: 0.92rem; color: #E2E8F0; font-weight: 600;">
-<span style="background: rgba(99,102,241,0.25); color: #818CF8; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.75rem; border: 1px solid rgba(99,102,241,0.4);">✓</span>
+<div style="display: flex; align-items: center; gap: 10px; font-size: 0.95rem; color: #E2E8F0; font-weight: 600;">
+<span style="background: rgba(99,102,241,0.25); color: #818CF8; width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.8rem; border: 1px solid rgba(99,102,241,0.4);">✓</span>
 Personalized 8-Stage Career Roadmap
 </div>
 </div>""", unsafe_allow_html=True)
 
-        # 3D Glowing Isometric AI Glass Cube with Orbital Rings & Tech Nodes
-        st.markdown("""<div style="position:relative; width:100%; max-width:460px; margin-top:10px; display:flex; justify-content:center;">
+            col_btn1, col_btn2 = st.columns([1.5, 1])
+            with col_btn1:
+                if st.button("🚀 Explore Platform & Sign In →", key="btn_initial_explore", type="primary", use_container_width=True):
+                    st.session_state["portal_view"] = "login"
+                    st.rerun()
+
+        with col_right:
+            # 3D Glowing Isometric AI Glass Cube with Orbital Rings & Tech Nodes
+            st.markdown("""<div style="position:relative; width:100%; max-width:480px; margin-top:10px; display:flex; justify-content:center;">
 <svg viewBox="0 0 460 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));">
 <defs>
 <linearGradient id="cubeTop" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -516,159 +548,236 @@ Personalized 8-Stage Career Roadmap
 </svg>
 </div>""", unsafe_allow_html=True)
 
-    # ===== RIGHT AUTH FORM COLUMN =====
-    with col_right:
-        st.markdown('<div class="auth-right-card">', unsafe_allow_html=True)
-        
-        # Top Icon
-        st.markdown("""<div class="auth-card-top-icon"><span>A✦</span></div>""", unsafe_allow_html=True)
+            st.markdown("""<div style="text-align: center; margin-top: 14px; padding: 18px; background: rgba(18, 24, 38, 0.6); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 18px; backdrop-filter: blur(12px);">
+<div style="font-size: 1.15rem; font-weight: 700; color: #FFFFFF; margin-bottom: 4px;">Welcome Back! 👋</div>
+<div style="font-size: 0.88rem; color: #94A3B8; margin-bottom: 12px;">Sign in to continue your personalized career journey</div>
+</div>""", unsafe_allow_html=True)
 
-        if st.session_state["auth_mode"] == "Sign In":
-            st.markdown('<div class="auth-card-title">Welcome Back! 👋</div>', unsafe_allow_html=True)
-            st.markdown('<div class="auth-card-subtitle">Sign in to continue your career journey</div>', unsafe_allow_html=True)
-        elif st.session_state["auth_mode"] == "Sign Up":
-            st.markdown('<div class="auth-card-title">Create Account</div>', unsafe_allow_html=True)
-            st.markdown('<div class="auth-card-subtitle">Join thousands accelerating their career with AI</div>', unsafe_allow_html=True)
-        else:
-            st.markdown('<div class="auth-card-title">Reset Password</div>', unsafe_allow_html=True)
-            st.markdown('<div class="auth-card-subtitle">Enter your registered details to set a new password</div>', unsafe_allow_html=True)
+            if st.button("🔑 Access Sign In Gateway ➔", key="btn_open_portal_card", type="primary", use_container_width=True):
+                st.session_state["portal_view"] = "login"
+                st.rerun()
 
-        # Segmented Toggle (Sign In / Sign Up)
-        if st.session_state["auth_mode"] in ["Sign In", "Sign Up"]:
-            col_t1, col_t2 = st.columns(2)
-            with col_t1:
-                is_signin = (st.session_state["auth_mode"] == "Sign In")
-                if st.button("Sign In", key="btn_toggle_signin", type="primary" if is_signin else "secondary", use_container_width=True):
-                    st.session_state["auth_mode"] = "Sign In"
-                    st.rerun()
-            with col_t2:
-                is_signup = (st.session_state["auth_mode"] == "Sign Up")
-                if st.button("Sign Up", key="btn_toggle_signup", type="primary" if is_signup else "secondary", use_container_width=True):
+    # ==========================================
+    # STAGE 2: GLASSMORPHIC SIGN IN CARD VIEW
+    # ==========================================
+    elif st.session_state["portal_view"] == "login":
+        if st.button("⬅ Back to Overview", key="btn_back_to_initial"):
+            st.session_state["portal_view"] = "initial"
+            st.rerun()
+
+        col_left, col_right = st.columns([1.15, 1], gap="large")
+
+        # Left Column
+        with col_left:
+            st.markdown("""<div class="brand-logo-badge">
+<div class="brand-logo-icon"><span>⬡</span></div>
+<div>
+<div style="font-size: 0.72rem; font-weight: 800; color: #818CF8; letter-spacing: 1.5px; text-transform: uppercase;">AI PLACEMENT PORTAL</div>
+<div style="font-size: 0.95rem; font-weight: 800; color: #FFFFFF; letter-spacing: -0.2px;">CAREER INTELLIGENCE OS</div>
+</div>
+</div>
+<div style="font-size: 2.8rem; font-weight: 900; line-height: 1.1; color: #FFFFFF; letter-spacing: -1px;">
+Your Dream<br>
+<span style="color: #FFFFFF;">Tech Career</span><br>
+<span style="background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 50%, #F472B6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Starts Here</span>
+</div>
+<div style="font-size: 0.98rem; color: #94A3B8; margin: 10px 0 18px 0; font-weight: 500;">
+Practice. Improve. Get Placed.
+</div>""", unsafe_allow_html=True)
+
+            # 3D Isometric AI Cube Graphic
+            st.markdown("""<div style="position:relative; width:100%; max-width:420px; display:flex; justify-content:center;">
+<svg viewBox="0 0 460 250" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));">
+<defs>
+<linearGradient id="cubeTop2" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#818CF8" stop-opacity="0.85"/>
+<stop offset="100%" stop-color="#C084FC" stop-opacity="0.4"/>
+</linearGradient>
+<linearGradient id="cubeLeft2" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" stop-color="#4F46E5" stop-opacity="0.9"/>
+<stop offset="100%" stop-color="#1E1B4B" stop-opacity="0.95"/>
+</linearGradient>
+<linearGradient id="cubeRight2" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" stop-color="#7C3AED" stop-opacity="0.85"/>
+<stop offset="100%" stop-color="#312E81" stop-opacity="0.95"/>
+</linearGradient>
+<linearGradient id="platformNeon2" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#06B6D4" stop-opacity="0.6"/>
+<stop offset="50%" stop-color="#8B5CF6" stop-opacity="0.8"/>
+<stop offset="100%" stop-color="#EC4899" stop-opacity="0.6"/>
+</linearGradient>
+</defs>
+<ellipse cx="230" cy="185" rx="190" ry="65" fill="rgba(129,140,248,0.2)"/>
+<polygon points="230,135 390,185 230,235 70,185" fill="#0C1022" stroke="url(#platformNeon2)" stroke-width="2"/>
+<ellipse cx="230" cy="130" rx="180" ry="55" fill="none" stroke="rgba(99,102,241,0.3)" stroke-width="1.5" stroke-dasharray="6,6" transform="rotate(-10 230 130)"/>
+<g transform="translate(85, 60)"><circle cx="16" cy="16" r="16" fill="#1E1B4B" stroke="#818CF8" stroke-width="1.5"/><text x="16" y="21" font-size="11" font-weight="800" fill="#818CF8" text-anchor="middle" font-family="monospace">&lt;/&gt;</text></g>
+<g transform="translate(340, 50)"><circle cx="16" cy="16" r="16" fill="#1E1B4B" stroke="#60A5FA" stroke-width="1.5"/><text x="16" y="21" font-size="11" font-weight="800" fill="#60A5FA" text-anchor="middle" font-family="monospace">&lt;/&gt;</text></g>
+<g transform="translate(370, 115)"><circle cx="15" cy="15" r="15" fill="#1E1B4B" stroke="#34D399" stroke-width="1.5"/><text x="15" y="20" font-size="11" font-weight="800" fill="#34D399" text-anchor="middle" font-family="Inter, sans-serif">📊</text></g>
+<g transform="translate(60, 140)"><circle cx="15" cy="15" r="15" fill="#1E1B4B" stroke="#F472B6" stroke-width="1.5"/><text x="15" y="20" font-size="11" font-weight="800" fill="#F472B6" text-anchor="middle" font-family="Inter, sans-serif">🗄️</text></g>
+<g transform="translate(180, 50)">
+<polygon points="50,0 100,28 50,56 0,28" fill="url(#cubeTop2)" stroke="#C7D2FE" stroke-width="1.5"/>
+<polygon points="0,28 50,56 50,116 0,88" fill="url(#cubeLeft2)" stroke="rgba(129,140,248,0.5)" stroke-width="1.5"/>
+<polygon points="50,56 100,28 100,88 50,116" fill="url(#cubeRight2)" stroke="rgba(192,132,252,0.5)" stroke-width="1.5"/>
+<text x="24" y="82" font-size="28" font-weight="900" fill="#FFFFFF" font-family="Inter, sans-serif" transform="skewY(28) scale(0.9, 1)">AI</text>
+<path d="M 50,0 L 50,56 M 0,28 L 50,56 L 100,28" fill="none" stroke="#FFFFFF" stroke-width="1.8" opacity="0.7"/>
+</g>
+</svg>
+</div>""", unsafe_allow_html=True)
+
+        # Right Column (Glassmorphic Sign In Card)
+        with col_right:
+            st.markdown('<div class="auth-right-card">', unsafe_allow_html=True)
+            
+            # Top Icon
+            st.markdown("""<div class="auth-card-top-icon"><span>A✦</span></div>""", unsafe_allow_html=True)
+
+            if st.session_state["auth_mode"] == "Sign In":
+                st.markdown('<div class="auth-card-title">Welcome Back! 👋</div>', unsafe_allow_html=True)
+                st.markdown('<div class="auth-card-subtitle">Sign in to continue your career journey</div>', unsafe_allow_html=True)
+            elif st.session_state["auth_mode"] == "Sign Up":
+                st.markdown('<div class="auth-card-title">Create Account</div>', unsafe_allow_html=True)
+                st.markdown('<div class="auth-card-subtitle">Join thousands accelerating their career with AI</div>', unsafe_allow_html=True)
+            else:
+                st.markdown('<div class="auth-card-title">Reset Password</div>', unsafe_allow_html=True)
+                st.markdown('<div class="auth-card-subtitle">Enter your registered details to set a new password</div>', unsafe_allow_html=True)
+
+            # Segmented Toggle (Sign In / Sign Up)
+            if st.session_state["auth_mode"] in ["Sign In", "Sign Up"]:
+                col_t1, col_t2 = st.columns(2)
+                with col_t1:
+                    is_signin = (st.session_state["auth_mode"] == "Sign In")
+                    if st.button("Sign In", key="btn_toggle_signin", type="primary" if is_signin else "secondary", use_container_width=True):
+                        st.session_state["auth_mode"] = "Sign In"
+                        st.rerun()
+                with col_t2:
+                    is_signup = (st.session_state["auth_mode"] == "Sign Up")
+                    if st.button("Sign Up", key="btn_toggle_signup", type="primary" if is_signup else "secondary", use_container_width=True):
+                        st.session_state["auth_mode"] = "Sign Up"
+                        st.rerun()
+
+            # --- SIGN IN VIEW ---
+            if st.session_state["auth_mode"] == "Sign In":
+                st.markdown('<div class="auth-input-label">USERNAME OR EMAIL</div>', unsafe_allow_html=True)
+                l_user = st.text_input("Username or Email", placeholder="👤  Enter your email or username", key="auth_l_user", label_visibility="collapsed")
+                
+                col_lp1, col_lp2 = st.columns([1.5, 1])
+                with col_lp1:
+                    st.markdown('<div class="auth-input-label">PASSWORD</div>', unsafe_allow_html=True)
+                with col_lp2:
+                    if st.button("Forgot Password?", key="btn_forgot_pass"):
+                        st.session_state["auth_mode"] = "Reset"
+                        st.rerun()
+
+                l_pass = st.text_input("Password", type="password", placeholder="🔒  Enter your password", key="auth_l_pass", label_visibility="collapsed")
+                
+                col_rem1, col_rem2 = st.columns([1, 1])
+                with col_rem1:
+                    st.checkbox("Remember me", value=True, key="chk_remember_me")
+
+                st.markdown("<div style='height:8px;'></div>", unsafe_allow_html=True)
+                if st.button("Sign In →", key="btn_submit_signin", type="primary", use_container_width=True):
+                    auth_res = AuthService.sign_in(l_user, l_pass)
+                    if auth_res["success"]:
+                        st.session_state["logged_in"] = True
+                        st.session_state["user_info"] = auth_res
+                        prof = auth_res.get("profile", {})
+                        if prof and prof.get("has_profile"):
+                            st.session_state["target_role"] = prof["target_role"]
+                            st.session_state["target_company"] = prof["target_company"]
+                            st.session_state["candidate_text"] = prof["candidate_text"]
+                            st.session_state["candidate_skills"] = prof["candidate_skills"]
+                            st.session_state["github_user"] = prof.get("github_user", "arivera")
+                        st.session_state["active_view"] = "nav_dashboard"
+                        st.rerun()
+                    else:
+                        st.error(auth_res["message"])
+
+                st.markdown('<div class="auth-divider-row"><span>or continue with</span></div>', unsafe_allow_html=True)
+
+                col_d1, col_d2 = st.columns(2)
+                with col_d1:
+                    if st.button("🔴 Alex Rivera (Data Science)", key="demo_alex_btn", use_container_width=True):
+                        auth_res = AuthService.sign_in("alex_rivera", "demo123")
+                        if not auth_res["success"]:
+                            AuthService.sign_up("alex_rivera", "demo123", "Alex Rivera", "United States")
+                            auth_res = AuthService.sign_in("alex_rivera", "demo123")
+                        st.session_state["logged_in"] = True
+                        st.session_state["user_info"] = auth_res
+                        st.session_state["active_view"] = "nav_dashboard"
+                        st.rerun()
+                with col_d2:
+                    if st.button("🔵 Sam Chen (Developer)", key="demo_sam_btn", use_container_width=True):
+                        auth_res = AuthService.sign_in("sam_chen", "demo123")
+                        if not auth_res["success"]:
+                            AuthService.sign_up("sam_chen", "demo123", "Sam Chen", "Canada")
+                            auth_res = AuthService.sign_in("sam_chen", "demo123")
+                        st.session_state["logged_in"] = True
+                        st.session_state["user_info"] = auth_res
+                        st.session_state["target_role"] = "Software Engineer (Full-Stack)"
+                        st.session_state["active_view"] = "nav_dashboard"
+                        st.rerun()
+
+                st.markdown("<div style='text-align:center; margin-top:16px; font-size:0.86rem; color:#94A3B8;'>Don't have an account?</div>", unsafe_allow_html=True)
+                if st.button("Create Account", key="btn_goto_signup", use_container_width=True):
                     st.session_state["auth_mode"] = "Sign Up"
                     st.rerun()
 
-        # --- SIGN IN VIEW ---
-        if st.session_state["auth_mode"] == "Sign In":
-            st.markdown('<div class="auth-input-label">USERNAME OR EMAIL</div>', unsafe_allow_html=True)
-            l_user = st.text_input("Username or Email", placeholder="👤  Enter your email or username", key="auth_l_user", label_visibility="collapsed")
-            
-            col_lp1, col_lp2 = st.columns([1.5, 1])
-            with col_lp1:
-                st.markdown('<div class="auth-input-label">PASSWORD</div>', unsafe_allow_html=True)
-            with col_lp2:
-                if st.button("Forgot Password?", key="btn_forgot_pass"):
-                    st.session_state["auth_mode"] = "Reset"
-                    st.rerun()
+            # --- SIGN UP VIEW ---
+            elif st.session_state["auth_mode"] == "Sign Up":
+                st.markdown('<div class="auth-input-label">FULL NAME</div>', unsafe_allow_html=True)
+                r_name = st.text_input("Full Name", placeholder="👤  Enter your full name", key="auth_r_name", label_visibility="collapsed")
 
-            l_pass = st.text_input("Password", type="password", placeholder="🔒  Enter your password", key="auth_l_pass", label_visibility="collapsed")
-            
-            col_rem1, col_rem2 = st.columns([1, 1])
-            with col_rem1:
-                st.checkbox("Remember me", value=True, key="chk_remember_me")
+                st.markdown('<div class="auth-input-label">USERNAME OR EMAIL</div>', unsafe_allow_html=True)
+                r_user = st.text_input("Username", placeholder="✉️  Enter your username or email", key="auth_r_user", label_visibility="collapsed")
 
-            st.markdown("<div style='height:8px;'></div>", unsafe_allow_html=True)
-            if st.button("Sign In →", key="btn_submit_signin", type="primary", use_container_width=True):
-                auth_res = AuthService.sign_in(l_user, l_pass)
-                if auth_res["success"]:
-                    st.session_state["logged_in"] = True
-                    st.session_state["user_info"] = auth_res
-                    prof = auth_res.get("profile", {})
-                    if prof and prof.get("has_profile"):
-                        st.session_state["target_role"] = prof["target_role"]
-                        st.session_state["target_company"] = prof["target_company"]
-                        st.session_state["candidate_text"] = prof["candidate_text"]
-                        st.session_state["candidate_skills"] = prof["candidate_skills"]
-                        st.session_state["github_user"] = prof.get("github_user", "arivera")
-                    st.session_state["active_view"] = "nav_dashboard"
-                    st.rerun()
-                else:
-                    st.error(auth_res["message"])
+                st.markdown('<div class="auth-input-label">CHOOSE PASSWORD</div>', unsafe_allow_html=True)
+                r_pass = st.text_input("Password", type="password", placeholder="🔒  At least 6 characters", key="auth_r_pass", label_visibility="collapsed")
 
-            st.markdown('<div class="auth-divider-row"><span>or continue with</span></div>', unsafe_allow_html=True)
+                st.markdown("<div style='height:8px;'></div>", unsafe_allow_html=True)
+                if st.button("Create Account →", key="btn_submit_signup", type="primary", use_container_width=True):
+                    reg_res = AuthService.sign_up(r_user, r_pass, r_name)
+                    if reg_res["success"]:
+                        st.session_state["logged_in"] = True
+                        st.session_state["user_info"] = reg_res
+                        st.session_state["onboarding_step"] = 1
+                        st.session_state["active_view"] = "onboarding"
+                        st.rerun()
+                    else:
+                        st.error(reg_res["message"])
 
-            col_d1, col_d2 = st.columns(2)
-            with col_d1:
-                if st.button("🔴 Alex Rivera (Data Science)", key="demo_alex_btn", use_container_width=True):
-                    auth_res = AuthService.sign_in("alex_rivera", "demo123")
-                    if not auth_res["success"]:
-                        AuthService.sign_up("alex_rivera", "demo123", "Alex Rivera", "United States")
-                        auth_res = AuthService.sign_in("alex_rivera", "demo123")
-                    st.session_state["logged_in"] = True
-                    st.session_state["user_info"] = auth_res
-                    st.session_state["active_view"] = "nav_dashboard"
-                    st.rerun()
-            with col_d2:
-                if st.button("🔵 Sam Chen (Developer)", key="demo_sam_btn", use_container_width=True):
-                    auth_res = AuthService.sign_in("sam_chen", "demo123")
-                    if not auth_res["success"]:
-                        AuthService.sign_up("sam_chen", "demo123", "Sam Chen", "Canada")
-                        auth_res = AuthService.sign_in("sam_chen", "demo123")
-                    st.session_state["logged_in"] = True
-                    st.session_state["user_info"] = auth_res
-                    st.session_state["target_role"] = "Software Engineer (Full-Stack)"
-                    st.session_state["active_view"] = "nav_dashboard"
-                    st.rerun()
-
-            st.markdown("<div style='text-align:center; margin-top:16px; font-size:0.86rem; color:#94A3B8;'>Don't have an account?</div>", unsafe_allow_html=True)
-            if st.button("Create Account", key="btn_goto_signup", use_container_width=True):
-                st.session_state["auth_mode"] = "Sign Up"
-                st.rerun()
-
-        # --- SIGN UP VIEW ---
-        elif st.session_state["auth_mode"] == "Sign Up":
-            st.markdown('<div class="auth-input-label">FULL NAME</div>', unsafe_allow_html=True)
-            r_name = st.text_input("Full Name", placeholder="👤  Enter your full name", key="auth_r_name", label_visibility="collapsed")
-
-            st.markdown('<div class="auth-input-label">USERNAME OR EMAIL</div>', unsafe_allow_html=True)
-            r_user = st.text_input("Username", placeholder="✉️  Enter your username or email", key="auth_r_user", label_visibility="collapsed")
-
-            st.markdown('<div class="auth-input-label">CHOOSE PASSWORD</div>', unsafe_allow_html=True)
-            r_pass = st.text_input("Password", type="password", placeholder="🔒  At least 6 characters", key="auth_r_pass", label_visibility="collapsed")
-
-            st.markdown("<div style='height:8px;'></div>", unsafe_allow_html=True)
-            if st.button("Create Account →", key="btn_submit_signup", type="primary", use_container_width=True):
-                reg_res = AuthService.sign_up(r_user, r_pass, r_name)
-                if reg_res["success"]:
-                    st.session_state["logged_in"] = True
-                    st.session_state["user_info"] = reg_res
-                    st.session_state["onboarding_step"] = 1
-                    st.session_state["active_view"] = "onboarding"
-                    st.rerun()
-                else:
-                    st.error(reg_res["message"])
-
-            st.markdown("<div style='text-align:center; margin-top:16px; font-size:0.86rem; color:#94A3B8;'>Already have an account?</div>", unsafe_allow_html=True)
-            if st.button("Sign In Instead", key="btn_goto_signin", use_container_width=True):
-                st.session_state["auth_mode"] = "Sign In"
-                st.rerun()
-
-        # --- RESET PASSWORD VIEW ---
-        elif st.session_state["auth_mode"] == "Reset":
-            st.markdown('<div class="auth-input-label">USERNAME OR EMAIL</div>', unsafe_allow_html=True)
-            rst_user = st.text_input("Username", placeholder="✉️  Enter your registered username", key="auth_rst_user", label_visibility="collapsed")
-
-            st.markdown('<div class="auth-input-label">NEW PASSWORD</div>', unsafe_allow_html=True)
-            rst_pass = st.text_input("New Password", type="password", placeholder="🔒  Enter new password", key="auth_rst_pass", label_visibility="collapsed")
-
-            st.markdown("<div style='height:8px;'></div>", unsafe_allow_html=True)
-            if st.button("Update Password →", key="btn_submit_reset", type="primary", use_container_width=True):
-                rst_res = AuthService.reset_password(rst_user, rst_pass)
-                if rst_res["success"]:
-                    st.success(rst_res["message"])
+                st.markdown("<div style='text-align:center; margin-top:16px; font-size:0.86rem; color:#94A3B8;'>Already have an account?</div>", unsafe_allow_html=True)
+                if st.button("Sign In Instead", key="btn_goto_signin", use_container_width=True):
                     st.session_state["auth_mode"] = "Sign In"
                     st.rerun()
-                else:
-                    st.error(rst_res["message"])
 
-            if st.button("⬅ Back to Sign In", key="btn_reset_back_signin", use_container_width=True):
-                st.session_state["auth_mode"] = "Sign In"
-                st.rerun()
+            # --- RESET PASSWORD VIEW ---
+            elif st.session_state["auth_mode"] == "Reset":
+                st.markdown('<div class="auth-input-label">USERNAME OR EMAIL</div>', unsafe_allow_html=True)
+                rst_user = st.text_input("Username", placeholder="✉️  Enter your registered username", key="auth_rst_user", label_visibility="collapsed")
 
-        # Security note
-        st.markdown('<div class="auth-security-footer">🛡️ Your data is secure with us. We never share your information.</div>', unsafe_allow_html=True)
+                st.markdown('<div class="auth-input-label">NEW PASSWORD</div>', unsafe_allow_html=True)
+                rst_pass = st.text_input("New Password", type="password", placeholder="🔒  Enter new password", key="auth_rst_pass", label_visibility="collapsed")
 
-        st.markdown('</div>', unsafe_allow_html=True)
+                st.markdown("<div style='height:8px;'></div>", unsafe_allow_html=True)
+                if st.button("Update Password →", key="btn_submit_reset", type="primary", use_container_width=True):
+                    rst_res = AuthService.reset_password(rst_user, rst_pass)
+                    if rst_res["success"]:
+                        st.success(rst_res["message"])
+                        st.session_state["auth_mode"] = "Sign In"
+                        st.rerun()
+                    else:
+                        st.error(rst_res["message"])
 
+                if st.button("⬅ Back to Sign In", key="btn_reset_back_signin", use_container_width=True):
+                    st.session_state["auth_mode"] = "Sign In"
+                    st.rerun()
+
+            # Security note
+            st.markdown('<div class="auth-security-footer">🛡️ Your data is secure with us. We never share your information.</div>', unsafe_allow_html=True)
+
+            st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)
     st.stop()
 
 # 6. Authenticated User Flow
