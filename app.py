@@ -104,72 +104,72 @@ else:
     }
     """
 
-st.markdown(f"""
+st.markdown(f"<style>{theme_css}</style>", unsafe_allow_html=True)
+
+st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
     
-    * {{
+    * {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-    }}
-
-    {theme_css}
+    }
 
     /* Container Spacing */
-    .block-container {{
+    .block-container {
         padding-top: 1.2rem !important;
         padding-bottom: 2rem !important;
         max-width: 1320px !important;
         margin: 0 auto !important;
-    }}
+    }
 
-    header[data-testid="stHeader"] {{
+    header[data-testid="stHeader"] {
         background: transparent !important;
         height: 0px !important;
-    }}
+    }
 
     /* Global Input Overrides */
-    div[data-baseweb="select"] > div {{
+    div[data-baseweb="select"] > div {
         background: rgba(255,255,255,0.04) !important;
         color: inherit !important;
         border: 1px solid rgba(99, 102, 241, 0.25) !important;
         border-radius: 12px !important;
-    }}
-    textarea, input[type="text"], input[type="password"] {{
+    }
+    textarea, input[type="text"], input[type="password"] {
         background: rgba(255,255,255,0.04) !important;
         color: inherit !important;
         border: 1px solid rgba(99, 102, 241, 0.2) !important;
         border-radius: 12px !important;
-    }}
-    textarea:focus, input:focus {{
+    }
+    textarea:focus, input:focus {
         border-color: #818CF8 !important;
         box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2) !important;
-    }}
+    }
 
     /* Badges */
-    .badge-strong {{
+    .badge-strong {
         background: rgba(16, 185, 129, 0.15) !important;
         color: #34D399 !important;
         border: 1px solid rgba(16, 185, 129, 0.35) !important;
         padding: 4px 12px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; display: inline-block; margin: 3px;
-    }}
-    .badge-moderate {{
+    }
+    .badge-moderate {
         background: rgba(245, 158, 11, 0.15) !important;
         color: #FBBF24 !important;
         border: 1px solid rgba(245, 158, 11, 0.35) !important;
         padding: 4px 12px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; display: inline-block; margin: 3px;
-    }}
-    .badge-missing {{
+    }
+    .badge-missing {
         background: rgba(239, 68, 68, 0.15) !important;
         color: #F87171 !important;
         border: 1px solid rgba(239, 68, 68, 0.35) !important;
         padding: 4px 12px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; display: inline-block; margin: 3px;
-    }}
-    .badge-target {{
+    }
+    .badge-target {
         background: rgba(99, 102, 241, 0.2) !important;
         color: #A5B4FC !important;
         border: 1px solid rgba(99, 102, 241, 0.4) !important;
         padding: 4px 12px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; display: inline-block; margin: 3px;
-    }}
+    }
 
     /* ===== PLACEMENT WEBAPP AUTH STYLES ===== */
     .brand-logo-badge {
@@ -712,7 +712,9 @@ if not st.session_state["logged_in"]:
         st.stop()
 
 # 6. Authenticated User Flow
-user_info = st.session_state["user_info"]
+user_info = st.session_state.get("user_info")
+if not user_info:
+    st.stop()
 
 # Check if onboarding is needed
 onboarding_state = load_onboarding_data(user_info["user_id"])
