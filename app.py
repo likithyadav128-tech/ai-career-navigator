@@ -421,122 +421,92 @@ if not st.session_state["logged_in"]:
 
     # ===== LEFT HERO / BRANDING COLUMN =====
     with col_left:
-        st.markdown("""
-        <div class="brand-logo-badge">
-            <div class="brand-logo-icon">
-                <span>A✦</span>
-            </div>
-            <div>
-                <div style="font-size: 0.72rem; font-weight: 800; color: #818CF8; letter-spacing: 1.5px; text-transform: uppercase;">AI RESUME</div>
-                <div style="font-size: 0.95rem; font-weight: 800; color: #FFFFFF; letter-spacing: -0.2px;">CAREER NAVIGATOR</div>
-            </div>
-        </div>
-
-        <div class="brand-title-main">AI Resume</div>
-        <div class="brand-title-gradient">Career Navigator</div>
-
-        <div class="brand-subtitle-text">
-            Navigate your career. Build your future. Powered by AI.
-        </div>
-
-        <div class="feature-item-card">
-            <div class="feature-icon-box">🧠</div>
-            <div>
-                <div class="feature-text-title">AI Powered Resume Analysis</div>
-                <div class="feature-text-desc">Get AI-driven insights to improve your resume and skills.</div>
-            </div>
-        </div>
-
-        <div class="feature-item-card">
-            <div class="feature-icon-box">🎯</div>
-            <div>
-                <div class="feature-text-title">ATS Score Optimization</div>
-                <div class="feature-text-desc">Optimize your resume for ATS and increase interview chances.</div>
-            </div>
-        </div>
-
-        <div class="feature-item-card">
-            <div class="feature-icon-box">📈</div>
-            <div>
-                <div class="feature-text-title">Personalized Career Guidance</div>
-                <div class="feature-text-desc">Discover the best career paths and opportunities for you.</div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown("""<div class="brand-logo-badge">
+<div class="brand-logo-icon"><span>A✦</span></div>
+<div>
+<div style="font-size: 0.72rem; font-weight: 800; color: #818CF8; letter-spacing: 1.5px; text-transform: uppercase;">AI RESUME</div>
+<div style="font-size: 0.95rem; font-weight: 800; color: #FFFFFF; letter-spacing: -0.2px;">CAREER NAVIGATOR</div>
+</div>
+</div>
+<div class="brand-title-main">AI Resume</div>
+<div class="brand-title-gradient">Career Navigator</div>
+<div class="brand-subtitle-text">Navigate your career. Build your future. Powered by AI.</div>
+<div class="feature-item-card">
+<div class="feature-icon-box">🧠</div>
+<div>
+<div class="feature-text-title">AI Powered Resume Analysis</div>
+<div class="feature-text-desc">Get AI-driven insights to improve your resume and skills.</div>
+</div>
+</div>
+<div class="feature-item-card">
+<div class="feature-icon-box">🎯</div>
+<div>
+<div class="feature-text-title">ATS Score Optimization</div>
+<div class="feature-text-desc">Optimize your resume for ATS and increase interview chances.</div>
+</div>
+</div>
+<div class="feature-item-card">
+<div class="feature-icon-box">📈</div>
+<div>
+<div class="feature-text-title">Personalized Career Guidance</div>
+<div class="feature-text-desc">Discover the best career paths and opportunities for you.</div>
+</div>
+</div>""", unsafe_allow_html=True)
 
         # 3D Isometric SVG Graphic with glowing platform and glass cards
-        st.markdown("""
-        <div style="position:relative; width:100%; max-width:440px; margin-top:20px; display:flex; justify-content:center;">
-            <svg viewBox="0 0 460 220" width="100%" height="220" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5));">
-                <defs>
-                    <linearGradient id="platGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#1E1B4B" stop-opacity="0.8"/>
-                        <stop offset="50%" stop-color="#312E81" stop-opacity="0.6"/>
-                        <stop offset="100%" stop-color="#0F172A" stop-opacity="0.9"/>
-                    </linearGradient>
-                    <linearGradient id="glowBorder" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#818CF8"/>
-                        <stop offset="50%" stop-color="#C084FC"/>
-                        <stop offset="100%" stop-color="#38BDF8"/>
-                    </linearGradient>
-                    <linearGradient id="bar1Grad" x1="0%" y1="100%" x2="0%" y2="0%">
-                        <stop offset="0%" stop-color="#4F46E5"/>
-                        <stop offset="100%" stop-color="#818CF8"/>
-                    </linearGradient>
-                    <linearGradient id="bar2Grad" x1="0%" y1="100%" x2="0%" y2="0%">
-                        <stop offset="0%" stop-color="#7C3AED"/>
-                        <stop offset="100%" stop-color="#C084FC"/>
-                    </linearGradient>
-                    <linearGradient id="bar3Grad" x1="0%" y1="100%" x2="0%" y2="0%">
-                        <stop offset="0%" stop-color="#0284C7"/>
-                        <stop offset="100%" stop-color="#38BDF8"/>
-                    </linearGradient>
-                    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#1E293B" stop-opacity="0.9"/>
-                        <stop offset="100%" stop-color="#0F172A" stop-opacity="0.95"/>
-                    </linearGradient>
-                </defs>
-
-                <!-- Isometric Grid Base Platform -->
-                <polygon points="230,10 440,110 230,210 20,110" fill="url(#platGrad)" stroke="url(#glowBorder)" stroke-width="1.5"/>
-                <ellipse cx="230" cy="110" rx="170" ry="60" fill="none" stroke="rgba(99,102,241,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
-
-                <!-- Left Floating Glass Resume Card -->
-                <g transform="translate(60, 45)">
-                    <rect x="0" y="0" width="130" height="110" rx="14" fill="url(#cardGrad)" stroke="rgba(129,140,248,0.4)" stroke-width="1.5" filter="drop-shadow(0 10px 15px rgba(0,0,0,0.5))"/>
-                    <!-- Avatar & Header -->
-                    <circle cx="24" cy="24" r="12" fill="#6366F1"/>
-                    <rect x="42" y="16" width="55" height="6" rx="3" fill="#E2E8F0"/>
-                    <rect x="42" y="26" width="35" height="4" rx="2" fill="#94A3B8"/>
-                    
-                    <!-- Mini Checklist Lines -->
-                    <rect x="14" y="44" width="102" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
-                    <rect x="14" y="54" width="85" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
-                    <rect x="14" y="64" width="95" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
-
-                    <!-- Star Rating Pill -->
-                    <rect x="14" y="78" width="102" height="20" rx="8" fill="rgba(99,102,241,0.15)" stroke="rgba(99,102,241,0.3)" stroke-width="1"/>
-                    <text x="65" y="92" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle" font-family="Inter, sans-serif">★ ★ ★ ★ ★ 98% ATS</text>
-                </g>
-
-                <!-- Right 3D Glowing Analytics Bars -->
-                <g transform="translate(260, 40)">
-                    <!-- Bar 1 -->
-                    <rect x="10" y="70" width="22" height="60" rx="6" fill="url(#bar1Grad)"/>
-                    <!-- Bar 2 -->
-                    <rect x="42" y="40" width="22" height="90" rx="6" fill="url(#bar2Grad)"/>
-                    <!-- Bar 3 -->
-                    <rect x="74" y="15" width="22" height="115" rx="6" fill="url(#bar3Grad)"/>
-                    <!-- Bar 4 -->
-                    <rect x="106" y="50" width="22" height="80" rx="6" fill="url(#bar1Grad)"/>
-
-                    <!-- Glowing Trend Line -->
-                    <path d="M 21,65 Q 53,25 85,10 T 117,45" fill="none" stroke="#F472B6" stroke-width="3" stroke-linecap="round"/>
-                    <circle cx="85" cy="10" r="5" fill="#FFFFFF" stroke="#F472B6" stroke-width="2"/>
-                </g>
-            </svg>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown("""<div style="position:relative; width:100%; max-width:440px; margin-top:20px; display:flex; justify-content:center;">
+<svg viewBox="0 0 460 220" width="100%" height="220" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5));">
+<defs>
+<linearGradient id="platGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#1E1B4B" stop-opacity="0.8"/>
+<stop offset="50%" stop-color="#312E81" stop-opacity="0.6"/>
+<stop offset="100%" stop-color="#0F172A" stop-opacity="0.9"/>
+</linearGradient>
+<linearGradient id="glowBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#818CF8"/>
+<stop offset="50%" stop-color="#C084FC"/>
+<stop offset="100%" stop-color="#38BDF8"/>
+</linearGradient>
+<linearGradient id="bar1Grad" x1="0%" y1="100%" x2="0%" y2="0%">
+<stop offset="0%" stop-color="#4F46E5"/>
+<stop offset="100%" stop-color="#818CF8"/>
+</linearGradient>
+<linearGradient id="bar2Grad" x1="0%" y1="100%" x2="0%" y2="0%">
+<stop offset="0%" stop-color="#7C3AED"/>
+<stop offset="100%" stop-color="#C084FC"/>
+</linearGradient>
+<linearGradient id="bar3Grad" x1="0%" y1="100%" x2="0%" y2="0%">
+<stop offset="0%" stop-color="#0284C7"/>
+<stop offset="100%" stop-color="#38BDF8"/>
+</linearGradient>
+<linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#1E293B" stop-opacity="0.9"/>
+<stop offset="100%" stop-color="#0F172A" stop-opacity="0.95"/>
+</linearGradient>
+</defs>
+<polygon points="230,10 440,110 230,210 20,110" fill="url(#platGrad)" stroke="url(#glowBorder)" stroke-width="1.5"/>
+<ellipse cx="230" cy="110" rx="170" ry="60" fill="none" stroke="rgba(99,102,241,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
+<g transform="translate(60, 45)">
+<rect x="0" y="0" width="130" height="110" rx="14" fill="url(#cardGrad)" stroke="rgba(129,140,248,0.4)" stroke-width="1.5" filter="drop-shadow(0 10px 15px rgba(0,0,0,0.5))"/>
+<circle cx="24" cy="24" r="12" fill="#6366F1"/>
+<rect x="42" y="16" width="55" height="6" rx="3" fill="#E2E8F0"/>
+<rect x="42" y="26" width="35" height="4" rx="2" fill="#94A3B8"/>
+<rect x="14" y="44" width="102" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
+<rect x="14" y="54" width="85" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
+<rect x="14" y="64" width="95" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
+<rect x="14" y="78" width="102" height="20" rx="8" fill="rgba(99,102,241,0.15)" stroke="rgba(99,102,241,0.3)" stroke-width="1"/>
+<text x="65" y="92" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle" font-family="Inter, sans-serif">★ ★ ★ ★ ★ 98% ATS</text>
+</g>
+<g transform="translate(260, 40)">
+<rect x="10" y="70" width="22" height="60" rx="6" fill="url(#bar1Grad)"/>
+<rect x="42" y="40" width="22" height="90" rx="6" fill="url(#bar2Grad)"/>
+<rect x="74" y="15" width="22" height="115" rx="6" fill="url(#bar3Grad)"/>
+<rect x="106" y="50" width="22" height="80" rx="6" fill="url(#bar1Grad)"/>
+<path d="M 21,65 Q 53,25 85,10 T 117,45" fill="none" stroke="#F472B6" stroke-width="3" stroke-linecap="round"/>
+<circle cx="85" cy="10" r="5" fill="#FFFFFF" stroke="#F472B6" stroke-width="2"/>
+</g>
+</svg>
+</div>""", unsafe_allow_html=True)
 
     # ===== RIGHT AUTH FORM COLUMN =====
     with col_right:
@@ -606,11 +576,7 @@ if not st.session_state["logged_in"]:
                 else:
                     st.error(auth_res["message"])
 
-            st.markdown("""
-            <div class="auth-divider-row">
-                <span>or continue with</span>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown('<div class="auth-divider-row"><span>or continue with</span></div>', unsafe_allow_html=True)
 
             col_d1, col_d2 = st.columns(2)
             with col_d1:
@@ -691,11 +657,7 @@ if not st.session_state["logged_in"]:
                 st.rerun()
 
         # Security note
-        st.markdown("""
-        <div class="auth-security-footer">
-            🛡️ Your data is secure with us. We never share your information.
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown('<div class="auth-security-footer">🛡️ Your data is secure with us. We never share your information.</div>', unsafe_allow_html=True)
 
         st.markdown('</div>', unsafe_allow_html=True)
 
