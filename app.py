@@ -171,15 +171,177 @@ st.markdown(f"""
         padding: 4px 12px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; display: inline-block; margin: 3px;
     }}
 
-    /* Glass Content Boxes */
-    .glass-box {{
-        background: var(--card-bg, rgba(255, 255, 255, 0.03));
-        border: 1px solid var(--card-border, rgba(99, 102, 241, 0.18));
-        border-radius: 18px;
-        padding: 24px;
+    /* ===== PLACEMENT WEBAPP AUTH STYLES ===== */
+    .brand-logo-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
         margin-bottom: 20px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-    }}
+    }
+
+    .brand-logo-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #6366F1 0%, #A855F7 50%, #EC4899 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 24px rgba(168, 85, 247, 0.5);
+    }
+
+    .brand-logo-icon span {
+        color: #ffffff;
+        font-weight: 900;
+        font-size: 1.3rem;
+        letter-spacing: -1px;
+    }
+
+    .brand-title-main {
+        font-size: 2.8rem !important;
+        font-weight: 900 !important;
+        color: #ffffff !important;
+        line-height: 1.05 !important;
+        margin: 0 !important;
+        letter-spacing: -1px;
+    }
+
+    .brand-title-gradient {
+        font-size: 2.8rem !important;
+        font-weight: 900 !important;
+        line-height: 1.1 !important;
+        margin: 0 0 12px 0 !important;
+        letter-spacing: -1px;
+        background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 45%, #F472B6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .brand-subtitle-text {
+        font-size: 0.98rem;
+        color: #94a3b8;
+        line-height: 1.5;
+        margin-bottom: 22px;
+    }
+
+    .feature-item-card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 16px;
+    }
+
+    .feature-icon-box {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: rgba(30, 41, 59, 0.7);
+        border: 1px solid rgba(99, 102, 241, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 1.25rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .feature-text-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 2px;
+    }
+
+    .feature-text-desc {
+        font-size: 0.84rem;
+        color: #94a3b8;
+        line-height: 1.35;
+    }
+
+    .auth-card-top-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #1E1B4B 0%, #312E81 100%);
+        border: 1px solid rgba(139, 92, 246, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 12px auto;
+        box-shadow: 0 0 25px rgba(99, 102, 241, 0.35);
+    }
+
+    .auth-card-top-icon span {
+        font-size: 1.5rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, #818CF8, #C084FC, #F472B6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .auth-card-title {
+        font-size: 1.7rem !important;
+        font-weight: 800 !important;
+        color: #ffffff !important;
+        text-align: center;
+        margin: 0 0 4px 0 !important;
+    }
+
+    .auth-card-subtitle {
+        font-size: 0.88rem;
+        color: #94a3b8;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .auth-input-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: #818CF8;
+        letter-spacing: 1px;
+        margin: 12px 0 4px 0;
+        text-transform: uppercase;
+    }
+
+    .auth-divider-row {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin: 18px 0;
+        color: #64748b;
+        font-size: 0.8rem;
+    }
+
+    .auth-divider-row::before, .auth-divider-row::after {
+        content: '';
+        flex: 1;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .auth-divider-row span {
+        padding: 0 12px;
+    }
+
+    .auth-security-footer {
+        text-align: center;
+        margin-top: 24px;
+        font-size: 0.76rem;
+        color: #64748b;
+        line-height: 1.4;
+    }
+
+    /* Right Column Glass Container */
+    .auth-right-card {
+        background: rgba(15, 23, 42, 0.78);
+        backdrop-filter: blur(28px);
+        -webkit-backdrop-filter: blur(28px);
+        border: 1px solid rgba(139, 92, 246, 0.25);
+        border-radius: 28px;
+        padding: 28px 26px;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7), 0 0 40px rgba(108, 99, 255, 0.08);
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -253,26 +415,182 @@ if "portfolio" in query_params:
 # 5. Routing Logic: Public Landing Page vs Auth vs Authenticated Dashboard
 if not st.session_state["logged_in"]:
     if st.session_state.get("active_view") == "auth":
-        # Render Dedicated Authentication Modal
-        col_b1, col_b2, col_b3 = st.columns([1, 1.4, 1])
-        with col_b2:
-            st.markdown(f"""
-            <div style="text-align:center; margin-bottom: 20px;">
-                <div style="width:44px; height:44px; border-radius:12px; background: linear-gradient(135deg, #6366F1, #A855F7); display:flex; align-items:center; justify-content:center; margin:0 auto 10px auto;">
-                    <span style="color:#FFF; font-weight:900; font-size:1.2rem;">A✦</span>
+        if "auth_mode" not in st.session_state:
+            st.session_state["auth_mode"] = "Sign In"
+
+        col_left, col_right = st.columns([1.1, 1], gap="large")
+
+        # ===== LEFT HERO / BRANDING COLUMN =====
+        with col_left:
+            st.markdown("""
+            <div class="brand-logo-badge">
+                <div class="brand-logo-icon">
+                    <span>A✦</span>
                 </div>
-                <h2 style="margin:0; color:#FFF;">{APP_NAME}</h2>
-                <p style="color:#94A3B8; font-size:0.9rem;">Sign in or create your workspace</p>
+                <div>
+                    <div style="font-size: 0.72rem; font-weight: 800; color: #818CF8; letter-spacing: 1.5px; text-transform: uppercase;">AI RESUME</div>
+                    <div style="font-size: 0.95rem; font-weight: 800; color: #FFFFFF; letter-spacing: -0.2px;">CAREER NAVIGATOR</div>
+                </div>
+            </div>
+
+            <div class="brand-title-main">AI Resume</div>
+            <div class="brand-title-gradient">Career Navigator</div>
+
+            <div class="brand-subtitle-text">
+                Navigate your career. Build your future. Powered by AI.
+            </div>
+
+            <div class="feature-item-card">
+                <div class="feature-icon-box">🧠</div>
+                <div>
+                    <div class="feature-text-title">AI Powered Resume Analysis</div>
+                    <div class="feature-text-desc">Get AI-driven insights to improve your resume and skills.</div>
+                </div>
+            </div>
+
+            <div class="feature-item-card">
+                <div class="feature-icon-box">🎯</div>
+                <div>
+                    <div class="feature-text-title">ATS Score Optimization</div>
+                    <div class="feature-text-desc">Optimize your resume for ATS and increase interview chances.</div>
+                </div>
+            </div>
+
+            <div class="feature-item-card">
+                <div class="feature-icon-box">📈</div>
+                <div>
+                    <div class="feature-text-title">Personalized Career Guidance</div>
+                    <div class="feature-text-desc">Discover the best career paths and opportunities for you.</div>
+                </div>
             </div>
             """, unsafe_allow_html=True)
 
-            auth_tab1, auth_tab2, auth_tab3 = st.tabs(["Sign In", "Create Account", "Reset Password"])
+            # 3D Isometric SVG Graphic with glowing platform and glass cards
+            st.markdown("""
+            <div style="position:relative; width:100%; max-width:440px; margin-top:20px; display:flex; justify-content:center;">
+                <svg viewBox="0 0 460 220" width="100%" height="220" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5));">
+                    <defs>
+                        <linearGradient id="platGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#1E1B4B" stop-opacity="0.8"/>
+                            <stop offset="50%" stop-color="#312E81" stop-opacity="0.6"/>
+                            <stop offset="100%" stop-color="#0F172A" stop-opacity="0.9"/>
+                        </linearGradient>
+                        <linearGradient id="glowBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#818CF8"/>
+                            <stop offset="50%" stop-color="#C084FC"/>
+                            <stop offset="100%" stop-color="#38BDF8"/>
+                        </linearGradient>
+                        <linearGradient id="bar1Grad" x1="0%" y1="100%" x2="0%" y2="0%">
+                            <stop offset="0%" stop-color="#4F46E5"/>
+                            <stop offset="100%" stop-color="#818CF8"/>
+                        </linearGradient>
+                        <linearGradient id="bar2Grad" x1="0%" y1="100%" x2="0%" y2="0%">
+                            <stop offset="0%" stop-color="#7C3AED"/>
+                            <stop offset="100%" stop-color="#C084FC"/>
+                        </linearGradient>
+                        <linearGradient id="bar3Grad" x1="0%" y1="100%" x2="0%" y2="0%">
+                            <stop offset="0%" stop-color="#0284C7"/>
+                            <stop offset="100%" stop-color="#38BDF8"/>
+                        </linearGradient>
+                        <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#1E293B" stop-opacity="0.9"/>
+                            <stop offset="100%" stop-color="#0F172A" stop-opacity="0.95"/>
+                        </linearGradient>
+                    </defs>
+
+                    <!-- Isometric Grid Base Platform -->
+                    <polygon points="230,10 440,110 230,210 20,110" fill="url(#platGrad)" stroke="url(#glowBorder)" stroke-width="1.5"/>
+                    <ellipse cx="230" cy="110" rx="170" ry="60" fill="none" stroke="rgba(99,102,241,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
+
+                    <!-- Left Floating Glass Resume Card -->
+                    <g transform="translate(60, 45)">
+                        <rect x="0" y="0" width="130" height="110" rx="14" fill="url(#cardGrad)" stroke="rgba(129,140,248,0.4)" stroke-width="1.5" filter="drop-shadow(0 10px 15px rgba(0,0,0,0.5))"/>
+                        <!-- Avatar & Header -->
+                        <circle cx="24" cy="24" r="12" fill="#6366F1"/>
+                        <rect x="42" y="16" width="55" height="6" rx="3" fill="#E2E8F0"/>
+                        <rect x="42" y="26" width="35" height="4" rx="2" fill="#94A3B8"/>
+                        
+                        <!-- Mini Checklist Lines -->
+                        <rect x="14" y="44" width="102" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
+                        <rect x="14" y="54" width="85" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
+                        <rect x="14" y="64" width="95" height="4" rx="2" fill="rgba(255,255,255,0.15)"/>
+
+                        <!-- Star Rating Pill -->
+                        <rect x="14" y="78" width="102" height="20" rx="8" fill="rgba(99,102,241,0.15)" stroke="rgba(99,102,241,0.3)" stroke-width="1"/>
+                        <text x="65" y="92" font-size="9" font-weight="700" fill="#34D399" text-anchor="middle" font-family="Inter, sans-serif">★ ★ ★ ★ ★ 98% ATS</text>
+                    </g>
+
+                    <!-- Right 3D Glowing Analytics Bars -->
+                    <g transform="translate(260, 40)">
+                        <!-- Bar 1 -->
+                        <rect x="10" y="70" width="22" height="60" rx="6" fill="url(#bar1Grad)"/>
+                        <!-- Bar 2 -->
+                        <rect x="42" y="40" width="22" height="90" rx="6" fill="url(#bar2Grad)"/>
+                        <!-- Bar 3 -->
+                        <rect x="74" y="15" width="22" height="115" rx="6" fill="url(#bar3Grad)"/>
+                        <!-- Bar 4 -->
+                        <rect x="106" y="50" width="22" height="80" rx="6" fill="url(#bar1Grad)"/>
+
+                        <!-- Glowing Trend Line -->
+                        <path d="M 21,65 Q 53,25 85,10 T 117,45" fill="none" stroke="#F472B6" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="85" cy="10" r="5" fill="#FFFFFF" stroke="#F472B6" stroke-width="2"/>
+                    </g>
+                </svg>
+            </div>
+            """, unsafe_allow_html=True)
+
+        # ===== RIGHT AUTH FORM COLUMN =====
+        with col_right:
+            st.markdown('<div class="auth-right-card">', unsafe_allow_html=True)
             
-            with auth_tab1:
-                st.markdown('<div class="glass-box">', unsafe_allow_html=True)
-                l_user = st.text_input("Username / Email:", key="auth_l_user", placeholder="Enter username")
-                l_pass = st.text_input("Password:", type="password", key="auth_l_pass", placeholder="Enter password")
-                if st.button("➔ Sign In", type="primary", use_container_width=True):
+            # Top Icon
+            st.markdown("""
+            <div class="auth-card-top-icon">
+                <span>A✦</span>
+            </div>
+            """, unsafe_allow_html=True)
+
+            if st.session_state["auth_mode"] == "Sign In":
+                st.markdown('<div class="auth-card-title">Welcome back!</div>', unsafe_allow_html=True)
+                st.markdown('<div class="auth-card-subtitle">Sign in to continue your career journey</div>', unsafe_allow_html=True)
+            elif st.session_state["auth_mode"] == "Sign Up":
+                st.markdown('<div class="auth-card-title">Create Account</div>', unsafe_allow_html=True)
+                st.markdown('<div class="auth-card-subtitle">Join thousands accelerating their career with AI</div>', unsafe_allow_html=True)
+            else:
+                st.markdown('<div class="auth-card-title">Reset Password</div>', unsafe_allow_html=True)
+                st.markdown('<div class="auth-card-subtitle">Enter your account details to set a new password</div>', unsafe_allow_html=True)
+
+            # Segmented Toggle (Sign In / Sign Up)
+            if st.session_state["auth_mode"] in ["Sign In", "Sign Up"]:
+                col_t1, col_t2 = st.columns(2)
+                with col_t1:
+                    is_signin = (st.session_state["auth_mode"] == "Sign In")
+                    if st.button("Sign In", key="btn_toggle_signin", type="primary" if is_signin else "secondary", use_container_width=True):
+                        st.session_state["auth_mode"] = "Sign In"
+                        st.rerun()
+                with col_t2:
+                    is_signup = (st.session_state["auth_mode"] == "Sign Up")
+                    if st.button("Sign Up", key="btn_toggle_signup", type="primary" if is_signup else "secondary", use_container_width=True):
+                        st.session_state["auth_mode"] = "Sign Up"
+                        st.rerun()
+
+            # --- SIGN IN VIEW ---
+            if st.session_state["auth_mode"] == "Sign In":
+                st.markdown('<div class="auth-input-label">EMAIL / USERNAME</div>', unsafe_allow_html=True)
+                l_user = st.text_input("Username / Email", placeholder="✉️  Enter your email or username", key="auth_l_user", label_visibility="collapsed")
+                
+                col_lp1, col_lp2 = st.columns([1.5, 1])
+                with col_lp1:
+                    st.markdown('<div class="auth-input-label">PASSWORD</div>', unsafe_allow_html=True)
+                with col_lp2:
+                    if st.button("Forgot password?", key="btn_forgot_pass"):
+                        st.session_state["auth_mode"] = "Reset"
+                        st.rerun()
+
+                l_pass = st.text_input("Password", type="password", placeholder="🔒  Enter your password", key="auth_l_pass", label_visibility="collapsed")
+                
+                st.markdown("<div style='height:8px;'></div>", unsafe_allow_html=True)
+                if st.button("➔  Sign In", key="btn_submit_signin", type="primary", use_container_width=True):
                     auth_res = AuthService.sign_in(l_user, l_pass)
                     if auth_res["success"]:
                         st.session_state["logged_in"] = True
@@ -289,11 +607,15 @@ if not st.session_state["logged_in"]:
                     else:
                         st.error(auth_res["message"])
 
-                st.divider()
-                st.markdown("<div style='font-size:0.8rem; font-weight:700; color:#94A3B8; margin-bottom:8px;'>QUICK 1-CLICK DEMO ACCESS:</div>", unsafe_allow_html=True)
+                st.markdown("""
+                <div class="auth-divider-row">
+                    <span>or continue with</span>
+                </div>
+                """, unsafe_allow_html=True)
+
                 col_d1, col_d2 = st.columns(2)
                 with col_d1:
-                    if st.button("🔴 Alex (Data Science)", use_container_width=True):
+                    if st.button("🔴 Alex (Data Science)", key="demo_alex_btn", use_container_width=True):
                         auth_res = AuthService.sign_in("alex_rivera", "demo123")
                         if not auth_res["success"]:
                             AuthService.sign_up("alex_rivera", "demo123", "Alex Rivera", "United States")
@@ -303,7 +625,7 @@ if not st.session_state["logged_in"]:
                         st.session_state["active_view"] = "nav_dashboard"
                         st.rerun()
                 with col_d2:
-                    if st.button("🔵 Sam (Full-Stack)", use_container_width=True):
+                    if st.button("🔵 Sam (Full-Stack)", key="demo_sam_btn", use_container_width=True):
                         auth_res = AuthService.sign_in("sam_chen", "demo123")
                         if not auth_res["success"]:
                             AuthService.sign_up("sam_chen", "demo123", "Sam Chen", "Canada")
@@ -313,14 +635,25 @@ if not st.session_state["logged_in"]:
                         st.session_state["target_role"] = "Software Engineer (Full-Stack)"
                         st.session_state["active_view"] = "nav_dashboard"
                         st.rerun()
-                st.markdown('</div>', unsafe_allow_html=True)
 
-            with auth_tab2:
-                st.markdown('<div class="glass-box">', unsafe_allow_html=True)
-                r_name = st.text_input("Full Name:", key="auth_r_name", placeholder="e.g. Likith Yadav")
-                r_user = st.text_input("Choose Username:", key="auth_r_user", placeholder="e.g. likith_dev")
-                r_pass = st.text_input("Choose Password:", type="password", key="auth_r_pass", placeholder="At least 6 characters")
-                if st.button("➔ Create Account & Begin Setup", type="primary", use_container_width=True):
+                st.markdown("<div style='text-align:center; margin-top:16px; font-size:0.86rem; color:#94A3B8;'>Don't have an account?</div>", unsafe_allow_html=True)
+                if st.button("Create New Account", key="btn_goto_signup", use_container_width=True):
+                    st.session_state["auth_mode"] = "Sign Up"
+                    st.rerun()
+
+            # --- SIGN UP VIEW ---
+            elif st.session_state["auth_mode"] == "Sign Up":
+                st.markdown('<div class="auth-input-label">FULL NAME</div>', unsafe_allow_html=True)
+                r_name = st.text_input("Full Name", placeholder="👤  Enter your full name", key="auth_r_name", label_visibility="collapsed")
+
+                st.markdown('<div class="auth-input-label">CHOOSE USERNAME / EMAIL</div>', unsafe_allow_html=True)
+                r_user = st.text_input("Username", placeholder="✉️  Enter your username or email", key="auth_r_user", label_visibility="collapsed")
+
+                st.markdown('<div class="auth-input-label">CHOOSE PASSWORD</div>', unsafe_allow_html=True)
+                r_pass = st.text_input("Password", type="password", placeholder="🔒  At least 6 characters", key="auth_r_pass", label_visibility="collapsed")
+
+                st.markdown("<div style='height:8px;'></div>", unsafe_allow_html=True)
+                if st.button("➔  Create Account & Begin Setup", key="btn_submit_signup", type="primary", use_container_width=True):
                     reg_res = AuthService.sign_up(r_user, r_pass, r_name)
                     if reg_res["success"]:
                         st.session_state["logged_in"] = True
@@ -330,21 +663,45 @@ if not st.session_state["logged_in"]:
                         st.rerun()
                     else:
                         st.error(reg_res["message"])
-                st.markdown('</div>', unsafe_allow_html=True)
 
-            with auth_tab3:
-                st.markdown('<div class="glass-box">', unsafe_allow_html=True)
-                rst_user = st.text_input("Enter Username:", key="auth_rst_user")
-                rst_pass = st.text_input("Enter New Password:", type="password", key="auth_rst_pass")
-                if st.button("Reset Password", use_container_width=True):
+                st.markdown("<div style='text-align:center; margin-top:16px; font-size:0.86rem; color:#94A3B8;'>Already have an account?</div>", unsafe_allow_html=True)
+                if st.button("Sign In Instead", key="btn_goto_signin", use_container_width=True):
+                    st.session_state["auth_mode"] = "Sign In"
+                    st.rerun()
+
+            # --- RESET PASSWORD VIEW ---
+            elif st.session_state["auth_mode"] == "Reset":
+                st.markdown('<div class="auth-input-label">USERNAME / EMAIL</div>', unsafe_allow_html=True)
+                rst_user = st.text_input("Username", placeholder="✉️  Enter your registered username", key="auth_rst_user", label_visibility="collapsed")
+
+                st.markdown('<div class="auth-input-label">NEW PASSWORD</div>', unsafe_allow_html=True)
+                rst_pass = st.text_input("New Password", type="password", placeholder="🔒  Enter new password", key="auth_rst_pass", label_visibility="collapsed")
+
+                st.markdown("<div style='height:8px;'></div>", unsafe_allow_html=True)
+                if st.button("Update Password", key="btn_submit_reset", type="primary", use_container_width=True):
                     rst_res = AuthService.reset_password(rst_user, rst_pass)
                     if rst_res["success"]:
                         st.success(rst_res["message"])
+                        st.session_state["auth_mode"] = "Sign In"
+                        st.rerun()
                     else:
                         st.error(rst_res["message"])
-                st.markdown('</div>', unsafe_allow_html=True)
 
-            if st.button("⬅ Back to Home", key="btn_back_home"):
+                if st.button("⬅ Back to Sign In", key="btn_reset_back_signin", use_container_width=True):
+                    st.session_state["auth_mode"] = "Sign In"
+                    st.rerun()
+
+            # Security note
+            st.markdown("""
+            <div class="auth-security-footer">
+                🛡️ Your data is secure with us. We never share your information.
+            </div>
+            """, unsafe_allow_html=True)
+
+            st.markdown('</div>', unsafe_allow_html=True)
+
+            st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
+            if st.button("⬅ Back to Landing Page", key="btn_back_home", use_container_width=True):
                 st.session_state["active_view"] = "landing"
                 st.rerun()
 
