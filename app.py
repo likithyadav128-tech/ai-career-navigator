@@ -122,20 +122,73 @@ st.markdown("""
         margin: 0 auto !important;
     }
 
-    /* Smooth Morph & Fade-in Animations */
-    @keyframes smoothFadeIn {
+    /* ===== SMOOTH ORB-TO-CARD MORPH ENGINE ===== */
+    @keyframes morphOrbToCard {
         0% {
-            opacity: 0;
-            transform: translateY(14px) scale(0.98);
+            border-radius: 50%;
+            transform: scale(0.82) rotate(-3deg);
+            opacity: 0.6;
+            box-shadow: 0 0 60px rgba(139, 92, 246, 0.7), inset 0 0 40px rgba(99, 102, 241, 0.6);
+        }
+        50% {
+            border-radius: 35%;
+            transform: scale(1.03) rotate(0deg);
+            box-shadow: 0 0 80px rgba(192, 132, 252, 0.8), inset 0 0 30px rgba(139, 92, 246, 0.4);
         }
         100% {
+            border-radius: 24px;
+            transform: scale(1) rotate(0deg);
             opacity: 1;
-            transform: translateY(0) scale(1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.75), 0 0 35px rgba(99, 102, 241, 0.25);
         }
     }
 
+    @keyframes orbPulseGlow {
+        0%, 100% {
+            box-shadow: 0 0 45px rgba(139, 92, 246, 0.35), inset 0 0 35px rgba(99, 102, 241, 0.25);
+            border-color: rgba(139, 92, 246, 0.45);
+        }
+        50% {
+            box-shadow: 0 0 75px rgba(168, 85, 247, 0.65), inset 0 0 50px rgba(129, 140, 248, 0.4);
+            border-color: rgba(192, 132, 252, 0.75);
+        }
+    }
+
+    .morph-card-active {
+        animation: morphOrbToCard 0.65s cubic-bezier(0.34, 1.35, 0.64, 1) forwards !important;
+        background: rgba(18, 24, 38, 0.85) !important;
+        backdrop-filter: blur(28px) !important;
+        -webkit-backdrop-filter: blur(28px) !important;
+        border: 1px solid rgba(139, 92, 246, 0.35) !important;
+        border-radius: 24px !important;
+        padding: 34px 28px !important;
+    }
+
+    .glowing-neon-orb {
+        width: 100%;
+        max-width: 440px;
+        min-height: 440px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 45% 45%, rgba(99, 102, 241, 0.22) 0%, rgba(139, 92, 246, 0.12) 50%, rgba(15, 23, 42, 0.95) 100%);
+        border: 2px solid rgba(139, 92, 246, 0.45);
+        animation: orbPulseGlow 3.5s ease-in-out infinite;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 32px;
+        margin: 0 auto;
+        cursor: pointer;
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .glowing-neon-orb:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0 85px rgba(168, 85, 247, 0.75), inset 0 0 55px rgba(129, 140, 248, 0.45);
+    }
+
     .smooth-transition-container {
-        animation: smoothFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        animation: morphOrbToCard 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     header[data-testid="stHeader"] {
@@ -487,83 +540,67 @@ Personalized 8-Stage Career Roadmap
                     st.rerun()
 
         with col_right:
-            # 3D Glowing Isometric AI Glass Cube with Orbital Rings & Tech Nodes
-            st.markdown("""<div style="position:relative; width:100%; max-width:480px; margin-top:10px; display:flex; justify-content:center;">
-<svg viewBox="0 0 460 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));">
+            # Interactive Glowing Neon Morph Orb with Embedded 3D AI Cube
+            st.markdown("""<div class="glowing-neon-orb">
+<svg viewBox="0 0 320 180" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 15px 30px rgba(0,0,0,0.6));">
 <defs>
-<linearGradient id="cubeTop" x1="0%" y1="0%" x2="100%" y2="100%">
-<stop offset="0%" stop-color="#818CF8" stop-opacity="0.85"/>
-<stop offset="100%" stop-color="#C084FC" stop-opacity="0.4"/>
+<linearGradient id="cubeTopO" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#818CF8" stop-opacity="0.9"/>
+<stop offset="100%" stop-color="#C084FC" stop-opacity="0.5"/>
 </linearGradient>
-<linearGradient id="cubeLeft" x1="0%" y1="0%" x2="0%" y2="100%">
+<linearGradient id="cubeLeftO" x1="0%" y1="0%" x2="0%" y2="100%">
 <stop offset="0%" stop-color="#4F46E5" stop-opacity="0.9"/>
 <stop offset="100%" stop-color="#1E1B4B" stop-opacity="0.95"/>
 </linearGradient>
-<linearGradient id="cubeRight" x1="0%" y1="0%" x2="0%" y2="100%">
+<linearGradient id="cubeRightO" x1="0%" y1="0%" x2="0%" y2="100%">
 <stop offset="0%" stop-color="#7C3AED" stop-opacity="0.85"/>
 <stop offset="100%" stop-color="#312E81" stop-opacity="0.95"/>
 </linearGradient>
-<linearGradient id="platformNeon" x1="0%" y1="0%" x2="100%" y2="100%">
-<stop offset="0%" stop-color="#06B6D4" stop-opacity="0.6"/>
-<stop offset="50%" stop-color="#8B5CF6" stop-opacity="0.8"/>
-<stop offset="100%" stop-color="#EC4899" stop-opacity="0.6"/>
+<linearGradient id="platNeonO" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#06B6D4" stop-opacity="0.7"/>
+<stop offset="50%" stop-color="#8B5CF6" stop-opacity="0.9"/>
+<stop offset="100%" stop-color="#EC4899" stop-opacity="0.7"/>
 </linearGradient>
-<radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
-<stop offset="0%" stop-color="#818CF8" stop-opacity="0.4"/>
-<stop offset="100%" stop-color="#818CF8" stop-opacity="0"/>
-</radialGradient>
 </defs>
-<ellipse cx="230" cy="185" rx="190" ry="65" fill="url(#centerGlow)"/>
-<polygon points="230,135 390,185 230,235 70,185" fill="#0C1022" stroke="url(#platformNeon)" stroke-width="2"/>
-<polygon points="230,145 365,185 230,225 95,185" fill="#111827" stroke="rgba(139,92,246,0.3)" stroke-width="1.5"/>
-<ellipse cx="230" cy="130" rx="180" ry="55" fill="none" stroke="rgba(99,102,241,0.3)" stroke-width="1.5" stroke-dasharray="6,6" transform="rotate(-10 230 130)"/>
-<ellipse cx="230" cy="130" rx="160" ry="70" fill="none" stroke="rgba(236,72,153,0.25)" stroke-width="1" stroke-dasharray="4,4" transform="rotate(15 230 130)"/>
-<g transform="translate(85, 60)">
-<circle cx="16" cy="16" r="16" fill="#1E1B4B" stroke="#818CF8" stroke-width="1.5"/>
-<text x="16" y="21" font-size="11" font-weight="800" fill="#818CF8" text-anchor="middle" font-family="monospace">&lt;/&gt;</text>
-</g>
-<g transform="translate(340, 50)">
-<circle cx="16" cy="16" r="16" fill="#1E1B4B" stroke="#60A5FA" stroke-width="1.5"/>
-<text x="16" y="21" font-size="11" font-weight="800" fill="#60A5FA" text-anchor="middle" font-family="monospace">&lt;/&gt;</text>
-</g>
-<g transform="translate(370, 115)">
-<circle cx="15" cy="15" r="15" fill="#1E1B4B" stroke="#34D399" stroke-width="1.5"/>
-<text x="15" y="20" font-size="11" font-weight="800" fill="#34D399" text-anchor="middle" font-family="Inter, sans-serif">📊</text>
-</g>
-<g transform="translate(60, 140)">
-<circle cx="15" cy="15" r="15" fill="#1E1B4B" stroke="#F472B6" stroke-width="1.5"/>
-<text x="15" y="20" font-size="11" font-weight="800" fill="#F472B6" text-anchor="middle" font-family="Inter, sans-serif">🗄️</text>
-</g>
-<g transform="translate(350, 175)">
-<circle cx="14" cy="14" r="14" fill="#1E1B4B" stroke="#A78BFA" stroke-width="1.5"/>
-<text x="14" y="19" font-size="10" font-weight="800" fill="#A78BFA" text-anchor="middle" font-family="monospace">{;}</text>
-</g>
-<g transform="translate(180, 50)">
-<polygon points="50,0 100,28 50,56 0,28" fill="url(#cubeTop)" stroke="#C7D2FE" stroke-width="1.5"/>
-<polygon points="0,28 50,56 50,116 0,88" fill="url(#cubeLeft)" stroke="rgba(129,140,248,0.5)" stroke-width="1.5"/>
-<polygon points="50,56 100,28 100,88 50,116" fill="url(#cubeRight)" stroke="rgba(192,132,252,0.5)" stroke-width="1.5"/>
-<text x="24" y="82" font-size="28" font-weight="900" fill="#FFFFFF" font-family="Inter, sans-serif" transform="skewY(28) scale(0.9, 1)">AI</text>
-<path d="M 50,0 L 50,56 M 0,28 L 50,56 L 100,28" fill="none" stroke="#FFFFFF" stroke-width="1.8" opacity="0.7"/>
+<ellipse cx="160" cy="130" rx="130" ry="40" fill="rgba(129,140,248,0.2)"/>
+<polygon points="160,95 270,130 160,165 50,130" fill="#0C1022" stroke="url(#platNeonO)" stroke-width="1.8"/>
+<ellipse cx="160" cy="90" rx="120" ry="38" fill="none" stroke="rgba(99,102,241,0.35)" stroke-width="1.2" stroke-dasharray="5,5" transform="rotate(-8 160 90)"/>
+<g transform="translate(60, 40)"><circle cx="12" cy="12" r="12" fill="#1E1B4B" stroke="#818CF8" stroke-width="1.2"/><text x="12" y="16" font-size="9" font-weight="800" fill="#818CF8" text-anchor="middle" font-family="monospace">&lt;/&gt;</text></g>
+<g transform="translate(240, 35)"><circle cx="12" cy="12" r="12" fill="#1E1B4B" stroke="#60A5FA" stroke-width="1.2"/><text x="12" y="16" font-size="9" font-weight="800" fill="#60A5FA" text-anchor="middle" font-family="monospace">&lt;/&gt;</text></g>
+<g transform="translate(125, 25)">
+<polygon points="35,0 70,20 35,40 0,20" fill="url(#cubeTopO)" stroke="#C7D2FE" stroke-width="1.2"/>
+<polygon points="0,20 35,40 35,82 0,62" fill="url(#cubeLeftO)" stroke="rgba(129,140,248,0.5)" stroke-width="1.2"/>
+<polygon points="35,40 70,20 70,62 35,82" fill="url(#cubeRightO)" stroke="rgba(192,132,252,0.5)" stroke-width="1.2"/>
+<text x="17" y="58" font-size="20" font-weight="900" fill="#FFFFFF" font-family="Inter, sans-serif" transform="skewY(28) scale(0.9, 1)">AI</text>
+<path d="M 35,0 L 35,40 M 0,20 L 35,40 L 70,20" fill="none" stroke="#FFFFFF" stroke-width="1.4" opacity="0.7"/>
 </g>
 </svg>
+<div style="font-size: 1.35rem; font-weight: 800; color: #FFFFFF; margin-top: 6px;">Welcome Back! 👋</div>
+<div style="font-size: 0.88rem; color: #94A3B8; margin-top: 4px; margin-bottom: 16px;">Sign in to continue your career journey</div>
 </div>""", unsafe_allow_html=True)
 
-            st.markdown("""<div style="text-align: center; margin-top: 14px; padding: 18px; background: rgba(18, 24, 38, 0.6); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 18px; backdrop-filter: blur(12px);">
-<div style="font-size: 1.15rem; font-weight: 700; color: #FFFFFF; margin-bottom: 4px;">Welcome Back! 👋</div>
-<div style="font-size: 0.88rem; color: #94A3B8; margin-bottom: 12px;">Sign in to continue your personalized career journey</div>
-</div>""", unsafe_allow_html=True)
-
-            if st.button("🔑 Access Sign In Gateway ➔", key="btn_open_portal_card", type="primary", use_container_width=True):
-                st.session_state["portal_view"] = "login"
-                st.rerun()
+            st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
+            col_orb_b1, col_orb_b2 = st.columns(2)
+            with col_orb_b1:
+                if st.button("⚡ Sign In ➔", key="btn_orb_signin", type="primary", use_container_width=True):
+                    st.session_state["portal_view"] = "login"
+                    st.session_state["auth_mode"] = "Sign In"
+                    st.rerun()
+            with col_orb_b2:
+                if st.button("Create Account", key="btn_orb_signup", use_container_width=True):
+                    st.session_state["portal_view"] = "login"
+                    st.session_state["auth_mode"] = "Sign Up"
+                    st.rerun()
 
     # ==========================================
     # STAGE 2: GLASSMORPHIC SIGN IN CARD VIEW
     # ==========================================
     elif st.session_state["portal_view"] == "login":
-        if st.button("⬅ Back to Overview", key="btn_back_to_initial"):
-            st.session_state["portal_view"] = "initial"
-            st.rerun()
+        col_nav_back, _ = st.columns([1, 4])
+        with col_nav_back:
+            if st.button("⬅ Back to Overview", key="btn_back_to_initial"):
+                st.session_state["portal_view"] = "initial"
+                st.rerun()
 
         col_left, col_right = st.columns([1.15, 1], gap="large")
 
@@ -626,7 +663,7 @@ Practice. Improve. Get Placed.
 
         # Right Column (Glassmorphic Sign In Card)
         with col_right:
-            st.markdown('<div class="auth-right-card">', unsafe_allow_html=True)
+            st.markdown('<div class="auth-right-card morph-card-active">', unsafe_allow_html=True)
             
             # Top Icon
             st.markdown("""<div class="auth-card-top-icon"><span>A✦</span></div>""", unsafe_allow_html=True)
