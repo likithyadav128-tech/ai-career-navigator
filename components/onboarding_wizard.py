@@ -15,6 +15,7 @@ COUNTRIES = [
 BRANCHES = [
     "Computer Science & Engineering (CSE)",
     "Information Technology (IT)",
+    "Artificial Intelligence and Data Science (AI & DS)",
     "Artificial Intelligence & Machine Learning (AI / ML)",
     "Data Science & Analytics",
     "Information Science Engineering (ISE)",
@@ -110,6 +111,7 @@ TECH_CITIES = [
 BRANCH_CAREER_MAP = {
     "Computer Science & Engineering (CSE)": ["Software Engineer (Full-Stack)", "AI / LLM Engineer", "Data Scientist", "DevOps & SRE Engineer", "Data Engineer", "Cybersecurity Analyst"],
     "Information Technology (IT)": ["Software Engineer (Full-Stack)", "Cloud Solutions Architect", "DevOps & SRE Engineer", "Data Analyst", "Cybersecurity Analyst"],
+    "Artificial Intelligence and Data Science (AI & DS)": ["Data Scientist", "AI / LLM Engineer", "Machine Learning Engineer", "Data Analyst", "Data Engineer", "Software Engineer (Full-Stack)"],
     "Artificial Intelligence & Machine Learning (AI / ML)": ["AI / LLM Engineer", "Machine Learning Engineer", "Data Scientist", "Data Analyst", "Data Engineer"],
     "Data Science & Analytics": ["Data Scientist", "Data Analyst", "Business Intelligence Engineer", "Data Engineer", "Machine Learning Engineer"],
     "Information Science Engineering (ISE)": ["Software Engineer (Full-Stack)", "Data Analyst", "Cloud Solutions Architect", "DevOps & SRE Engineer"],
