@@ -110,8 +110,22 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
     
-    * {
+    html, body, .stApp, p, h1, h2, h3, h4, h5, h6, label, input, button, textarea, select {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    }
+
+    /* Preserve Material Icons and SVG icons so ligatures like _arrow_right or keyboard_arrow_right render as icons, not text */
+    [data-testid="stIconMaterial"],
+    .material-symbols-rounded,
+    .material-symbols-outlined,
+    .material-symbols-sharp,
+    [translate="no"],
+    [data-testid="stExpanderToggleIcon"],
+    [data-testid="stExpander"] summary span[translate="no"],
+    [data-testid="stExpander"] svg {
+        font-family: 'Material Symbols Rounded', 'Material Symbols Outlined', 'Material Icons', sans-serif !important;
+        font-feature-settings: 'liga' 1 !important;
+        text-rendering: optimizeLegibility !important;
     }
 
     /* Container Spacing */
